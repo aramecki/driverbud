@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:mycargenie_2/boxes.dart';
 import 'package:mycargenie_2/home.dart';
 import 'package:mycargenie_2/vehicle/add_vehicle.dart';
+import 'package:mycargenie_2/vehicle/show_vehicle.dart';
 
 // Function to get the favourite vehicle key
 int? getFavouriteKey() {
@@ -29,6 +30,13 @@ void changeFavourite(dynamic newFavKey) {
   final newFavItem = vehicleBox.get(newFavKey) as Map;
   newFavItem['favourite'] = true;
   vehicleBox.put(newFavKey, newFavItem);
+}
+
+// Function to open vehicle visualization screen
+void openShowVehicle(BuildContext context, dynamic key) {
+  Navigator.of(
+    context,
+  ).push(MaterialPageRoute(builder: (_) => ShowVehicle(editKey: key)));
 }
 
 // Function to completely delete a vehicle entry from vehicleBox and its image

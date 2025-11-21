@@ -3,7 +3,6 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:mycargenie_2/theme/icons.dart';
 import 'package:mycargenie_2/theme/misc.dart';
 import 'package:mycargenie_2/utils/support_fun.dart';
-import 'package:mycargenie_2/vehicle/show_vehicle.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'add_vehicle.dart';
@@ -97,7 +96,7 @@ class _GarageState extends State<Garage> {
                                 child: ListTile(
                                   enabled: true,
                                   //selected: _selected,
-                                  onTap: () => _openShowVehicle(context, key),
+                                  onTap: () => openShowVehicle(context, key),
                                   contentPadding: const EdgeInsets.symmetric(
                                     horizontal: 16.0,
                                   ),
@@ -210,17 +209,5 @@ class _GarageState extends State<Garage> {
       return true;
     }
     return false;
-  }
-
-  void _openShowVehicle(BuildContext context, dynamic key) {
-    final Map<String, dynamic> vehicleMap = vehicleBox
-        .get(key)!
-        .cast<String, dynamic>();
-
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (_) => ShowVehicle(vehicle: vehicleMap, editKey: key),
-      ),
-    );
   }
 }
