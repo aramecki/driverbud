@@ -1,15 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:mycargenie_2/boxes.dart';
 import 'package:mycargenie_2/maintenance/add_maintenance.dart';
+import 'package:mycargenie_2/maintenance/show_maintenance.dart';
 
-Widget maintenanceEventListTile(dynamic item) {
+Widget maintenanceEventListTile(
+  BuildContext context,
+  dynamic item,
+  dynamic editKey,
+  Function? onEdit,
+) {
   return SizedBox(
     child: ListTile(
       // enabled: true,
-      // onTap: () => _openShowVehicle(context, key),
-      // contentPadding: const EdgeInsets.symmetric(
-      //   horizontal: 16.0,
-      // ),
+      onTap: () async {
+        await Navigator.of(context).push(
+          MaterialPageRoute(builder: (_) => ShowMaintenance(editKey: editKey)),
+        );
+        if (onEdit != null) onEdit();
+      },
+      contentPadding: const EdgeInsets.symmetric(horizontal: 16.0),
       trailing: Text('${item['price']}€'),
       leadingAndTrailingTextStyle: TextStyle(fontSize: 16, color: Colors.grey),
       title: Text('${item['title']}'),

@@ -159,7 +159,12 @@ class _MaintenanceState extends State<Maintenance> {
                                           ),
                                         ],
                                       ),
-                                      child: maintenanceEventListTile(item),
+                                      child: maintenanceEventListTile(
+                                        context,
+                                        item,
+                                        key,
+                                        null,
+                                      ),
                                     ),
                                   );
                                 },
@@ -170,9 +175,10 @@ class _MaintenanceState extends State<Maintenance> {
 
                   if (!isSearching)
                     Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 30.0,
-                        vertical: 30.0,
+                      padding: const EdgeInsets.only(
+                        left: 16.0,
+                        right: 16.0,
+                        bottom: 8.0,
                       ),
                       child: Row(
                         children: [

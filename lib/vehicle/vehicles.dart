@@ -148,9 +148,10 @@ class _GarageState extends State<Garage> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 30.0,
-                      vertical: 30.0,
+                    padding: const EdgeInsets.only(
+                      left: 16.0,
+                      right: 16.0,
+                      bottom: 28.0,
                     ),
                     child: Row(
                       children: [

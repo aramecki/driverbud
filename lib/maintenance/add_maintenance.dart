@@ -83,7 +83,7 @@ class _AddMaintenanceState extends State<AddMaintenance> {
 
     final maintenanceMap = <String, dynamic>{
       'title': _titleCtrl.text.trim(),
-      'maintenanceType': _maintenanceType,
+      'maintenanceType': _maintenanceType ?? maintenanceTypeList.first,
       'place': _placeCtrl.text.trim(),
       'date': _date ?? today,
       'kilometers': int.tryParse(_kilometersCtrl.text),

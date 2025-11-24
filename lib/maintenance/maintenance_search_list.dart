@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:mycargenie_2/boxes.dart';
@@ -40,7 +42,7 @@ class _MaintenanceSearchListState extends State<MaintenanceSearchList> {
           true,
         );
 
-        // log('items = $items');
+        log('items = $items');
 
         // final isEmpty = items.isEmpty;
 
@@ -150,7 +152,15 @@ class _MaintenanceSearchListState extends State<MaintenanceSearchList> {
                             ),
                           ],
                         ),
-                        child: maintenanceEventListTile(item),
+                        child: maintenanceEventListTile(
+                          context,
+                          item,
+                          key,
+                          () => searchResult.value = searchByText(
+                            maintenanceBox,
+                            searchText,
+                          ),
+                        ),
                       ),
                     );
                   },
