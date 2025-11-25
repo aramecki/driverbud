@@ -1,4 +1,7 @@
 // Fun to order list by 'date' DateTime
+
+import 'package:hive/hive.dart';
+
 List<dynamic> sortByDate(List<dynamic> items, bool isDecrementing) {
   items.sort((a, b) {
     final dateA = a['value']['date'] as DateTime;
@@ -21,9 +24,24 @@ List<dynamic> sortByName(List<dynamic> items, bool isDecrementing) {
 // Fun to order list by 'price' double
 List<dynamic> sortByPrice(List<dynamic> items, bool isDecrementing) {
   items.sort((a, b) {
-    final priceA = (a['value']['price'] ?? 0).toDouble();
-    final priceB = (b['value']['price'] ?? 0).toDouble();
+    final priceA = (double.parse(a['value']['price']));
+    final priceB = (double.parse(b['value']['price']));
     return isDecrementing ? priceB.compareTo(priceA) : priceA.compareTo(priceB);
   });
   return items;
+}
+
+List<Map<String, dynamic>> searchByText(Box<dynamic> items, String text) {
+  final lowerText = text.toLowerCase();
+
+  return items.keys
+      .map((key) {
+        final value = items.get(key);
+        return {'key': key, 'value': value};
+      })
+      .where(
+        (item) =>
+            item['value']['title'].toString().toLowerCase().contains(lowerText),
+      )
+      .toList();
 }

@@ -5,6 +5,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:mycargenie_2/settings.dart';
 import 'package:mycargenie_2/theme/icons.dart';
 import 'package:mycargenie_2/utils/puzzle.dart';
+import 'package:mycargenie_2/utils/support_fun.dart';
 import 'utils/vehicles_dropdown.dart';
 import 'vehicle/vehicles.dart';
 import 'package:provider/provider.dart';
@@ -96,7 +97,6 @@ class _HomePageState extends State<Home> {
                       ),
 
                       // Car selection dropdown container
-                      // TODO: Change to non text inputtable dropdown
                       Expanded(
                         child: Padding(
                           padding: const EdgeInsets.only(
@@ -209,16 +209,5 @@ ImageProvider<Object>? getVehicleImage(int? vehicleKey) {
   }
 
   log('returning null code ended  in getVehicleImage()');
-  return null;
-}
-
-// TODO: Place in general file
-int? getFavouriteKey() {
-  for (final dynamic key in vehicleBox.keys) {
-    final dynamic entry = vehicleBox.get(key);
-    if (entry is Map && entry['favourite'] == true) {
-      return key as int?;
-    }
-  }
   return null;
 }

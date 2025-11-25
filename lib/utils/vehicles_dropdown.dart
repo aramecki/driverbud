@@ -5,6 +5,9 @@ import '../boxes.dart';
 
 typedef MenuEntry = DropdownMenuEntry<int>;
 
+/* NOTE: Due to his workflow VehiclesDropdown still uses DropdownMenu widget, so it accepts text input via keyboard,
+ this doesn't seems to affect the mobile app in his UX, but has to be edited if it will be ever released for other platforms */
+
 class VehiclesDropdown extends StatefulWidget {
   final ValueChanged<int>? onChanged;
   final int? defaultId;

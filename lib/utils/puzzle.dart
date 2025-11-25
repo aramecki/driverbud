@@ -1,7 +1,11 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:hugeicons/hugeicons.dart';
+import 'package:mycargenie_2/boxes.dart';
 import 'package:mycargenie_2/theme/icons.dart';
+import 'package:mycargenie_2/utils/sorting_funs.dart';
 
 ScaffoldFeatureController<SnackBar, SnackBarClosedReason> showCustomToast(
   BuildContext context, {
@@ -41,10 +45,10 @@ Widget buildAddButton(
 }
 
 // Fun to parse strings into ints removing chars
-int? parseDigits(String input) {
-  final digitsOnly = input.replaceAll(RegExp(r'[^0-9]'), '');
-  return int.tryParse(digitsOnly);
-}
+// int? parseDigits(String input) {
+//   final digitsOnly = input.replaceAll(RegExp(r'[^0-9]'), '');
+//   return int.tryParse(digitsOnly);
+// }
 
 class CustomCheckbox extends StatefulWidget {
   final ValueChanged<bool> onChanged;
@@ -152,7 +156,7 @@ Widget slideableIcon(
   );
 }
 
-// Adaptive button
+// Box containing latest events for selected vehicle in home screen
 Widget homeRowBox(
   BuildContext context, {
   //   required VoidCallback onPressed,
@@ -246,6 +250,51 @@ Widget customSortingPanel(
           onSort('date');
         },
         child: Text(textAlign: TextAlign.center, "Data"),
+      ),
+    ],
+  );
+}
+
+// TODO: Complete search logic
+Widget customSearchingPanel(
+  BuildContext context,
+  void Function(String, List<Map<String, dynamic>>) onChange,
+) {
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.end,
+    spacing: 12,
+    children: [
+      Expanded(
+        child: TextField(
+          autofocus: true,
+          decoration: InputDecoration(
+            // prefixIcon: Padding(
+            //   padding: EdgeInsetsGeometry.only(left: 8),
+            //   child: searchIcon,
+            // ),
+            // prefixStyle: TextStyle(),
+            hintText: 'Cerca tra le manutenzioni',
+            floatingLabelBehavior: FloatingLabelBehavior.never,
+            counterText: '',
+          ),
+          keyboardType: TextInputType.text,
+          maxLength: 20,
+          textCapitalization: TextCapitalization.sentences,
+          autocorrect: true,
+          onChanged: (value) {
+            if (value.isEmpty) {
+              onChange('', []);
+              return;
+            }
+
+            List<Map<String, dynamic>> result = searchByText(
+              maintenanceBox,
+              value,
+            );
+            log(result.toString());
+            onChange(value, result);
+          },
+        ),
       ),
     ],
   );

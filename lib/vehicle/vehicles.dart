@@ -1,9 +1,8 @@
-import 'dart:developer';
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:mycargenie_2/theme/icons.dart';
-import 'package:mycargenie_2/vehicle/show_vehicle.dart';
+import 'package:mycargenie_2/theme/misc.dart';
+import 'package:mycargenie_2/utils/support_fun.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'add_vehicle.dart';
@@ -77,14 +76,17 @@ class _GarageState extends State<Garage> {
                                 children: [
                                   slideableIcon(
                                     context,
-                                    onPressed: (_) =>
-                                        _deleteVehicle(vehicleProvider, key),
-                                    icon: deleteIcon,
+                                    onPressed: (_) => deleteVehicle(
+                                      vehicleProvider,
+                                      context,
+                                      key,
+                                    ),
+                                    icon: deleteIcon(),
                                   ),
                                   slideableIcon(
                                     context,
                                     onPressed: (_) =>
-                                        openEditScreen(context, key),
+                                        openVehicleEditScreen(context, key),
                                     icon: editIcon,
                                     color: Colors.white,
                                   ),
@@ -94,15 +96,35 @@ class _GarageState extends State<Garage> {
                                 child: ListTile(
                                   enabled: true,
                                   //selected: _selected,
-                                  onTap: () => _openShowVehicle(context, key),
+                                  onTap: () => openShowVehicle(context, key),
                                   contentPadding: const EdgeInsets.symmetric(
                                     horizontal: 16.0,
                                   ),
                                   title: Text(
                                     '${item['brand']} ${item['model']}',
+                                    style: titleTextStyle,
                                   ),
-                                  subtitle: Text(
-                                    'Year: ${item['year']} Power: ${item['power']}',
+                                  subtitle: Row(
+                                    children: [
+                                      Text(
+                                        item['power'] != null
+                                            ? '${item['power']}kW '
+                                            : '',
+                                        style: subtitleTextStyle,
+                                      ),
+                                      Text(
+                                        item['horse'] != null
+                                            ? '${item['horse']}CV '
+                                            : '',
+                                        style: subtitleTextStyle,
+                                      ),
+                                      Text(
+                                        item['capacity'] != null
+                                            ? '${item['capacity']}CC '
+                                            : '',
+                                        style: subtitleTextStyle,
+                                      ),
+                                    ],
                                   ),
                                   selectedColor: Colors.blue,
                                   trailing: favouriteIconButton(
@@ -126,9 +148,10 @@ class _GarageState extends State<Garage> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 30.0,
-                      vertical: 30.0,
+                    padding: const EdgeInsets.only(
+                      left: 16.0,
+                      right: 16.0,
+                      bottom: 28.0,
                     ),
                     child: Row(
                       children: [
@@ -188,69 +211,4 @@ class _GarageState extends State<Garage> {
     }
     return false;
   }
-
-  void changeFavourite(dynamic newFavKey) {
-    final oldFavKey = getFavouriteKey();
-
-    if (oldFavKey != null) {
-      final oldFavItem = vehicleBox.get(oldFavKey) as Map;
-      oldFavItem['favourite'] = false;
-      vehicleBox.put(oldFavKey, oldFavItem);
-    }
-
-    final newFavItem = vehicleBox.get(newFavKey) as Map;
-    newFavItem['favourite'] = true;
-    vehicleBox.put(newFavKey, newFavItem);
-  }
-
-  void _openShowVehicle(BuildContext context, dynamic key) {
-    final Map<String, dynamic> vehicleMap = vehicleBox
-        .get(key)!
-        .cast<String, dynamic>();
-
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (_) => ShowVehicle(vehicle: vehicleMap, editKey: key),
-      ),
-    );
-  }
-
-  void _deleteVehicle(VehicleProvider vehicleProvider, dynamic key) {
-    final image = vehicleBox.get(key) as Map<dynamic, dynamic>?;
-    final savedImagePath = image?['assetImage'] as String?;
-    if (savedImagePath != null) {
-      // String? savedImagePath = image!['assetImage'] as String?;
-      File(savedImagePath).delete;
-      log('Image deleted');
-    } else {
-      log('The vehicle has no image');
-    }
-
-    int? favouriteKey = getFavouriteKey();
-    vehicleBox.delete(key);
-    if (favouriteKey == key) {
-      if (vehicleBox.isNotEmpty) {
-        final firstKey = vehicleBox.keyAt(0);
-        log("New fav is: $firstKey");
-        vehicleProvider.favouriteKey = firstKey;
-        changeFavourite(firstKey);
-      } else {
-        vehicleProvider.favouriteKey = null;
-      }
-    } else {
-      log("You didn't delete favourite");
-    }
-  }
-}
-
-void openEditScreen(BuildContext context, dynamic key) {
-  final Map<String, dynamic> vehicleMap = vehicleBox
-      .get(key)!
-      .cast<String, dynamic>();
-
-  Navigator.of(context).push(
-    MaterialPageRoute(
-      builder: (_) => AddVehicle(vehicle: vehicleMap, editKey: key),
-    ),
-  );
 }

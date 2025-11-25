@@ -11,7 +11,6 @@ Widget customTextField(
   int minLines = 1,
   int maxLines = 1,
   int maxLength = 15,
-  bool expands = false,
   TextInputType type = TextInputType.text,
   TextInputAction? action,
   List<TextInputFormatter>? formatter,

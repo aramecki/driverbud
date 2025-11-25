@@ -83,7 +83,7 @@ class _AddMaintenanceState extends State<AddMaintenance> {
 
     final maintenanceMap = <String, dynamic>{
       'title': _titleCtrl.text.trim(),
-      'maintenanceType': _maintenanceType,
+      'maintenanceType': _maintenanceType ?? maintenanceTypeList.first,
       'place': _placeCtrl.text.trim(),
       'date': _date ?? today,
       'kilometers': int.tryParse(_kilometersCtrl.text),
@@ -198,20 +198,21 @@ class _AddMaintenanceState extends State<AddMaintenance> {
           ),
         ),
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          padding: EdgeInsets.only(left: 16, right: 16, top: 12),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.max,
             children: [
-              customTextField(
-                context,
-                hintText: 'Descrizione',
-                maxLines: 12,
-                maxLength: 500,
-                expands: true,
-                controller: _descriptionCtrl,
-                type: TextInputType.multiline,
-                action: TextInputAction.newline,
+              Expanded(
+                child: TextField(
+                  controller: _descriptionCtrl,
+                  keyboardType: TextInputType.multiline,
+                  textInputAction: TextInputAction.newline,
+                  minLines: 1,
+                  maxLines: 12,
+                  maxLength: 500,
+                  decoration: InputDecoration(hintText: 'Descrizione'),
+                ),
               ),
             ],
           ),
