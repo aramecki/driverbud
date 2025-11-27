@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:mycargenie_2/boxes.dart';
 import 'package:mycargenie_2/home.dart';
-import 'package:mycargenie_2/maintenance/add_maintenance.dart';
+import 'package:mycargenie_2/l10n/app_localizations.dart';
 import 'package:mycargenie_2/maintenance/maintenance_misc.dart';
 import 'package:mycargenie_2/maintenance/maintenance_search_list.dart';
 import 'package:mycargenie_2/theme/icons.dart';
@@ -24,8 +24,11 @@ class _MaintenanceState extends State<Maintenance> {
   bool isSorting = false;
   bool isSearching = false;
 
+  // TODO: Add the case in which the user has no vehicle
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
+
     return ValueListenableBuilder(
       valueListenable: maintenanceBox.listenable(),
       builder: (context, Box box, _) {
@@ -67,27 +70,13 @@ class _MaintenanceState extends State<Maintenance> {
                   Padding(
                     padding: EdgeInsetsGeometry.symmetric(horizontal: 18),
                     child: Text(
-                      'In questa pagina troverai tutti gli eventi di manutenzione aggiunti.',
+                      localizations.youWillFindEvents(
+                        localizations.maintenanceLower,
+                      ),
                       textAlign: TextAlign.center,
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 30.0,
-                      vertical: 30.0,
-                    ),
-                    child: buildAddButton(
-                      context,
-                      onPressed: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (_) => const AddMaintenance(),
-                          ),
-                        );
-                      },
-                      text: 'Aggiungi prima manutenzione',
-                    ),
-                  ),
+                  addEventButton(context, true),
                 ],
               )
             : Column(
@@ -173,37 +162,13 @@ class _MaintenanceState extends State<Maintenance> {
                     ),
                   ),
 
-                  if (!isSearching)
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        left: 16.0,
-                        right: 16.0,
-                        bottom: 8.0,
-                      ),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: buildAddButton(
-                              context,
-                              onPressed: () {
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (_) => const AddMaintenance(),
-                                  ),
-                                );
-                              },
-                              text: 'Aggiungi manutenzione',
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                  if (!isSearching) addEventButton(context, true),
                 ],
               );
 
         return Scaffold(
           appBar: AppBar(
-            title: const Text('Maintenance'),
+            title: Text(localizations.maintenanceUpper),
             actions: isEmpty
                 ? null
                 : <Widget>[
@@ -235,11 +200,8 @@ class _MaintenanceState extends State<Maintenance> {
             },
             child: content,
           ),
-          // body: content,
         );
       },
     );
   }
 }
-
-// TODO: Move delete and openedit to external file

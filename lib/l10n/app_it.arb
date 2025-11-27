@@ -1,0 +1,367 @@
+{
+  "@@locale": "it",
+
+  "home": "Home",
+  "@home": {
+  "description": "Main Home text shown when the app starts"
+  },
+
+  "favorite": "Preferito",
+  "@favorite": {
+    "description": "Favorite text"
+  },
+
+  "brandUpper": "Marchio",
+  "@brandUpper": {
+    "description": "Brand text"
+  },
+
+  "modelUpper": "Modello",
+  "@modelUpper": {
+    "description": "Model text"
+  },
+
+  "configurationUpper": "Configurazione",
+  "@configurationUpper": {
+    "description": "Configuration text"
+  },
+
+  "capacityCcUpper": "Cilindrata cc",
+  "@capacityCcUpper": {
+    "description": "Capacity cc text"
+  },
+
+  "powerKwUpper": "Potenza kw",
+  "@powerKwUpper": {
+    "description": "Power kw text"
+  },
+
+  "horsePowerCvUpper": "Cavalli cv",
+  "@horsePowerCvUpper": {
+    "description": "HorsePower cv text"
+  },
+
+  "maintenanceUpper": "Manutenzione",
+  "@maintenanceUpper": {
+    "description": "Main Maintenance uppercase text shown in navigation bar and in maintenance section"
+  },
+
+  "maintenanceLower": "manutenzione",
+  "@maintenanceLower": {
+    "description": "maintenance lower text"
+  },
+
+  "vehicleUpper": "Veicolo",
+  "@vehicleUpper": {
+    "description": "Vehicle uppercase text"
+  },
+
+  "vehicleLower": "veicolo",
+  "@vehicleLower": {
+    "description": "vehicle lowercase text"
+  },
+
+  "refuelingUpper": "Rifornimento",
+  "@refuelingUpper": {
+    "description": "Main Refueling Uppercase text shown in navigation bar and in refueling section"
+  },
+
+ "refuelingLower": "rifornimento",
+  "@refuelingLower": {
+    "description": "refueling lowercase text"
+  },
+
+  "invoices": "Scadenze",
+  "@invoices": {
+    "description": "Main Invoices text shown in navigation bar and in invoices section"
+  },
+
+  "settings": "Impostazioni",
+  "@settings": {
+    "description": "Settings text"
+  },
+
+  "myGarage": "Il mio garage",
+  "@myGarage": {
+    "description": "My garage text"
+  },
+
+  "titleRequiredField": "Dai un titolo all'evento.",
+  "@titleRequiredField": {
+    "description": "Title is a required field. text shown when saving an event without the title required field"
+  },
+
+  "brandModelRequiredField": "Marchio è modello sono campi obbligatori.",
+  "@brandModelRequiredField": {
+    "description": "Brand and model are required fields. text shown when saving a vehicle without the brand or model required fields"
+  },
+
+  "youWillFindEvents": "In questa pagina troverai tutti gli eventi di {eventType} aggiunti.",
+  "@youWillFindEvents": {
+    "placeholders": {
+      "eventType": {"type": "String"}
+    },
+    "description": "On this page you will find all the added maintenance/refueling events. text shown when user has not maintenance event saved for the selected vehicle"
+  },
+
+  "youWillFindVehicles": "In questa pagina troverai tutti i veicoli aggiunti.",
+  "@youWillFindVehicles": {
+    "description": "On this page you will find all the saved vehicles. text shown when user has not vehicles saved"
+  },
+
+  "titleUpper": "Titolo",
+  "@titleUpper": {
+  "description": "Title text"
+  },
+
+  "asteriskTitle": "Titolo*",
+  "@asteriskTitle": {
+  "description": "Title* text shown in title field"
+  },
+
+  "typeUpper": "Tipo",
+  "@typeUpper": {
+  "description": "Type text shown in type field"
+  },
+
+  "placeUpper": "Luogo",
+  "@placeUpper": {
+  "description": "Place text shown in place field"
+  },
+
+  "kilometersUpper": "Kilometri",
+  "@kilometersUpper": {
+    "description": "Kilometers text shown in kilometers field"
+  },
+
+  "descriptionUpper": "Descrizione",
+  "@descriptionUpper": {
+    "description": "Description text shown in description field"
+  },
+
+  "priceUpper": "Importo",
+  "@priceUpper": {
+    "description": "Price text shown in price field"
+  },
+
+  "yearUpper": "Anno",
+  "@yearUpper": {
+    "description": "Year text"
+  },
+
+  "selectYear": "Seleziona Anno",
+  "@selectYear": {
+    "description": "Select Year text"
+  },
+
+  "categoryUpper": "Categoria",
+  "@categoryUpper": {
+    "description": "Category text"
+  },
+
+  "energyUpper": "Energia",
+  "@energyUpper": {
+    "description": "Energy text"
+  },
+
+  "ecologyUpper": "Ecologia",
+  "@ecologyUpper": {
+    "description": "Ecology text"
+  },
+
+  "updateUpper": "Aggiorna",
+  "@updateUpper": {
+    "description": "Update text shown as save button when editing an event"
+  },
+
+  "saveUpper": "Salva",
+  "@saveUpper": {
+    "description": "Save text shown as save button when creating an event"
+  },
+
+  "editUpper": "Modifica",
+  "@editUpper": {
+    "description": "Edit text"
+  },
+
+  "cantFindYourVehicleBrand": "Marchio non presente?",
+  "@cantFindYourVehicleBrand": {
+    "description": "Can't find your vehicle brand? text"
+  },
+
+  "asteriskRequiredFields": "I campi contrassegnati da * sono obbligatori.",
+  "@asteriskRequiredFields": {
+    "description": "Fields marked with * are required. text shown under event creation or editing screen"
+  },
+
+  "addValue": "Aggiungi {value}",
+  "@addValue": {
+    "placeholders": {
+      "value": {"type": "String"}
+    },
+    "description": "Add Maintenance/Refueling/Vehicle text shown as title when creating"
+  },
+
+  "editValue": "Modifica {value}",
+  "@editValue": {
+    "placeholders": {
+      "value": {"type": "String"}
+    },
+    "description": "Edit Maintenance/Refueling/Vehicle text shown as title when editing"
+  },
+
+  "searchInEvents": "Cerca tra gli eventi di {eventType}",
+  "@searchInEvents": {
+    "placeholders": {
+      "eventType": {"type": "String"}
+    },
+  "description": "Search Maintenance/refueling events text"
+  },
+
+  "date": "Data",
+  "@date": {
+    "description": "Date text"
+  }, 
+
+  "ggMmAaaa": "{day}/{month}/{year}",
+  "@ggMmAaaa": {
+    "placeholders": {
+      "day": {"type": "int"},
+      "month": {"type": "int"},
+      "year": {"type": "int"}
+    },
+    "description": "dd/mm/aaaa date form DateTime"
+  },
+
+  "numKm": "{num}km",
+  "@numKm": {
+    "placeholders": {
+      "num": {"type": "int"}
+    },
+    "description": "num km Ex. 10km"
+  },
+
+  "numCc": "{num}cc",
+  "@numCc": {
+    "placeholders": {
+      "num": {"type": "int"}
+    },
+    "description": "num cc Ex. 10cc"
+  },
+
+  "numKw": "{num}kW",
+  "@numKw": {
+    "placeholders": {
+      "num": {"type": "int"}
+    },
+    "description": "num kW Ex. 10kW"
+  },
+
+  "numCv": "{num}CV",
+  "@numCv": {
+    "placeholders": {
+      "num": {"type": "int"}
+    },
+    "description": "num CV Ex. 10CV"
+  },
+
+  "numCurrency": "{num}{currency}",
+  "@numCurrency": {
+    "placeholders": {
+      "num": {"type": "String"},
+      "currency": {"type": "String"}
+    },
+  "description": "num currency Ex. 5€"
+  },
+
+  "latestEvents": "Ultimi eventi:",
+  "@latestEvents": {
+    "description": "Latest Events: text shown in home screen"
+  },
+
+  "noVehicles": "Nessun veicolo",
+  "@noVehicles": {
+    "description": "No vehicles text shown in screens when there are no registered vehicles"
+  },
+
+  "other": "Altro",
+  "@other": {
+    "description": "Other text"
+  },
+
+  "sedan": "Berlina",
+  "@sedan": {
+    "description": "Sedan vehicle text"
+  },
+
+  "coupe": "Coupé",
+  "@coupe": {
+    "description": "Coupé vehicle text"
+  },
+
+  "sportsCar": "Sportiva",
+  "@sportsCar": {
+    "description": "Sports Car vehicle text"
+  },
+
+  "suv": "SUV",
+  "@suv": {
+    "description": "SUV Car vehicle text"
+  },
+
+  "stationWagon": "Station Wagon",
+  "@stationWagon": {
+    "description": "Station Wagon vehicle text"
+  },
+
+  "minivan": "Monovolume",
+  "@minivan": {
+    "description": "Minivan Car vehicle text"
+  },
+
+  "supercar": "Supercar",
+  "@supercar": {
+    "description": "Supercar Car vehicle text"
+  },
+
+  "petrol": "Benzina",
+  "@petrol": {
+    "description": "Petrol text"
+  },
+
+  "diesel": "Gasolio",
+  "@diesel": {
+    "description": "Diesel text"
+  },
+
+  "lpg": "GPL",
+  "@lpg": {
+    "description": "LPG text"
+  },
+
+  "cng": "Metano",
+  "@cng": {
+    "description": "CNG text"
+  },
+
+  "electric": "Elettrico",
+  "@electric": {
+    "description": "Electric text"
+  },
+
+  "mechanic": "Meccanico",
+  "@mechanic": {
+    "description": "Mechanic text"
+  },
+
+  "electrician": "Elettrauto",
+  "@electrician": {
+    "description": "Electrician text"
+  },
+
+  "bodyShop": "Carrozziere",
+  "@bodyShop": {
+    "description": "Body Shop text"
+  }
+
+}

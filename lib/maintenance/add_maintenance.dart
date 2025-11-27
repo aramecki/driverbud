@@ -1,6 +1,7 @@
 import 'package:currency_textfield/currency_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:mycargenie_2/home.dart';
+import 'package:mycargenie_2/l10n/app_localizations.dart';
 import 'package:mycargenie_2/utils/date_picker.dart';
 import 'package:mycargenie_2/utils/focusable_dropdown.dart';
 import 'package:mycargenie_2/utils/reusable_textfield.dart';
@@ -69,7 +70,9 @@ class _AddMaintenanceState extends State<AddMaintenance> {
     super.dispose();
   }
 
-  Future<void> _onSavePressed() async {
+  Future<void> _onSavePressed(dynamic maintenanceTypeList) async {
+    final localizations = AppLocalizations.of(context)!;
+
     final vehicleKey = Provider.of<VehicleProvider>(
       context,
       listen: false,
@@ -78,8 +81,6 @@ class _AddMaintenanceState extends State<AddMaintenance> {
     if (!mounted) return;
 
     final double priceDoubleValue = _priceCtrl.doubleValue;
-
-    // log(priceDoubleValue.toStringAsFixed(2));
 
     final maintenanceMap = <String, dynamic>{
       'title': _titleCtrl.text.trim(),
@@ -93,7 +94,7 @@ class _AddMaintenanceState extends State<AddMaintenance> {
     };
 
     if (maintenanceMap['title'].isEmpty) {
-      showCustomToast(context, message: 'Title is a required field.');
+      showCustomToast(context, message: localizations.titleRequiredField);
       return;
     }
 
@@ -116,6 +117,9 @@ class _AddMaintenanceState extends State<AddMaintenance> {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
+    final maintenanceTypeList = getMaintenanceTypeList(context);
+
     final isEdit = widget.editKey != null;
 
     final content = Column(
@@ -130,7 +134,7 @@ class _AddMaintenanceState extends State<AddMaintenance> {
             children: [
               customTextField(
                 context,
-                hintText: 'Titolo*',
+                hintText: localizations.asteriskTitle,
                 maxLength: 35,
                 action: TextInputAction.next,
                 onSubmitted: (_) => _openMenu(),
@@ -148,7 +152,7 @@ class _AddMaintenanceState extends State<AddMaintenance> {
               Expanded(
                 child: FocusableDropdown(
                   menuController: menuController,
-                  name: 'Tipo',
+                  name: localizations.typeUpper,
                   items: maintenanceTypeList,
                   selectedItem: _maintenanceType,
                   onSelected: (value) {
@@ -162,7 +166,7 @@ class _AddMaintenanceState extends State<AddMaintenance> {
               const SizedBox(width: 8),
               customTextField(
                 context,
-                hintText: 'Luogo',
+                hintText: localizations.placeUpper,
                 action: TextInputAction.next,
                 // TODO: Set focus to open datepicker
                 // onSubmitted: (_) => //apri date picker,
@@ -188,7 +192,7 @@ class _AddMaintenanceState extends State<AddMaintenance> {
               const SizedBox(width: 8),
               customTextField(
                 context,
-                hintText: 'Kilometri',
+                hintText: localizations.kilometersUpper,
                 maxLength: 7,
                 type: TextInputType.number,
                 action: TextInputAction.next,
@@ -211,7 +215,9 @@ class _AddMaintenanceState extends State<AddMaintenance> {
                   minLines: 1,
                   maxLines: 12,
                   maxLength: 500,
-                  decoration: InputDecoration(hintText: 'Descrizione'),
+                  decoration: InputDecoration(
+                    hintText: localizations.descriptionUpper,
+                  ),
                 ),
               ),
             ],
@@ -232,7 +238,9 @@ class _AddMaintenanceState extends State<AddMaintenance> {
                   controller: _priceCtrl,
                   keyboardType: TextInputType.number,
                   textInputAction: TextInputAction.done,
-                  decoration: InputDecoration(hintText: 'Price'),
+                  decoration: InputDecoration(
+                    hintText: localizations.priceUpper,
+                  ),
                 ),
               ),
             ],
@@ -249,8 +257,10 @@ class _AddMaintenanceState extends State<AddMaintenance> {
               Expanded(
                 child: buildAddButton(
                   context,
-                  onPressed: _onSavePressed,
-                  text: isEdit ? 'Update' : 'Save',
+                  onPressed: () => _onSavePressed(maintenanceTypeList),
+                  text: isEdit
+                      ? localizations.updateUpper
+                      : localizations.saveUpper,
                 ),
               ),
             ],
@@ -266,7 +276,7 @@ class _AddMaintenanceState extends State<AddMaintenance> {
             children: [
               Expanded(
                 child: Text(
-                  'I campi contrassegnati da * sono obbligatori.',
+                  localizations.asteriskRequiredFields,
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -278,7 +288,11 @@ class _AddMaintenanceState extends State<AddMaintenance> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(isEdit ? 'Edit Maintenance' : 'Add Maintenance'),
+        title: Text(
+          isEdit
+              ? localizations.editValue(localizations.maintenanceUpper)
+              : localizations.addValue(localizations.maintenanceUpper),
+        ),
         leading: customBackButton(context),
       ),
       body: GestureDetector(

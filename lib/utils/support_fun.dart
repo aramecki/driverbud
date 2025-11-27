@@ -6,29 +6,29 @@ import 'package:mycargenie_2/home.dart';
 import 'package:mycargenie_2/vehicle/add_vehicle.dart';
 import 'package:mycargenie_2/vehicle/show_vehicle.dart';
 
-// Function to get the favourite vehicle key
-int? getFavouriteKey() {
+// Function to get the favorite vehicle key
+int? getFavoriteKey() {
   for (final dynamic key in vehicleBox.keys) {
     final dynamic entry = vehicleBox.get(key);
-    if (entry is Map && entry['favourite'] == true) {
+    if (entry is Map && entry['favorite'] == true) {
       return key as int?;
     }
   }
   return null;
 }
 
-// Function to change the favourite vehicle key
-void changeFavourite(dynamic newFavKey) {
-  final oldFavKey = getFavouriteKey();
+// Function to change the favorite vehicle key
+void changeFavorite(dynamic newFavKey) {
+  final oldFavKey = getFavoriteKey();
 
   if (oldFavKey != null) {
     final oldFavItem = vehicleBox.get(oldFavKey) as Map;
-    oldFavItem['favourite'] = false;
+    oldFavItem['favorite'] = false;
     vehicleBox.put(oldFavKey, oldFavItem);
   }
 
   final newFavItem = vehicleBox.get(newFavKey) as Map;
-  newFavItem['favourite'] = true;
+  newFavItem['favorite'] = true;
   vehicleBox.put(newFavKey, newFavItem);
 }
 
@@ -56,19 +56,19 @@ void deleteVehicle(
     log('The vehicle has no image');
   }
 
-  int? favouriteKey = getFavouriteKey();
+  int? favoriteKey = getFavoriteKey();
 
   vehicleBox.delete(key);
 
-  if (favouriteKey == key) {
+  if (favoriteKey == key) {
     if (vehicleBox.isNotEmpty) {
       final firstKey = vehicleBox.keyAt(0);
       log("New fav is: $firstKey");
-      vehicleProvider.favouriteKey = firstKey;
-      changeFavourite(firstKey);
+      vehicleProvider.favoriteKey = firstKey;
+      changeFavorite(firstKey);
       vehicleProvider.vehicleToLoad = firstKey;
     } else {
-      vehicleProvider.favouriteKey = null;
+      vehicleProvider.favoriteKey = null;
       vehicleProvider.vehicleToLoad = null;
     }
   } else {
@@ -78,7 +78,7 @@ void deleteVehicle(
     } else {
       vehicleProvider.vehicleToLoad = null;
     }
-    log("You didn't delete favourite");
+    log("You didn't delete favorite");
   }
 }
 

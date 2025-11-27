@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:mycargenie_2/boxes.dart';
 import 'package:mycargenie_2/home.dart';
+import 'package:mycargenie_2/l10n/app_localizations.dart';
 import 'package:mycargenie_2/theme/icons.dart';
 import 'package:mycargenie_2/utils/support_fun.dart';
 import 'package:provider/provider.dart';
@@ -21,6 +22,8 @@ class _ShowVehicleState extends State<ShowVehicle> {
   // TODO: Stylize because it's very very very ugly
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
+
     final vehicleProvider = Provider.of<VehicleProvider>(context);
 
     final content = ValueListenableBuilder(
@@ -89,7 +92,8 @@ class _ShowVehicleState extends State<ShowVehicle> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.max,
                 children: [
-                  if (v['capacity'] != null) Text('${v['capacity']}CC'),
+                  if (v['capacity'] != null)
+                    Text(localizations.numCc(v['capacity'])),
                 ],
               ),
             ),
@@ -99,9 +103,9 @@ class _ShowVehicleState extends State<ShowVehicle> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.max,
                 children: [
-                  if (v['power'] != null) Text('${v['power']}kW'),
+                  if (v['power'] != null) Text(localizations.numKw(v['power'])),
                   const SizedBox(width: 8),
-                  if (v['horse'] != null) Text('${v['horse']}CV'),
+                  if (v['horse'] != null) Text(localizations.numCv(v['horse'])),
                 ],
               ),
             ),
@@ -136,7 +140,7 @@ class _ShowVehicleState extends State<ShowVehicle> {
                       context,
                       onPressed: () =>
                           openVehicleEditScreen(context, widget.editKey),
-                      text: 'Edit',
+                      text: localizations.editUpper,
                     ),
                   ),
                 ],
@@ -164,7 +168,10 @@ class _ShowVehicleState extends State<ShowVehicle> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.deepOrange,
         child: shareIcon,
-        onPressed: () => showCustomToast(context, message: 'Share opened'),
+        onPressed: () => showCustomToast(
+          context,
+          message: 'Share opened',
+        ), // TODO: Remove, for debugging
       ),
       body: GestureDetector(
         behavior: HitTestBehavior.opaque,

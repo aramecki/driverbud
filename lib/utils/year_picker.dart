@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mycargenie_2/l10n/app_localizations.dart';
 import 'package:mycargenie_2/theme/icons.dart';
 
 class YearPickerButton extends StatefulWidget {
@@ -28,11 +29,13 @@ class _YearPickerButtonState extends State<YearPickerButton> {
   }
 
   Future<dynamic> showYearPicker(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
+
     return showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text("Select Year"),
+          title: Text(localizations.selectYear),
           content: SizedBox(
             width: 300,
             height: 300,
@@ -63,6 +66,8 @@ class _YearPickerButtonState extends State<YearPickerButton> {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
+
     return Expanded(
       child: OutlinedButton(
         onPressed: () => showYearPicker(context),
@@ -79,7 +84,9 @@ class _YearPickerButtonState extends State<YearPickerButton> {
               Text(
                 textAlign: TextAlign.left,
                 style: Theme.of(context).textTheme.bodyMedium,
-                dateToShow != null ? '${dateToShow!.year}' : 'Year',
+                dateToShow != null
+                    ? '${dateToShow!.year}'
+                    : localizations.yearUpper,
               ),
               calendarIcon,
             ],

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:mycargenie_2/l10n/app_localizations.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:mycargenie_2/theme/theme.dart';
@@ -33,7 +35,7 @@ void main() async {
       'category': 'Sport',
       'energy': 'Benzina',
       'ecology': 'Euro 4',
-      'favourite': false,
+      'favorite': false,
       'assetImage': imageOne,
     });
     await vehicleBox.add({
@@ -47,7 +49,7 @@ void main() async {
       'category': 'Berlina',
       'energy': 'Benzina',
       'ecology': 'Euro 6',
-      'favourite': false,
+      'favorite': false,
       'assetImage': imageTwo,
     });
     await vehicleBox.add({
@@ -61,7 +63,7 @@ void main() async {
       'category': 'Sport',
       'energy': 'Benzina',
       'ecology': 'Euro 3',
-      'favourite': true,
+      'favorite': true,
       'assetImage': imageThree,
     });
   }
@@ -84,6 +86,12 @@ class MyCarGenie extends StatelessWidget {
       theme: lightTheme,
       darkTheme: darkTheme,
       home: const MyCarGenieMain(),
+      supportedLocales: const [Locale('en', ''), Locale('it', '')],
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
     );
   }
 }
@@ -111,6 +119,8 @@ class _MyCarGenieMainState extends State<MyCarGenieMain> {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
+
     return Scaffold(
       //extendBody: true,
       // appBar: AppBar(
@@ -156,22 +166,22 @@ class _MyCarGenieMainState extends State<MyCarGenieMain> {
                     _currentIndex = index;
                   });
                 },
-                destinations: const [
+                destinations: [
                   NavigationDestination(
-                    icon: HugeIcon(
+                    icon: const HugeIcon(
                       icon: HugeIcons.strokeRoundedHome07,
                       size: 30,
                       strokeWidth: 1,
                     ),
-                    label: 'Home',
+                    label: localizations.home,
                   ),
                   NavigationDestination(
-                    icon: HugeIcon(
+                    icon: const HugeIcon(
                       icon: HugeIcons.strokeRoundedTools,
                       size: 30,
                       strokeWidth: 1,
                     ),
-                    label: 'Maintenance',
+                    label: localizations.maintenanceUpper,
                   ),
                   NavigationDestination(
                     icon: HugeIcon(
@@ -179,7 +189,7 @@ class _MyCarGenieMainState extends State<MyCarGenieMain> {
                       size: 30,
                       strokeWidth: 1,
                     ),
-                    label: 'Refueling',
+                    label: localizations.refuelingUpper,
                   ),
                   NavigationDestination(
                     icon: HugeIcon(
@@ -187,7 +197,7 @@ class _MyCarGenieMainState extends State<MyCarGenieMain> {
                       size: 30,
                       strokeWidth: 1,
                     ),
-                    label: 'Invoices',
+                    label: localizations.invoices,
                   ),
                 ],
               ),

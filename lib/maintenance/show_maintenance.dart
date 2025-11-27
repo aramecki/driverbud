@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:mycargenie_2/boxes.dart';
+import 'package:mycargenie_2/l10n/app_localizations.dart';
 import 'package:mycargenie_2/maintenance/maintenance_misc.dart';
 import 'package:mycargenie_2/theme/icons.dart';
 import '../utils/puzzle.dart';
@@ -18,6 +19,8 @@ class _ShowMaintenanceState extends State<ShowMaintenance> {
   // TODO: Stylize
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
+
     final content = ValueListenableBuilder(
       valueListenable: maintenanceBox.listenable(keys: [widget.editKey]),
       builder: (context, box, _) {
@@ -79,12 +82,16 @@ class _ShowMaintenanceState extends State<ShowMaintenance> {
                 children: [
                   if (e['date'] != null)
                     Text(
-                      '${e['date'].day}/${e['date'].month}/${e['date'].year}',
+                      localizations.ggMmAaaa(
+                        e['date'].day,
+                        e['date'].month,
+                        e['date'].year,
+                      ),
                       style: TextStyle(fontSize: 18),
                     ),
                   if (e['kilometers'] != null)
                     Text(
-                      '${e['kilometers'].toString()}km',
+                      localizations.numKm(e['kilometers']),
                       style: TextStyle(fontSize: 18),
                     ),
                 ],
@@ -99,7 +106,7 @@ class _ShowMaintenanceState extends State<ShowMaintenance> {
                   // TODO: Set currency symbol to set one
                   if (e['price'] != '0.00')
                     Text(
-                      '${e['price']}€',
+                      localizations.numCurrency(e['price'], "€"),
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.w500,
@@ -119,7 +126,7 @@ class _ShowMaintenanceState extends State<ShowMaintenance> {
                       context,
                       onPressed: () =>
                           openEventEditScreen(context, widget.editKey),
-                      text: 'Modifica',
+                      text: localizations.editUpper,
                     ),
                   ),
                 ],
@@ -146,7 +153,9 @@ class _ShowMaintenanceState extends State<ShowMaintenance> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.deepOrange,
         child: shareIcon,
-        onPressed: () => showCustomToast(context, message: 'Share opened'),
+        // TODO: Code real sharing
+        onPressed: () =>
+            showCustomToast(context, message: 'Share opened'), // Remove
       ),
       body: GestureDetector(
         behavior: HitTestBehavior.opaque,
