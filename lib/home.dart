@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -66,6 +67,8 @@ class _HomePageState extends State<Home> {
     final localizations = AppLocalizations.of(context)!;
 
     final vehicleProvider = context.watch<VehicleProvider>();
+
+    log('Starting loading: ${vehicleBox.get(vehicleProvider.vehicleToLoad)} ');
 
     return ValueListenableBuilder(
       valueListenable: vehicleBox.listenable(),

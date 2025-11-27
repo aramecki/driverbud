@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:mycargenie_2/boxes.dart';
@@ -28,6 +30,8 @@ class _MaintenanceState extends State<Maintenance> {
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
+
+    log(maintenanceBox.toMap().toString());
 
     return ValueListenableBuilder(
       valueListenable: maintenanceBox.listenable(),

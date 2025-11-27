@@ -18,7 +18,7 @@ int? getFavoriteKey() {
 }
 
 // Function to change the favorite vehicle key
-void changeFavorite(dynamic newFavKey) {
+Future<void> changeFavorite(dynamic newFavKey) async {
   final oldFavKey = getFavoriteKey();
 
   if (oldFavKey != null) {
@@ -40,32 +40,37 @@ void openShowVehicle(BuildContext context, dynamic key) {
 }
 
 // Function to completely delete a vehicle entry from vehicleBox and its image
+// TODO: Add deletion for all events of deleted vehicle
 void deleteVehicle(
   VehicleProvider vehicleProvider,
   BuildContext context,
   dynamic key,
-) {
+) async {
   final image = vehicleBox.get(key) as Map<dynamic, dynamic>?;
   final savedImagePath = image?['assetImage'] as String?;
 
   if (savedImagePath != null) {
     // String? savedImagePath = image!['assetImage'] as String?;
-    File(savedImagePath).delete;
-    log('Image deleted');
+    if (await File(savedImagePath).exists()) {
+      await File(savedImagePath).delete();
+      log('Image deleted');
+    } else {
+      log('Entry has path but image file doesnt exists, continuing deletion..');
+    }
   } else {
     log('The vehicle has no image');
   }
 
   int? favoriteKey = getFavoriteKey();
 
-  vehicleBox.delete(key);
+  await vehicleBox.delete(key);
 
   if (favoriteKey == key) {
     if (vehicleBox.isNotEmpty) {
       final firstKey = vehicleBox.keyAt(0);
       log("New fav is: $firstKey");
       vehicleProvider.favoriteKey = firstKey;
-      changeFavorite(firstKey);
+      await changeFavorite(firstKey);
       vehicleProvider.vehicleToLoad = firstKey;
     } else {
       vehicleProvider.favoriteKey = null;

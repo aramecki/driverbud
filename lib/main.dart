@@ -20,6 +20,7 @@ void main() async {
 
   await Hive.openBox('vehicle');
   await Hive.openBox('maintenance');
+  await Hive.openBox('refueling');
 
   if (vehicleBox.isEmpty) {
     await startupImageLoader();

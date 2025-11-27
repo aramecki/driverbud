@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:mycargenie_2/backup/backup_restore_screen.dart';
 import 'package:mycargenie_2/l10n/app_localizations.dart';
+import 'package:mycargenie_2/utils/puzzle.dart';
 
 class Settings extends StatefulWidget {
   const Settings({super.key});
@@ -15,11 +17,21 @@ class _SettingsState extends State<Settings> {
 
     final content = Row(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: [Text('Work in progress')],
+      children: [
+        OutlinedButton(
+          onPressed: () => Navigator.of(
+            context,
+          ).push(MaterialPageRoute(builder: (_) => BackupRestoreScreen())),
+          child: Text('Backup'),
+        ),
+      ],
     );
 
     return Scaffold(
-      appBar: AppBar(title: Text(localizations.settings)),
+      appBar: AppBar(
+        title: Text(localizations.settings),
+        leading: customBackButton(context),
+      ),
       body: content,
     );
   }
