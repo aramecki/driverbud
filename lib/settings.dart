@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mycargenie_2/l10n/app_localizations.dart';
 
 class Settings extends StatefulWidget {
   const Settings({super.key});
@@ -10,13 +11,15 @@ class Settings extends StatefulWidget {
 class _SettingsState extends State<Settings> {
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
+
     final content = Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [Text('Work in progress')],
     );
 
     return Scaffold(
-      appBar: AppBar(title: Text('Settings')),
+      appBar: AppBar(title: Text(localizations.settings)),
       body: content,
     );
   }

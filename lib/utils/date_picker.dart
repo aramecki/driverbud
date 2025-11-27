@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mycargenie_2/l10n/app_localizations.dart';
 import 'package:mycargenie_2/theme/icons.dart';
 
 class DatePickerExample extends StatefulWidget {
@@ -44,6 +45,8 @@ class _DatePickerExampleState extends State<DatePickerExample> {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
+
     return Expanded(
       child: OutlinedButton(
         onPressed: _selectDate,
@@ -61,8 +64,16 @@ class _DatePickerExampleState extends State<DatePickerExample> {
                 textAlign: TextAlign.left,
                 style: Theme.of(context).textTheme.bodyMedium,
                 selectedDate != null
-                    ? '${selectedDate!.day}/${selectedDate!.month}/${selectedDate!.year}'
-                    : '${dateToShow?.day}/${dateToShow?.month}/${dateToShow?.year}',
+                    ? localizations.ggMmAaaa(
+                        selectedDate!.day,
+                        selectedDate!.month,
+                        selectedDate!.year,
+                      )
+                    : localizations.ggMmAaaa(
+                        dateToShow!.day,
+                        dateToShow!.month,
+                        dateToShow!.year,
+                      ),
               ),
               calendarIcon,
             ],

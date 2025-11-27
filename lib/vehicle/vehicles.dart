@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:mycargenie_2/l10n/app_localizations.dart';
 import 'package:mycargenie_2/theme/icons.dart';
 import 'package:mycargenie_2/theme/misc.dart';
 import 'package:mycargenie_2/utils/support_fun.dart';
@@ -20,6 +21,8 @@ class Garage extends StatefulWidget {
 class _GarageState extends State<Garage> {
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
+
     final vehicleProvider = Provider.of<VehicleProvider>(context);
 
     return ValueListenableBuilder(
@@ -36,7 +39,7 @@ class _GarageState extends State<Garage> {
                   Padding(
                     padding: EdgeInsetsGeometry.symmetric(horizontal: 18),
                     child: Text(
-                      'In questa pagina troverai tutti i veicoli aggiunti.',
+                      localizations.youWillFindVehicles,
                       textAlign: TextAlign.center,
                     ),
                   ),
@@ -52,7 +55,7 @@ class _GarageState extends State<Garage> {
                           MaterialPageRoute(builder: (_) => const AddVehicle()),
                         );
                       },
-                      text: 'Aggiungi il tuo primo veicolo',
+                      text: localizations.addValue(localizations.vehicleLower),
                     ),
                   ),
                 ],
@@ -108,34 +111,33 @@ class _GarageState extends State<Garage> {
                                     children: [
                                       Text(
                                         item['power'] != null
-                                            ? '${item['power']}kW '
+                                            ? '${localizations.numKw(item['power'])} '
                                             : '',
                                         style: subtitleTextStyle,
                                       ),
                                       Text(
                                         item['horse'] != null
-                                            ? '${item['horse']}CV '
+                                            ? '${localizations.numCv(item['horse'])} '
                                             : '',
                                         style: subtitleTextStyle,
                                       ),
                                       Text(
                                         item['capacity'] != null
-                                            ? '${item['capacity']}CC '
+                                            ? localizations.numCc(
+                                                item['capacity'],
+                                              )
                                             : '',
                                         style: subtitleTextStyle,
                                       ),
                                     ],
                                   ),
                                   selectedColor: Colors.blue,
-                                  trailing: favouriteIconButton(
-                                    isEnabled(
-                                      key,
-                                      vehicleProvider.favouriteKey,
-                                    ),
+                                  trailing: favoriteIconButton(
+                                    isEnabled(key, vehicleProvider.favoriteKey),
                                     () {
                                       setState(() {
-                                        changeFavourite(key);
-                                        vehicleProvider.favouriteKey = key;
+                                        changeFavorite(key);
+                                        vehicleProvider.favoriteKey = key;
                                       });
                                     },
                                   ),
@@ -165,7 +167,9 @@ class _GarageState extends State<Garage> {
                                 ),
                               );
                             },
-                            text: 'Add vehicle',
+                            text: localizations.addValue(
+                              localizations.vehicleLower,
+                            ),
                           ),
                         ),
                       ],
@@ -176,7 +180,7 @@ class _GarageState extends State<Garage> {
 
         return Scaffold(
           appBar: AppBar(
-            title: const Text('My garage'),
+            title: Text(localizations.myGarage),
             forceMaterialTransparency: true,
             leading: customBackButton(context),
             actions: <Widget>[
@@ -186,7 +190,10 @@ class _GarageState extends State<Garage> {
                   // Navigator.of(
                   //   context,
                   // ).push(MaterialPageRoute(builder: (_) => const Garage()));
-                  showCustomToast(context, message: 'Info opened');
+                  showCustomToast(
+                    context,
+                    message: 'Info opened',
+                  ); // TODO: Remove, for debugging
                 },
               ),
             ],
@@ -197,16 +204,15 @@ class _GarageState extends State<Garage> {
     );
   }
 
-  Widget? favouriteIconButton(bool? isEnabled, VoidCallback onChanged) {
+  Widget? favoriteIconButton(bool? isEnabled, VoidCallback onChanged) {
     return IconButton(
       icon: isEnabled == true ? activeStarIcon : emptyStarIcon,
       onPressed: isEnabled == true ? null : onChanged,
-      tooltip: isEnabled == true ? null : 'Mark as favourite',
     );
   }
 
-  bool isEnabled(int itemId, int? favouriteItemId) {
-    if (itemId == favouriteItemId) {
+  bool isEnabled(int itemId, int? favoriteItemId) {
+    if (itemId == favoriteItemId) {
       return true;
     }
     return false;

@@ -1,7 +1,7 @@
-import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:mycargenie_2/l10n/app_localizations.dart';
 import 'package:mycargenie_2/settings.dart';
 import 'package:mycargenie_2/theme/icons.dart';
 import 'package:mycargenie_2/utils/puzzle.dart';
@@ -14,7 +14,7 @@ import 'boxes.dart';
 class VehicleProvider with ChangeNotifier {
   int? vehicleToLoad;
   int? year;
-  int? favouriteKey;
+  int? favoriteKey;
   bool _isLoading = false;
 
   //bool get isLoading => _isLoading;
@@ -25,9 +25,9 @@ class VehicleProvider with ChangeNotifier {
       notifyListeners();
 
       Future.microtask(() {
-        vehicleToLoad = getFavouriteKey();
-        log('loading: $vehicleToLoad');
-        favouriteKey = vehicleToLoad;
+        vehicleToLoad = getFavoriteKey();
+        // log('loading: $vehicleToLoad');
+        favoriteKey = vehicleToLoad;
         year = getYear(vehicleToLoad!);
         _isLoading = false;
         notifyListeners();
@@ -63,6 +63,8 @@ class _HomePageState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
+
     final vehicleProvider = context.watch<VehicleProvider>();
 
     return ValueListenableBuilder(
@@ -123,11 +125,12 @@ class _HomePageState extends State<Home> {
                     children: [
                       Padding(
                         padding: EdgeInsetsGeometry.only(left: 16),
-                        child: Text('Ultimi eventi:'),
+                        child: Text(localizations.latestEvents),
                       ),
                     ],
                   ),
 
+                  // TODO: Remove precompiled, just for debugging
                   homeRowBox(
                     context,
                     isRefueling: false,
@@ -147,12 +150,12 @@ class _HomePageState extends State<Home> {
               )
             : Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [Text('No vehicles')],
+                children: [Text(localizations.noVehicles)],
               );
 
         return Scaffold(
           appBar: AppBar(
-            title: const Text('Home'),
+            title: Text(localizations.home),
             leading: IconButton(
               onPressed: () => Navigator.of(
                 context,
@@ -186,28 +189,28 @@ int? getYear(int vehicleId) {
 }
 
 ImageProvider<Object>? getVehicleImage(int? vehicleKey) {
-  log('vehicleKey: $vehicleKey in getVehicleImage()');
+  // log('vehicleKey: $vehicleKey in getVehicleImage()');
   if (vehicleKey == null) return null;
 
   final dynamic raw = vehicleBox.get(vehicleKey);
 
-  log('Get vehicle raw: $raw in getVehicleImage()');
+  // log('Get vehicle raw: $raw in getVehicleImage()');
 
   if (raw == null) return null;
 
   final map = Map<String, dynamic>.from(raw);
   String? storedImagePath = map['assetImage'] as String?;
 
-  log('storedImagePath: $storedImagePath');
+  // log('storedImagePath: $storedImagePath');
 
   if (storedImagePath == null) return null;
 
   final File possibleFile = File(storedImagePath);
   if (possibleFile.existsSync()) {
-    log('possibleFile: $possibleFile  in getVehicleImage()');
+    // log('possibleFile: $possibleFile  in getVehicleImage()');
     return FileImage(possibleFile);
   }
 
-  log('returning null code ended  in getVehicleImage()');
+  // log('returning null code ended  in getVehicleImage()');
   return null;
 }

@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:mycargenie_2/l10n/app_localizations.dart';
 import 'package:mycargenie_2/theme/icons.dart';
 import 'package:mycargenie_2/utils/focusable_dropdown.dart';
 import 'package:mycargenie_2/utils/image_picker.dart';
@@ -27,7 +28,6 @@ class AddVehicle extends StatefulWidget {
 class _AddVehicleState extends State<AddVehicle> {
   final TextEditingController _modelCtrl = TextEditingController();
   final TextEditingController _configCtrl = TextEditingController();
-  // final TextEditingController _yearCtrl = TextEditingController();
   final TextEditingController _capacityCtrl = TextEditingController();
   final TextEditingController _powerCtrl = TextEditingController();
   final TextEditingController _horseCtrl = TextEditingController();
@@ -45,7 +45,7 @@ class _AddVehicleState extends State<AddVehicle> {
   String? _category;
   String? _energy;
   String? _ecology;
-  bool _favourite = false;
+  bool _favorite = false;
   String? _assetImage;
 
   @override
@@ -60,7 +60,6 @@ class _AddVehicleState extends State<AddVehicle> {
 
       _modelCtrl.text = eventToEdit['model'] ?? '';
       _configCtrl.text = eventToEdit['config'] ?? '';
-      // _yearCtrl.text = eventToEdit['year']?.toString() ?? '';
       _capacityCtrl.text = eventToEdit['capacity']?.toString() ?? '';
       _powerCtrl.text = eventToEdit['power']?.toString() ?? '';
       _horseCtrl.text = eventToEdit['horse']?.toString() ?? '';
@@ -70,7 +69,7 @@ class _AddVehicleState extends State<AddVehicle> {
       _category = eventToEdit['category'] as String?;
       _energy = eventToEdit['energy'] as String?;
       _ecology = eventToEdit['ecology'] as String?;
-      _favourite = eventToEdit['favourite'] ?? false;
+      _favorite = eventToEdit['favorite'] ?? false;
     }
   }
 
@@ -78,7 +77,6 @@ class _AddVehicleState extends State<AddVehicle> {
   void dispose() {
     _modelCtrl.dispose();
     _configCtrl.dispose();
-    // _yearCtrl.dispose();
     _capacityCtrl.dispose();
     _powerCtrl.dispose();
     _horseCtrl.dispose();
@@ -86,21 +84,23 @@ class _AddVehicleState extends State<AddVehicle> {
   }
 
   Future<void> _onSavePressed() async {
+    final localizations = AppLocalizations.of(context)!;
+
     if (_previewImagePath != null) {
       if (_savedImagePath != null) {
         try {
           File(_savedImagePath!).delete;
-          debugPrint('Old image deleted: $_savedImagePath');
+          log('Old image deleted: $_savedImagePath');
         } catch (error) {
-          debugPrint("Can't delete $_savedImagePath: $error");
+          log("Can't delete $_savedImagePath: $error");
         }
       }
       _assetImage = await saveImageToMmry(_previewImagePath!);
     }
 
-    if (!_favourite) {
-      if (getFavouriteKey() == null) {
-        _favourite = true;
+    if (!_favorite) {
+      if (getFavoriteKey() == null) {
+        _favorite = true;
       }
     }
 
@@ -109,29 +109,28 @@ class _AddVehicleState extends State<AddVehicle> {
       'model': _modelCtrl.text.trim(),
       'config': _configCtrl.text.trim(),
       'year': _year ?? DateTime.now().year.toInt(),
-      // 'year': int.tryParse(_yearCtrl.text),
       'capacity': int.tryParse(_capacityCtrl.text),
       'power': int.tryParse(_powerCtrl.text),
       'horse': int.tryParse(_horseCtrl.text),
       'category': _category,
       'energy': _energy,
       'ecology': _ecology,
-      'favourite': _favourite,
+      'favorite': _favorite,
       'assetImage': _assetImage,
     };
 
     if (!mounted) return;
 
     if (vehicleMap['brand'].isEmpty || vehicleMap['model'].isEmpty) {
-      showCustomToast(context, message: 'Brand and model are required fields');
+      showCustomToast(context, message: localizations.brandModelRequiredField);
       return;
     }
 
-    if (_favourite) {
-      final oldFav = getFavouriteKey();
+    if (_favorite) {
+      final oldFav = getFavoriteKey();
       if (oldFav != null) {
         final old = vehicleBox.get(oldFav) as Map;
-        old['favourite'] = false;
+        old['favorite'] = false;
         vehicleBox.put(oldFav, old);
       }
     }
@@ -140,10 +139,10 @@ class _AddVehicleState extends State<AddVehicle> {
 
     if (!mounted) return;
 
-    Provider.of<VehicleProvider>(context, listen: false).favouriteKey =
-        getFavouriteKey();
+    Provider.of<VehicleProvider>(context, listen: false).favoriteKey =
+        getFavoriteKey();
 
-    log('fav key updated: ${getFavouriteKey()}');
+    log('fav key updated: ${getFavoriteKey()}');
 
     Provider.of<VehicleProvider>(context, listen: false).vehicleToLoad = newKey;
 
@@ -169,6 +168,11 @@ class _AddVehicleState extends State<AddVehicle> {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
+
+    final vehicleCategoryList = getVehicleCategoryList(context);
+    final vehicleEnergyList = getVehicleEnergyList(context);
+
     final isEdit = widget.editKey != null;
 
     final content = Column(
@@ -187,7 +191,7 @@ class _AddVehicleState extends State<AddVehicle> {
             children: [
               Expanded(
                 child: DropdownMenu<String>(
-                  hintText: 'Brand',
+                  hintText: localizations.brandUpper,
                   initialSelection: _brand,
                   dropdownMenuEntries: vehicleBrandList
                       .map(
@@ -210,7 +214,7 @@ class _AddVehicleState extends State<AddVehicle> {
               const SizedBox(width: 8),
               customTextField(
                 context,
-                hintText: 'Model',
+                hintText: localizations.modelUpper,
                 controller: _modelCtrl,
                 action: TextInputAction.next,
               ),
@@ -225,7 +229,7 @@ class _AddVehicleState extends State<AddVehicle> {
             children: [
               customTextField(
                 context,
-                hintText: 'Configuration',
+                hintText: localizations.configurationUpper,
                 maxLength: 30,
                 controller: _configCtrl,
                 action: TextInputAction.next,
@@ -248,7 +252,7 @@ class _AddVehicleState extends State<AddVehicle> {
               const SizedBox(width: 8),
               customTextField(
                 context,
-                hintText: 'Cilindrata cc',
+                hintText: localizations.capacityCcUpper,
                 type: TextInputType.number,
                 maxLength: 4,
                 formatter: [FilteringTextInputFormatter.digitsOnly],
@@ -266,7 +270,7 @@ class _AddVehicleState extends State<AddVehicle> {
             children: [
               customTextField(
                 context,
-                hintText: 'Power kw',
+                hintText: localizations.powerKwUpper,
                 type: TextInputType.number,
                 maxLength: 4,
                 formatter: [FilteringTextInputFormatter.digitsOnly],
@@ -276,7 +280,7 @@ class _AddVehicleState extends State<AddVehicle> {
               const SizedBox(width: 8),
               customTextField(
                 context,
-                hintText: 'HorsePower cv',
+                hintText: localizations.horsePowerCvUpper,
                 type: TextInputType.number,
                 maxLength: 4,
                 formatter: [FilteringTextInputFormatter.digitsOnly],
@@ -296,7 +300,7 @@ class _AddVehicleState extends State<AddVehicle> {
               Expanded(
                 child: FocusableDropdown(
                   menuController: categoryMenuController,
-                  name: 'Category',
+                  name: localizations.categoryUpper,
                   items: vehicleCategoryList,
                   selectedItem: _category,
                   onSelected: (value) {
@@ -311,7 +315,7 @@ class _AddVehicleState extends State<AddVehicle> {
               Expanded(
                 child: FocusableDropdown(
                   menuController: energyMenuController,
-                  name: 'Energy',
+                  name: localizations.energyUpper,
                   items: vehicleEnergyList,
                   selectedItem: _energy,
                   onSelected: (value) {
@@ -333,7 +337,7 @@ class _AddVehicleState extends State<AddVehicle> {
               Expanded(
                 child: FocusableDropdown(
                   menuController: ecologyMenuController,
-                  name: 'Ecology',
+                  name: localizations.ecologyUpper,
                   items: vehicleEcoList,
                   selectedItem: _ecology,
                   onSelected: (value) {
@@ -348,10 +352,10 @@ class _AddVehicleState extends State<AddVehicle> {
               if (!isEdit)
                 Expanded(
                   child: CustomSwitch(
-                    isSelected: _favourite,
+                    isSelected: _favorite,
                     onChanged: (value) {
                       setState(() {
-                        _favourite = value;
+                        _favorite = value;
                       });
                     },
                   ),
@@ -369,22 +373,31 @@ class _AddVehicleState extends State<AddVehicle> {
                 child: buildAddButton(
                   context,
                   onPressed: _onSavePressed,
-                  text: isEdit ? 'Update' : 'Save',
+                  text: isEdit
+                      ? localizations.updateUpper
+                      : localizations.saveUpper,
                 ),
               ),
             ],
           ),
         ),
         TextButton(
-          onPressed: () => showCustomToast(context, message: 'Brand opened'),
-          child: Text('Brand non presente?'),
+          onPressed: () => showCustomToast(
+            context,
+            message: 'Brand opened',
+          ), // TODO: Remove, for debugging
+          child: Text(localizations.cantFindYourVehicleBrand),
         ),
       ],
     );
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(isEdit ? 'Edit vehicle' : 'Add a new vehicle'),
+        title: Text(
+          isEdit
+              ? localizations.editValue(localizations.vehicleUpper)
+              : localizations.addValue(localizations.vehicleUpper),
+        ),
         leading: customBackButton(context),
       ),
       body: GestureDetector(
@@ -397,36 +410,3 @@ class _AddVehicleState extends State<AddVehicle> {
     );
   }
 }
-
-// DateTime selectedYear = DateTime.now();
-
-// YearPicker yearPicker = YearPicker(
-//   firstDate: DateTime(1995),
-//   lastDate: DateTime(2050),
-//   selectedDate: DateTime.now(),
-//   onChanged: (value) => selectedYear = value,
-// );
-
-// Future<dynamic> showYearPicker(BuildContext context,) {
-//   return showDialog(
-//     context: context,
-//     builder: (BuildContext context) {
-//       return AlertDialog(
-//         title: Text("Select Year"),
-//         content: SizedBox(
-//           width: 300,
-//           height: 300,
-//           child: YearPicker(
-//             firstDate: DateTime(DateTime.now().year - 100, 1),
-//             lastDate: DateTime(DateTime.now().year + 100, 1),
-//             selectedDate: selectedYear,
-//             onChanged: (DateTime dateTime) {
-//               selectedYear = dateTime;
-//               Navigator.pop(context);
-//             },
-//           ),
-//         ),
-//       );
-//     },
-//   );
-// }

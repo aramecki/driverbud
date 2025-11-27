@@ -1,0 +1,367 @@
+{
+  "@@locale": "en",
+
+  "home": "Home",
+  "@home": {
+  "description": "Main Home text shown when the app starts"
+  },
+
+  "favorite": "Favorite",
+  "@favorite": {
+    "description": "Favorite text"
+  },
+
+  "brandUpper": "Brand",
+  "@brandUpper": {
+    "description": "Brand text"
+  },
+
+  "modelUpper": "Model",
+  "@modelUpper": {
+    "description": "Model text"
+  },
+
+  "configurationUpper": "Configuration",
+  "@configurationUpper": {
+    "description": "Configuration text"
+  },
+
+  "capacityCcUpper": "Capacity cc",
+  "@capacityCcUpper": {
+    "description": "Capacity cc text"
+  },
+
+  "powerKwUpper": "Power kw",
+  "@powerKwUpper": {
+    "description": "Power kw text"
+  },
+
+  "horsePowerCvUpper": "HorsePower cv",
+  "@horsePowerCvUpper": {
+    "description": "HorsePower cv text"
+  },
+
+  "maintenanceUpper": "Maintenance",
+  "@maintenanceUpper": {
+    "description": "Main Maintenance uppercase text shown in navigation bar and in maintenance section"
+  },
+
+  "maintenanceLower": "maintenance",
+  "@maintenanceLower": {
+    "description": "maintenance lower text"
+  },
+
+  "vehicleUpper": "Vehicle",
+  "@vehicleUpper": {
+    "description": "Vehicle uppercase text"
+  },
+
+  "vehicleLower": "vehicle",
+  "@vehicleLower": {
+    "description": "vehicle lowercase text"
+  },
+
+  "refuelingUpper": "Refueling",
+  "@refuelingUpper": {
+    "description": "Main Refueling Uppercase text shown in navigation bar and in refueling section"
+  },
+
+ "refuelingLower": "refueling",
+  "@refuelingLower": {
+    "description": "refueling lowercase text"
+  },
+
+  "invoices": "Invoices",
+  "@invoices": {
+    "description": "Main Invoices text shown in navigation bar and in invoices section"
+  },
+
+  "settings": "Settings",
+  "@settings": {
+    "description": "Settings text"
+  },
+
+  "myGarage": "My garage",
+  "@myGarage": {
+    "description": "My garage text"
+  },
+
+  "titleRequiredField": "Title is a required field.",
+  "@titleRequiredField": {
+    "description": "Title is a required field. text shown when saving an event without the title required field"
+  },
+
+  "brandModelRequiredField": "Brand and model are required fields.",
+  "@brandModelRequiredField": {
+    "description": "Brand and model are required fields. text shown when saving a vehicle without the brand or model required fields"
+  },
+
+  "youWillFindEvents": "On this page you will find all the created {eventType} events.",
+  "@youWillFindEvents": {
+    "placeholders": {
+      "eventType": {"type": "String"}
+    },
+    "description": "On this page you will find all the added maintenance/refueling events. text shown when user has not maintenance event saved for the selected vehicle"
+  },
+
+  "youWillFindVehicles": "On this page you will find all the saved vehicles.",
+  "@youWillFindVehicles": {
+    "description": "On this page you will find all the saved vehicles. text shown when user has not vehicles saved"
+  },
+
+  "titleUpper": "Title",
+  "@titleUpper": {
+  "description": "Title text"
+  },
+
+  "asteriskTitle": "Title*",
+  "@asteriskTitle": {
+  "description": "Title* text shown in title field"
+  },
+
+  "typeUpper": "Type",
+  "@typeUpper": {
+  "description": "Type text shown in type field"
+  },
+
+  "placeUpper": "Place",
+  "@placeUpper": {
+  "description": "Place text shown in place field"
+  },
+
+  "kilometersUpper": "Kilometers",
+  "@kilometersUpper": {
+    "description": "Kilometers text shown in kilometers field"
+  },
+
+  "descriptionUpper": "Description",
+  "@descriptionUpper": {
+    "description": "Description text shown in description field"
+  },
+
+  "priceUpper": "Price",
+  "@priceUpper": {
+    "description": "Price text shown in price field"
+  },
+
+  "yearUpper": "Year",
+  "@yearUpper": {
+    "description": "Year text"
+  },
+
+  "selectYear": "Select Year",
+  "@selectYear": {
+    "description": "Select Year text"
+  },
+
+  "categoryUpper": "Category",
+  "@categoryUpper": {
+    "description": "Category text"
+  },
+
+  "energyUpper": "Energy",
+  "@energyUpper": {
+    "description": "Energy text"
+  },
+
+  "ecologyUpper": "Ecology",
+  "@ecologyUpper": {
+    "description": "Ecology text"
+  },
+
+  "updateUpper": "Update",
+  "@updateUpper": {
+    "description": "Update text shown as save button when editing an event"
+  },
+
+  "saveUpper": "Save",
+  "@saveUpper": {
+    "description": "Save text shown as save button when creating an event"
+  },
+
+  "editUpper": "Edit",
+  "@editUpper": {
+    "description": "Edit text"
+  },
+
+  "cantFindYourVehicleBrand": "Can't find your vehicle brand?",
+  "@cantFindYourVehicleBrand": {
+    "description": "Can't find your vehicle brand? text"
+  },
+
+  "asteriskRequiredFields": "Fields marked with * are required.",
+  "@asteriskRequiredFields": {
+    "description": "Fields marked with * are required. text shown under event creation or editing screen"
+  },
+
+  "addValue": "Add {value}",
+  "@addValue": {
+    "placeholders": {
+      "value": {"type": "String"}
+    },
+    "description": "Add Maintenance/Refueling/Vehicle text shown as title when creating"
+  },
+
+  "editValue": "Edit {value}",
+  "@editValue": {
+    "placeholders": {
+      "value": {"type": "String"}
+    },
+    "description": "Edit Maintenance/Refueling/Vehicle text shown as title when editing"
+  },
+
+  "searchInEvents": "Search in {eventType} events",
+  "@searchInEvents": {
+    "placeholders": {
+      "eventType": {"type": "String"}
+    },
+  "description": "Search Maintenance/refueling events text"
+  },
+
+   "date": "Date",
+  "@date": {
+    "description": "Date text"
+  }, 
+
+  "ggMmAaaa": "{day}/{month}/{year}",
+  "@ggMmAaaa": {
+    "placeholders": {
+      "day": {"type": "int"},
+      "month": {"type": "int"},
+      "year": {"type": "int"}
+    },
+    "description": "dd/mm/aaaa date form DateTime"
+  },
+
+  "numKm": "{num}km",
+  "@numKm": {
+    "placeholders": {
+      "num": {"type": "int"}
+    },
+    "description": "num km Ex. 10km"
+  },
+
+  "numCc": "{num}cc",
+  "@numCc": {
+    "placeholders": {
+      "num": {"type": "int"}
+    },
+    "description": "num cc Ex. 10cc"
+  },
+
+  "numKw": "{num}kW",
+  "@numKw": {
+    "placeholders": {
+      "num": {"type": "int"}
+    },
+    "description": "num kW Ex. 10kW"
+  },
+
+  "numCv": "{num}CV",
+  "@numCv": {
+    "placeholders": {
+      "num": {"type": "int"}
+    },
+    "description": "num CV Ex. 10CV"
+  },
+
+  "numCurrency": "{num}{currency}",
+  "@numCurrency": {
+    "placeholders": {
+      "num": {"type": "String"},
+      "currency": {"type": "String"}
+    },
+  "description": "num currency Ex. 5€"
+  },
+
+  "latestEvents": "Latest events:",
+  "@latestEvents": {
+    "description": "Latest Events: text shown in home screen"
+  },
+
+  "noVehicles": "No vehicles",
+  "@noVehicles": {
+    "description": "No vehicles text shown in screens when there are no registered vehicles"
+  },
+
+  "other": "Other",
+  "@other": {
+    "description": "Other text"
+  },
+
+  "sedan": "Sedan",
+  "@sedan": {
+    "description": "Sedan vehicle text"
+  },
+
+  "coupe": "Coupé",
+  "@coupe": {
+    "description": "Coupé vehicle text"
+  },
+
+  "sportsCar": "Sports Car",
+  "@sportsCar": {
+    "description": "Sports Car vehicle text"
+  },
+
+  "suv": "SUV",
+  "@suv": {
+    "description": "SUV Car vehicle text"
+  },
+
+  "stationWagon": "Station Wagon",
+  "@stationWagon": {
+    "description": "Station Wagon vehicle text"
+  },
+
+  "minivan": "Minivan",
+  "@minivan": {
+    "description": "Minivan Car vehicle text"
+  },
+
+  "supercar": "Supercar",
+  "@supercar": {
+    "description": "Supercar Car vehicle text"
+  },
+
+  "petrol": "Petrol",
+  "@petrol": {
+    "description": "Petrol text"
+  },
+
+  "diesel": "Diesel",
+  "@diesel": {
+    "description": "Diesel text"
+  },
+
+  "lpg": "LPG",
+  "@lpg": {
+    "description": "LPG text"
+  },
+
+  "cng": "CNG",
+  "@cng": {
+    "description": "CNG text"
+  },
+
+  "electric": "Electric",
+  "@electric": {
+    "description": "Electric text"
+  },
+
+  "mechanic": "Mechanic",
+  "@mechanic": {
+    "description": "Mechanic text"
+  },
+
+  "electrician": "Electrician",
+  "@electrician": {
+    "description": "Electrician text"
+  },
+
+  "bodyShop": "Body Shop",
+  "@bodyShop": {
+    "description": "Body Shop text"
+  }
+
+}

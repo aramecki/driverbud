@@ -1,9 +1,11 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:mycargenie_2/boxes.dart';
+import 'package:mycargenie_2/l10n/app_localizations.dart';
+import 'package:mycargenie_2/maintenance/add_maintenance.dart';
+import 'package:mycargenie_2/refueling/add_refueling.dart';
 import 'package:mycargenie_2/theme/icons.dart';
 import 'package:mycargenie_2/utils/sorting_funs.dart';
 
@@ -50,51 +52,51 @@ Widget buildAddButton(
 //   return int.tryParse(digitsOnly);
 // }
 
-class CustomCheckbox extends StatefulWidget {
-  final ValueChanged<bool> onChanged;
+// class CustomCheckbox extends StatefulWidget {
+//   final ValueChanged<bool> onChanged;
 
-  const CustomCheckbox({super.key, required this.onChanged});
+//   const CustomCheckbox({super.key, required this.onChanged});
 
-  @override
-  State<CustomCheckbox> createState() => _CustomCheckboxState();
-}
+//   @override
+//   State<CustomCheckbox> createState() => _CustomCheckboxState();
+// }
 
-class _CustomCheckboxState extends State<CustomCheckbox> {
-  late bool _isSelected = false;
+// class _CustomCheckboxState extends State<CustomCheckbox> {
+//   late bool _isSelected = false;
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   _isSelected = widget.initialValue;
-  // }
+//   // @override
+//   // void initState() {
+//   //   super.initState();
+//   //   _isSelected = widget.initialValue;
+//   // }
 
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      mainAxisSize: MainAxisSize.max,
-      children: [
-        Expanded(
-          child: Checkbox(
-            shape: CircleBorder(),
-            value: _isSelected,
-            onChanged: (bool? newValue) {
-              if (newValue == null) return;
-              setState(() {
-                _isSelected = newValue;
-              });
-              widget.onChanged(_isSelected);
-            },
-          ),
-        ),
-        Text(
-          'Favourite',
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
-        ),
-      ],
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return Row(
+//       mainAxisAlignment: MainAxisAlignment.center,
+//       mainAxisSize: MainAxisSize.max,
+//       children: [
+//         Expanded(
+//           child: Checkbox(
+//             shape: CircleBorder(),
+//             value: _isSelected,
+//             onChanged: (bool? newValue) {
+//               if (newValue == null) return;
+//               setState(() {
+//                 _isSelected = newValue;
+//               });
+//               widget.onChanged(_isSelected);
+//             },
+//           ),
+//         ),
+//         Text(
+//           'Favorite',
+//           style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+//         ),
+//       ],
+//     );
+//   }
+// }
 
 // Custom switch
 class CustomSwitch extends StatelessWidget {
@@ -109,6 +111,7 @@ class CustomSwitch extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       mainAxisSize: MainAxisSize.max,
@@ -117,7 +120,7 @@ class CustomSwitch extends StatelessWidget {
         const SizedBox(width: 4),
 
         Text(
-          'Favourite',
+          localizations.favorite,
           style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
         ),
       ],
@@ -224,6 +227,8 @@ Widget customSortingPanel(
   void Function(String sortType) onSort,
   bool isDecrementing,
 ) {
+  final localizations = AppLocalizations.of(context)!;
+
   return Row(
     mainAxisAlignment: MainAxisAlignment.end,
     spacing: 12,
@@ -237,19 +242,19 @@ Widget customSortingPanel(
         onPressed: () {
           onSort('name');
         },
-        child: Text(textAlign: TextAlign.center, "Titolo"),
+        child: Text(textAlign: TextAlign.center, localizations.titleUpper),
       ),
       OutlinedButton(
         onPressed: () {
           onSort('price');
         },
-        child: Text(textAlign: TextAlign.center, "Prezzo"),
+        child: Text(textAlign: TextAlign.center, localizations.priceUpper),
       ),
       OutlinedButton(
         onPressed: () {
           onSort('date');
         },
-        child: Text(textAlign: TextAlign.center, "Data"),
+        child: Text(textAlign: TextAlign.center, localizations.date),
       ),
     ],
   );
@@ -260,6 +265,7 @@ Widget customSearchingPanel(
   BuildContext context,
   void Function(String, List<Map<String, dynamic>>) onChange,
 ) {
+  final localizations = AppLocalizations.of(context)!;
   return Row(
     mainAxisAlignment: MainAxisAlignment.end,
     spacing: 12,
@@ -273,7 +279,9 @@ Widget customSearchingPanel(
             //   child: searchIcon,
             // ),
             // prefixStyle: TextStyle(),
-            hintText: 'Cerca tra le manutenzioni',
+            hintText: localizations.searchInEvents(
+              localizations.maintenanceLower,
+            ),
             floatingLabelBehavior: FloatingLabelBehavior.never,
             counterText: '',
           ),
@@ -297,5 +305,30 @@ Widget customSearchingPanel(
         ),
       ),
     ],
+  );
+}
+
+// Add maintenance/refueling button shown at the bottom of the main events list page
+Widget addEventButton(BuildContext context, bool isMaintenance) {
+  final localizations = AppLocalizations.of(context)!;
+  final eventTypeString = isMaintenance
+      ? localizations.maintenanceLower
+      : localizations.refuelingLower;
+
+  return Padding(
+    padding: const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 8.0),
+    child: buildAddButton(
+      context,
+      onPressed: () {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (_) =>
+                isMaintenance ? const AddMaintenance() : AddRefueling(),
+          ),
+        );
+      },
+      text: localizations.addValue(eventTypeString),
+      // text: 'Aggiungi prima manutenzione',
+    ),
   );
 }

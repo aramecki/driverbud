@@ -1,22 +1,51 @@
-const List<String> vehicleCategoryList = <String>[
-  'Berlina',
-  'Coupé',
-  'Sportiva',
-  'SUV',
-  'Station Wagon',
-  'Monovolume',
-  'Supercar',
-  'Altro',
-];
+import 'package:flutter/widgets.dart';
+import 'package:mycargenie_2/l10n/app_localizations.dart';
 
-const List<String> vehicleEnergyList = <String>[
-  'Benzina',
-  'Gasolio',
-  'GPL',
-  'Metano',
-  'Elettrico',
-  'Altro',
-];
+List<String> getVehicleCategoryList(BuildContext context) {
+  final localizations = AppLocalizations.of(context)!;
+  return [
+    localizations.sedan,
+    localizations.coupe,
+    localizations.sportsCar,
+    localizations.suv,
+    localizations.stationWagon,
+    localizations.minivan,
+    localizations.supercar,
+    localizations.other,
+  ];
+}
+
+// const List<String> vehicleCategoryList = <String>[
+//   'Berlina',
+//   'Coupé',
+//   'Sportiva',
+//   'SUV',
+//   'Station Wagon',
+//   'Monovolume',
+//   'Supercar',
+//   'Altro',
+// ];
+
+List<String> getVehicleEnergyList(BuildContext context) {
+  final localizations = AppLocalizations.of(context)!;
+  return [
+    localizations.petrol,
+    localizations.diesel,
+    localizations.lpg,
+    localizations.cng,
+    localizations.electric,
+    localizations.other,
+  ];
+}
+
+// const List<String> vehicleEnergyList = <String>[
+//   'Benzina',
+//   'Gasolio',
+//   'GPL',
+//   'Metano',
+//   'Elettrico',
+//   'Altro',
+// ];
 
 const List<String> vehicleEcoList = <String>[
   'Euro 1',
@@ -28,16 +57,27 @@ const List<String> vehicleEcoList = <String>[
   'Altro',
 ];
 
-const List<String> maintenanceTypeList = <String>[
-  'Meccanico',
-  'Elettrauto',
-  'Carroziere',
-  'Altro',
-];
+List<String> getMaintenanceTypeList(BuildContext context) {
+  final localizations = AppLocalizations.of(context)!;
+  return [
+    localizations.mechanic,
+    localizations.electrician,
+    localizations.bodyShop,
+    localizations.other,
+  ];
+}
+
+// const List<String> maintenanceTypeList = <String>[
+//   'Meccanico',
+//   'Elettrauto',
+//   'Carroziere',
+//   'Altro',
+// ];
 
 // TODO: Valuate if changing the ui to make the user select the vehicle category first
 // TODO: Valuate if divide the list in cars and motorbikes brand
 // TODO: Valuate if inserting truck brands too
+
 const List<String> vehicleBrandList = <String>[
   'Abarth',
   'Alfa Romeo',
