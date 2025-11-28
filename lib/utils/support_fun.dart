@@ -40,7 +40,6 @@ void openShowVehicle(BuildContext context, dynamic key) {
 }
 
 // Function to completely delete a vehicle entry from vehicleBox and its image
-// TODO: Add deletion for all events of deleted vehicle
 void deleteVehicle(
   VehicleProvider vehicleProvider,
   BuildContext context,
@@ -65,6 +64,8 @@ void deleteVehicle(
 
   await vehicleBox.delete(key);
 
+  await deleteAllEventsForVehicle(key);
+
   if (favoriteKey == key) {
     if (vehicleBox.isNotEmpty) {
       final firstKey = vehicleBox.keyAt(0);
@@ -84,6 +85,37 @@ void deleteVehicle(
       vehicleProvider.vehicleToLoad = null;
     }
     log("You didn't delete favorite");
+  }
+}
+
+Future<void> deleteAllEventsForVehicle(int vehicleKey) async {
+  final maintenanceToDelete = <dynamic>[];
+  final refuelingToDelete = <dynamic>[];
+
+  maintenanceBox.toMap().forEach((eventKey, eventValue) {
+    if (eventValue['vehicleKey'] == vehicleKey) {
+      maintenanceToDelete.add(eventKey);
+      log(
+        'Deleting the maintenance event $eventValue at $eventKey for vehicle $vehicleKey',
+      );
+    }
+  });
+
+  for (var e in maintenanceToDelete) {
+    maintenanceBox.delete(e);
+  }
+
+  refuelingBox.toMap().forEach((eventKey, eventValue) {
+    if (eventValue['vehicleKey'] == vehicleKey) {
+      maintenanceToDelete.add(eventKey);
+      log(
+        'Deleting the refueling event $eventValue at $eventKey for vehicle $vehicleKey',
+      );
+    }
+  });
+
+  for (var e in refuelingToDelete) {
+    refuelingBox.delete(e);
   }
 }
 

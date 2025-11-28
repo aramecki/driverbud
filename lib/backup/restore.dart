@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:hive/hive.dart';
+import 'package:mycargenie_2/home.dart';
 
 bool _isIsoString(String value) {
   try {
@@ -37,8 +38,7 @@ Map<dynamic, dynamic> _checkJsonForMap(Map<dynamic, dynamic> jsonMap) {
   return checkedMap;
 }
 
-Future<bool> restoreBoxFromPath() async {
-  // TODO: Add vehicleprovider update after restore to load fist vehicle in the box
+Future<bool> restoreBoxFromPath(VehicleProvider vehicleProvider) async {
   try {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
@@ -73,6 +73,9 @@ Future<bool> restoreBoxFromPath() async {
     }
 
     log('Restore completed from $filePath');
+    // final firstKey = vehicleBox.keyAt(0);
+    // vehicleProvider.vehicleToLoad = firstKey;
+    vehicleProvider.loadInitialData();
     return true;
   } catch (e) {
     log('Error while restoring $e');

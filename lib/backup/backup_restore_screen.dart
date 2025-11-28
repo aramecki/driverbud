@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:mycargenie_2/backup/backup.dart';
 import 'package:mycargenie_2/backup/restore.dart';
-import 'package:mycargenie_2/l10n/app_localizations.dart';
+import 'package:mycargenie_2/home.dart';
 import 'package:mycargenie_2/utils/puzzle.dart';
+import 'package:provider/provider.dart';
 
 class BackupRestoreScreen extends StatefulWidget {
   const BackupRestoreScreen({super.key});
@@ -21,6 +22,8 @@ class _BackupRestoreScreenState extends State<BackupRestoreScreen> {
   @override
   Widget build(BuildContext context) {
     // final localizations = AppLocalizations.of(context)!;
+
+    final vehicleProvider = Provider.of<VehicleProvider>(context);
 
     final content = Column(
       // mainAxisAlignment: MainAxisAlignment.center,
@@ -72,7 +75,7 @@ class _BackupRestoreScreenState extends State<BackupRestoreScreen> {
                   style: ButtonStyle(
                     textStyle: WidgetStatePropertyAll(TextStyle(fontSize: 20)),
                   ),
-                  onPressed: _performRestore,
+                  onPressed: () => _performRestore(vehicleProvider),
                   child: Text('Restore Backup'),
                 ),
               ),
@@ -129,13 +132,13 @@ class _BackupRestoreScreenState extends State<BackupRestoreScreen> {
     });
   }
 
-  Future<void> _performRestore() async {
+  Future<void> _performRestore(VehicleProvider vehicleProvider) async {
     setState(() {
       _statusRestore = 'Restoring file...';
       _isRestoring = true;
     });
 
-    final bool success = await restoreBoxFromPath();
+    final bool success = await restoreBoxFromPath(vehicleProvider);
 
     setState(() {
       if (success) {
