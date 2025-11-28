@@ -228,4 +228,36 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get bodyShop => 'Carrozziere';
+
+  @override
+  String get backupUpper => 'Backup';
+
+  @override
+  String get restorationUpper => 'Ripristino';
+
+  @override
+  String get exportBackup => 'Esporta Backup';
+
+  @override
+  String get restoreBackup => 'Ripristina Backup';
+
+  @override
+  String get backupAndRestore => 'Backup e Ripristino';
+
+  @override
+  String get creatingBackupFile => 'Creo file di backup...';
+
+  @override
+  String get restoringFile => 'Ripristino file...';
+
+  @override
+  String get backupCompleted => 'Backup completato.';
+
+  @override
+  String get restoredSuccessfully => 'Ripristinato con successo.';
+
+  @override
+  String processNotCompleted(String process) {
+    return '$process non completato.';
+  }
 }

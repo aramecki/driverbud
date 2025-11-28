@@ -44,7 +44,6 @@ Future<bool> restoreBoxFromPath(VehicleProvider vehicleProvider) async {
       type: FileType.custom,
       allowedExtensions: ['json'],
       allowMultiple: false,
-      dialogTitle: 'Seleziona file di backup',
     );
 
     if (result == null || result.files.single.path == null) {

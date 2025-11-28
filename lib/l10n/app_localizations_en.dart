@@ -226,4 +226,36 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get bodyShop => 'Body Shop';
+
+  @override
+  String get backupUpper => 'Backup';
+
+  @override
+  String get restorationUpper => 'Restoration';
+
+  @override
+  String get exportBackup => 'Export Backup';
+
+  @override
+  String get restoreBackup => 'Restore Backup';
+
+  @override
+  String get backupAndRestore => 'Backup and Restore';
+
+  @override
+  String get creatingBackupFile => 'Creating backup file...';
+
+  @override
+  String get restoringFile => 'Restoring file...';
+
+  @override
+  String get backupCompleted => 'Backup completed.';
+
+  @override
+  String get restoredSuccessfully => 'Restored successfully.';
+
+  @override
+  String processNotCompleted(String process) {
+    return '$process not completed.';
+  }
 }

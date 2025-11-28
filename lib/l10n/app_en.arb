@@ -362,6 +362,61 @@
   "bodyShop": "Body Shop",
   "@bodyShop": {
     "description": "Body Shop text"
+  },
+
+  "backupUpper": "Backup",
+  "@backupUpper": {
+    "description": "Backup text"
+  },
+
+  "restorationUpper": "Restoration",
+  "@restorationUpper": {
+    "description": "Restoration text"
+  },
+
+  "exportBackup": "Export Backup",
+  "@exportBackup": {
+    "description": "Export Backup text"
+  },
+
+  "restoreBackup": "Restore Backup",
+  "@restoreBackup": {
+    "description": "Restore Backup text"
+  },
+
+  "backupAndRestore": "Backup and Restore",
+  "@backupAndRestore": {
+    "description": "Backup and Restore text"
+  },
+
+  "creatingBackupFile": "Creating backup file...",
+  "@creatingBackupFile": {
+    "description": "Creating backup file... text"
+  },
+
+  "restoringFile": "Restoring file...",
+  "@restoringFile": {
+    "description": "Restoring file... text"
+  },
+
+  "backupCompleted": "Backup completed.",
+  "@backupCompleted": {
+    "description": "Backup completed. text"
+  },
+
+  "restoredSuccessfully": "Restored successfully.",
+  "@restoredSuccessfully": {
+    "description": "Restored successfully. text"
+  },
+
+  "processNotCompleted": "{process} not completed.",
+  "@processNotCompleted": {
+    "placeholders": {
+      "process": {
+        "type": "String"
+      }
+    },
+    "description": "Backup/Restoration not completed. text"
   }
 
 }

@@ -493,6 +493,66 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Body Shop'**
   String get bodyShop;
+
+  /// Backup text
+  ///
+  /// In en, this message translates to:
+  /// **'Backup'**
+  String get backupUpper;
+
+  /// Restoration text
+  ///
+  /// In en, this message translates to:
+  /// **'Restoration'**
+  String get restorationUpper;
+
+  /// Export Backup text
+  ///
+  /// In en, this message translates to:
+  /// **'Export Backup'**
+  String get exportBackup;
+
+  /// Restore Backup text
+  ///
+  /// In en, this message translates to:
+  /// **'Restore Backup'**
+  String get restoreBackup;
+
+  /// Backup and Restore text
+  ///
+  /// In en, this message translates to:
+  /// **'Backup and Restore'**
+  String get backupAndRestore;
+
+  /// Creating backup file... text
+  ///
+  /// In en, this message translates to:
+  /// **'Creating backup file...'**
+  String get creatingBackupFile;
+
+  /// Restoring file... text
+  ///
+  /// In en, this message translates to:
+  /// **'Restoring file...'**
+  String get restoringFile;
+
+  /// Backup completed. text
+  ///
+  /// In en, this message translates to:
+  /// **'Backup completed.'**
+  String get backupCompleted;
+
+  /// Restored successfully. text
+  ///
+  /// In en, this message translates to:
+  /// **'Restored successfully.'**
+  String get restoredSuccessfully;
+
+  /// Backup/Restoration not completed. text
+  ///
+  /// In en, this message translates to:
+  /// **'{process} not completed.'**
+  String processNotCompleted(String process);
 }
 
 class _AppLocalizationsDelegate

@@ -22,7 +22,7 @@ class _SettingsState extends State<Settings> {
           onPressed: () => Navigator.of(
             context,
           ).push(MaterialPageRoute(builder: (_) => BackupRestoreScreen())),
-          child: Text('Backup'),
+          child: Text(localizations.backupAndRestore),
         ),
       ],
     );

@@ -362,6 +362,61 @@
   "bodyShop": "Carrozziere",
   "@bodyShop": {
     "description": "Body Shop text"
+  },
+
+  "backupUpper": "Backup",
+  "@backupUpper": {
+    "description": "Backup text"
+  },
+
+  "restorationUpper": "Ripristino",
+  "@restorationUpper": {
+    "description": "Ripristino text"
+  },
+
+  "exportBackup": "Esporta Backup",
+  "@exportBackup": {
+    "description": "Export Backup text"
+  },
+
+  "restoreBackup": "Ripristina Backup",
+  "@restoreBackup": {
+    "description": "Restore Backup text"
+  },
+
+  "backupAndRestore": "Backup e Ripristino",
+  "@backupAndRestore": {
+    "description": "Backup and Restore text"
+  },
+
+  "creatingBackupFile": "Creo file di backup...",
+  "@creatingBackupFile": {
+    "description": "Creating backup file... text"
+  },
+
+  "restoringFile": "Ripristino file...",
+  "@restoringFile": {
+    "description": "Restoring file... text"
+  },
+
+  "backupCompleted": "Backup completato.",
+  "@backupCompleted": {
+    "description": "Backup completato. text"
+  },
+
+  "restoredSuccessfully": "Ripristinato con successo.",
+  "@restoredSuccessfully": {
+    "description": "Restored successfully. text"
+  },
+
+  "processNotCompleted": "{process} non completato.",
+  "@processNotCompleted": {
+    "placeholders": {
+      "process": {
+        "type": "String"
+      }
+    },
+    "description": "Backup/Restoration not completed. text"
   }
 
 }

@@ -49,7 +49,6 @@ Future<String?> backupBoxesToPath(List<String> boxNames) async {
         'mcg_backup_${today.year}_${today.month}_${today.day}.json';
 
     final String? selectedPath = await FilePicker.platform.saveFile(
-      dialogTitle: 'Seleziona cartella di salvataggio',
       fileName: filename,
       type: FileType.custom,
       allowedExtensions: ['json'],
