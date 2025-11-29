@@ -4,6 +4,7 @@ import 'package:mycargenie_2/boxes.dart';
 import 'package:mycargenie_2/l10n/app_localizations.dart';
 import 'package:mycargenie_2/maintenance/maintenance_misc.dart';
 import 'package:mycargenie_2/theme/icons.dart';
+import 'package:share_plus/share_plus.dart';
 import '../utils/puzzle.dart';
 
 class ShowMaintenance extends StatefulWidget {
@@ -155,7 +156,7 @@ class _ShowMaintenanceState extends State<ShowMaintenance> {
         child: shareIcon,
         // TODO: Code real sharing
         onPressed: () =>
-            showCustomToast(context, message: 'Share opened'), // Remove
+            _shareMaintenance(context, localizations, widget.editKey),
       ),
       body: GestureDetector(
         behavior: HitTestBehavior.opaque,
@@ -166,4 +167,37 @@ class _ShowMaintenanceState extends State<ShowMaintenance> {
       ),
     );
   }
+}
+
+void _shareMaintenance(
+  BuildContext context,
+  AppLocalizations localizations,
+  maintenanceKey,
+) async {
+  final v = maintenanceBox.get(maintenanceKey);
+  final vehicle = vehicleBox.get(v['vehicleKey']);
+  final vehicleBrand = vehicle['brand'];
+  final vehicleModel = vehicle['model'];
+
+  String text =
+      '${localizations.onDate}${localizations.ggMmAaaa(v['date'].day, v['date'].month, v['date'].year)} ${localizations.iPerformed}"${v['title']}" ${localizations.onMy}$vehicleBrand $vehicleModel ';
+
+  if (v['kilometers'] != null) {
+    text += '${localizations.withKm}${localizations.numKm(v['kilometers'])} ';
+  }
+
+  if (v['place'] != null) {
+    text += '${localizations.at}${v['place']} ';
+  }
+
+  if (v['price'] != null) {
+    text +=
+        '${localizations.paying}${localizations.numCurrency(v['price'], '€')} ';
+  }
+
+  if (v['description'] != null) {
+    text += '"${v['description']}" ';
+  }
+
+  await SharePlus.instance.share(ShareParams(text: text));
 }

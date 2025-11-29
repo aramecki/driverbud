@@ -215,8 +215,14 @@ abstract class AppLocalizations {
   /// On this page you will find all the added maintenance/refueling events. text shown when user has not maintenance event saved for the selected vehicle
   ///
   /// In en, this message translates to:
-  /// **'On this page you will find all the created {eventType} events.'**
+  /// **'On this page you will find all the {eventType} events.'**
   String youWillFindEvents(String eventType);
+
+  /// Create your first vehicle to add one. text shown when saving a vehicle without the brand or model required fields
+  ///
+  /// In en, this message translates to:
+  /// **'Create your first vehicle to add one.'**
+  String get createYourFirstVehicle;
 
   /// On this page you will find all the saved vehicles. text shown when user has not vehicles saved
   ///
@@ -583,6 +589,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'with standard {ecology}.'**
   String withStandard(String ecology);
+
+  /// On  text
+  ///
+  /// In en, this message translates to:
+  /// **'On '**
+  String get onDate;
+
+  /// I performed  text
+  ///
+  /// In en, this message translates to:
+  /// **'I performed '**
+  String get iPerformed;
+
+  /// on my  text
+  ///
+  /// In en, this message translates to:
+  /// **'on my '**
+  String get onMy;
+
+  /// with  text
+  ///
+  /// In en, this message translates to:
+  /// **'with '**
+  String get withKm;
+
+  /// at  text
+  ///
+  /// In en, this message translates to:
+  /// **'at '**
+  String get at;
+
+  /// paying  text
+  ///
+  /// In en, this message translates to:
+  /// **'paying '**
+  String get paying;
 }
 
 class _AppLocalizationsDelegate

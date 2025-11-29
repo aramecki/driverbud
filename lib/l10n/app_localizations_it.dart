@@ -68,8 +68,12 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String youWillFindEvents(String eventType) {
-    return 'In questa pagina troverai tutti gli eventi di $eventType aggiunti.';
+    return 'In questa pagina troverai tutti gli eventi di $eventType.';
   }
+
+  @override
+  String get createYourFirstVehicle =>
+      'Crea il tuo primo veicolo per aggiungerne uno.';
 
   @override
   String get youWillFindVehicles =>
@@ -279,4 +283,22 @@ class AppLocalizationsIt extends AppLocalizations {
   String withStandard(String ecology) {
     return 'con standard $ecology.';
   }
+
+  @override
+  String get onDate => 'In data ';
+
+  @override
+  String get iPerformed => 'ho effettuato ';
+
+  @override
+  String get onMy => 'sulla mia ';
+
+  @override
+  String get withKm => 'con ';
+
+  @override
+  String get at => 'presso ';
+
+  @override
+  String get paying => 'pagando ';
 }

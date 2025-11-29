@@ -96,12 +96,17 @@
     "description": "Brand and model are required fields. text shown when saving a vehicle without the brand or model required fields"
   },
 
-  "youWillFindEvents": "On this page you will find all the created {eventType} events.",
+  "youWillFindEvents": "On this page you will find all the {eventType} events.",
   "@youWillFindEvents": {
     "placeholders": {
       "eventType": {"type": "String"}
     },
     "description": "On this page you will find all the added maintenance/refueling events. text shown when user has not maintenance event saved for the selected vehicle"
+  },
+
+  "createYourFirstVehicle": "Create your first vehicle to add one.",
+  "@createYourFirstVehicle": {
+    "description": "Create your first vehicle to add one. text shown when saving a vehicle without the brand or model required fields"
   },
 
   "youWillFindVehicles": "On this page you will find all the saved vehicles.",
@@ -452,6 +457,36 @@
       }
     },
     "description": "with standard  text"
+  },
+
+  "onDate": "On ",
+  "@onDate": {
+    "description": "On  text"
+  },
+
+  "iPerformed": "I performed ",
+  "@iPerformed": {
+    "description": "I performed  text"
+  },
+
+  "onMy": "on my ",
+  "@onMy": {
+    "description": "on my  text"
+  },
+
+  "withKm": "with ",
+  "@withKm": {
+    "description": "with  text"
+  },
+
+  "at": "at ",
+  "@at": {
+    "description": "at  text"
+  },
+
+  "paying": "paying ",
+  "@paying": {
+    "description": "paying  text"
   }
 
 }

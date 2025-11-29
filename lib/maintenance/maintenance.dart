@@ -41,6 +41,8 @@ class _MaintenanceState extends State<Maintenance> {
           listen: false,
         ).vehicleToLoad;
 
+        log('vehicleKey is: $vehicleKey');
+
         List<dynamic> items = sortByDate(
           maintenanceBox.keys
               .map((key) {
@@ -68,7 +70,9 @@ class _MaintenanceState extends State<Maintenance> {
         final content = isEmpty
             ? Column(
                 mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: vehicleKey != null
+                    ? MainAxisAlignment.spaceBetween
+                    : MainAxisAlignment.center,
                 children: [
                   SizedBox(height: 35),
                   Padding(
@@ -80,7 +84,15 @@ class _MaintenanceState extends State<Maintenance> {
                       textAlign: TextAlign.center,
                     ),
                   ),
-                  addEventButton(context, true),
+                  if (vehicleKey == null)
+                    Padding(
+                      padding: EdgeInsetsGeometry.symmetric(horizontal: 18),
+                      child: Text(
+                        localizations.createYourFirstVehicle,
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  if (vehicleKey != null) addEventButton(context, true),
                 ],
               )
             : Column(

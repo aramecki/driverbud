@@ -169,8 +169,7 @@ class _ShowVehicleState extends State<ShowVehicle> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.deepOrange,
         child: shareIcon,
-        onPressed: () =>
-            _onShareWithResults(context, localizations, widget.editKey),
+        onPressed: () => _shareVehicle(context, localizations, widget.editKey),
         // showCustomToast(
         //   context,
         //   message: 'Share opened',
@@ -187,7 +186,7 @@ class _ShowVehicleState extends State<ShowVehicle> {
   }
 }
 
-void _onShareWithResults(
+void _shareVehicle(
   BuildContext context,
   AppLocalizations localizations,
   vehicleKey,
