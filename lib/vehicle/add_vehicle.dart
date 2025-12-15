@@ -393,21 +393,36 @@ class _AddVehicleState extends State<AddVehicle> {
       ],
     );
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          isEdit
-              ? localizations.editValue(localizations.vehicleUpper)
-              : localizations.addValue(localizations.vehicleUpper),
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) async {
+        if (didPop) return;
+
+        final bool? shouldPop = await discardConfirmOnBack(
+          context,
+          popScope: true,
+        );
+
+        if (shouldPop == true && context.mounted) {
+          Navigator.of(context).pop();
+        }
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(
+            isEdit
+                ? localizations.editValue(localizations.vehicleUpper)
+                : localizations.addValue(localizations.vehicleUpper),
+          ),
+          leading: customBackButton(context, confirmation: true),
         ),
-        leading: customBackButton(context),
-      ),
-      body: GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onTap: () {
-          FocusScope.of(context).unfocus();
-        },
-        child: SingleChildScrollView(child: content),
+        body: GestureDetector(
+          behavior: HitTestBehavior.opaque,
+          onTap: () {
+            FocusScope.of(context).unfocus();
+          },
+          child: SingleChildScrollView(child: content),
+        ),
       ),
     );
   }

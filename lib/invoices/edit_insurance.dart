@@ -105,6 +105,8 @@ class _EditInsuranceState extends State<EditInsurance> {
         }
       }
     } else {
+      _startDate = today;
+      _endDate = today.add(const Duration(days: 356));
       _duesCtrl.text = '1';
     }
   }
@@ -149,8 +151,8 @@ class _EditInsuranceState extends State<EditInsurance> {
 
     final insuranceMap = <String, dynamic>{
       'insurer': _insurerCtrl.text.trim(),
-      'startDate': _startDate ?? today,
-      'endDate': _endDate ?? today.add(const Duration(days: 365)),
+      'startDate': _startDate,
+      'endDate': _endDate,
       'note': _noteCtrl.text.trim(),
       'totalPrice': totalPriceDoubleValue.toStringAsFixed(2),
       'dues': _duesCtrl.text.trim() == '' ? '1' : _duesCtrl.text.trim(),
@@ -161,21 +163,12 @@ class _EditInsuranceState extends State<EditInsurance> {
       'vehicleKey': vehicleKey,
     };
 
-    // if (insuranceMap['title'].isEmpty) {
-    //   showCustomToast(context, message: localizations.titleRequiredField);
-    //   return;
-    // }
-
     if (_notifications == true) {
       log('Notifications is true, scheduling...');
       if (_bkEndDate == null) {
         log('_bkEndDate is null, new entry just scheduling');
 
-        scheduleInsuranceNotifications(
-          localizations,
-          vehicleKey,
-          _endDate ?? today.add(const Duration(days: 365)),
-        );
+        scheduleInsuranceNotifications(localizations, vehicleKey, _endDate);
       } else if (_bkEndDate != _endDate) {
         log('_bkEndDate and _endDate are different, updating notifications');
 
@@ -183,11 +176,7 @@ class _EditInsuranceState extends State<EditInsurance> {
           insuranceNotificationsBox,
           vehicleKey!,
         );
-        scheduleInsuranceNotifications(
-          localizations,
-          vehicleKey,
-          _endDate ?? today.add(const Duration(days: 365)),
-        );
+        scheduleInsuranceNotifications(localizations, vehicleKey, _endDate);
       } else {
         log('_bkEndDate and _endDate are the same, nothing to do');
       }
@@ -262,7 +251,7 @@ class _EditInsuranceState extends State<EditInsurance> {
               DatePickerWidget(
                 pickerIcon: stopCalendarIcon,
                 editDate: isEdit ? _endDate : null,
-                preSelectedDate: today.add(const Duration(days: 365)),
+                preSelectedDate: _endDate,
                 onSelected: (value) {
                   setState(() => _endDate = value);
                 },
@@ -447,33 +436,34 @@ class _EditInsuranceState extends State<EditInsurance> {
               : const SizedBox.shrink(key: ValueKey('hidden')),
         ),
 
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              CustomSwitch(
-                text: localizations.notifications,
-                isSelected: _notifications,
-                onChanged: (v) async {
-                  bool hasPermissions = await checkAndRequestPermissions(
-                    context,
-                  );
+        if (_endDate != null && _endDate!.isAfter(today))
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                CustomSwitch(
+                  text: localizations.notifications,
+                  isSelected: _notifications,
+                  onChanged: (v) async {
+                    bool hasPermissions = await checkAndRequestPermissions(
+                      context,
+                    );
 
-                  if (hasPermissions) {
-                    setState(() {
-                      log('changing notifications state to $v');
-                      _notifications = v;
-                    });
-                  } else {
-                    _notifications = false;
-                  }
-                },
-              ),
-            ],
+                    if (hasPermissions) {
+                      setState(() {
+                        log('changing notifications state to $v');
+                        _notifications = v;
+                      });
+                    } else {
+                      _notifications = false;
+                    }
+                  },
+                ),
+              ],
+            ),
           ),
-        ),
 
         // Save  button section
         Padding(
@@ -497,33 +487,48 @@ class _EditInsuranceState extends State<EditInsurance> {
       ],
     );
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          isEdit
-              ? localizations.editValue(localizations.insurance)
-              : localizations.addValue(localizations.insurance),
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) async {
+        if (didPop) return;
+
+        final bool? shouldPop = await discardConfirmOnBack(
+          context,
+          popScope: true,
+        );
+
+        if (shouldPop == true && context.mounted) {
+          Navigator.of(context).pop();
+        }
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(
+            isEdit
+                ? localizations.editValue(localizations.insurance)
+                : localizations.addValue(localizations.insurance),
+          ),
+          leading: customBackButton(context, confirmation: true),
+          actions: <Widget>[
+            if (widget.editKey != null)
+              IconButton(
+                onPressed: () {
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                    insuranceBox.delete(widget.editKey);
+                    Navigator.of(context).popUntil((route) => route.isFirst);
+                  });
+                },
+                icon: deleteIcon(iconSize: 30),
+              ),
+          ],
         ),
-        leading: customBackButton(context),
-        actions: <Widget>[
-          if (widget.editKey != null)
-            IconButton(
-              onPressed: () {
-                WidgetsBinding.instance.addPostFrameCallback((_) {
-                  insuranceBox.delete(widget.editKey);
-                  Navigator.of(context).popUntil((route) => route.isFirst);
-                });
-              },
-              icon: deleteIcon(iconSize: 30),
-            ),
-        ],
-      ),
-      body: GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onTap: () {
-          FocusScope.of(context).unfocus();
-        },
-        child: SingleChildScrollView(child: content),
+        body: GestureDetector(
+          behavior: HitTestBehavior.opaque,
+          onTap: () {
+            FocusScope.of(context).unfocus();
+          },
+          child: SingleChildScrollView(child: content),
+        ),
       ),
     );
   }
@@ -588,10 +593,11 @@ bool scheduleInsuranceNotifications(
     DateTime effectiveDate = date.add(const Duration(hours: 9));
     scheduleNotification(
       vehicleKey: vehicleKey,
-      title: 'Your vehicle insurance is expiring',
+      title: localizations.insuranceNotificationsTitle,
       body:
-          'The insurance of your $vehicleName is expiring on ${localizations.ggMmAaaa(date.day, date.month, date.year)}.',
-      date: effectiveDate, // Change to real date
+          '${localizations.insuranceNotificationsBody(vehicleName)}${localizations.ggMmAaaa(date.day, date.month, date.year)}.',
+      date: effectiveDate,
+      //date: DateTime.now().add(const Duration(seconds: 10)),
     );
     return true;
   } else {
@@ -601,3 +607,7 @@ bool scheduleInsuranceNotifications(
     return false;
   }
 }
+
+// Future<bool> _showExitConfirmationDialog(BuildContext context) async {
+//   return await discardConfirmOnBack(context) ?? false; // Restituisce false se il dialogo viene chiuso toccando fuori
+// }

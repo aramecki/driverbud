@@ -195,10 +195,12 @@ Widget homeRowBox(
 }
 
 // Custom back button for appbar
-Widget customBackButton(BuildContext context) {
+Widget customBackButton(BuildContext context, {bool confirmation = false}) {
   return IconButton(
     icon: backIcon,
-    onPressed: () => Navigator.of(context).pop(),
+    onPressed: () => confirmation
+        ? discardConfirmOnBack(context)
+        : Navigator.of(context).pop(),
   );
 }
 
@@ -309,5 +311,64 @@ Widget addEventButton(BuildContext context, bool isMaintenance) {
       text: localizations.addValue(eventTypeString),
       // text: 'Aggiungi prima manutenzione',
     ),
+  );
+}
+
+// Future<bool> discardConfirmOnBack(BuildContext context) {
+//   final localizations = AppLocalizations.of(context)!;
+
+//   return showDialog<bool>(
+//     context: context,
+//     builder: (BuildContext context) {
+//       return AlertDialog(
+//         title: Text(localizations.areYouSure),
+//         content: Text(localizations.dataNotSavedWillBeLost),
+//         actions: <Widget>[
+//           TextButton(
+//             child: Text(localizations.discard),
+//             onPressed: () {
+//               Navigator.of(context).pop(true);
+//               Navigator.of(context).pop(true);
+//             },
+//           ),
+//           TextButton(
+//             child: Text(localizations.stay),
+//             onPressed: () => Navigator.of(context).pop(false),
+//           ),
+//         ],
+//       );
+//     },
+//   ) ?? false;
+// }
+
+Future<bool?> discardConfirmOnBack(
+  BuildContext context, {
+  bool popScope = false,
+}) {
+  final localizations = AppLocalizations.of(context)!;
+
+  return showDialog<bool>(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text(localizations.areYouSure),
+        content: Text(localizations.dataNotSavedWillBeLost),
+        actions: <Widget>[
+          TextButton(
+            child: Text(localizations.discard),
+            onPressed: () {
+              Navigator.of(context).pop(true);
+              if (!popScope) Navigator.of(context).pop();
+            },
+          ),
+          TextButton(
+            child: Text(localizations.stay),
+            onPressed: () {
+              Navigator.of(context).pop(false);
+            },
+          ),
+        ],
+      );
+    },
   );
 }

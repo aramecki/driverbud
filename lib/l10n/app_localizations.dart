@@ -98,6 +98,24 @@ abstract class AppLocalizations {
     Locale('it'),
   ];
 
+  /// Cancel text
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancel;
+
+  /// Stay text
+  ///
+  /// In en, this message translates to:
+  /// **'Stay'**
+  String get stay;
+
+  /// Discard text
+  ///
+  /// In en, this message translates to:
+  /// **'Discard'**
+  String get discard;
+
   /// Main Home text shown when the app starts
   ///
   /// In en, this message translates to:
@@ -780,7 +798,7 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'{duesNumber,plural, =1{1 due} other{{duesNumber} dues}}'**
-  String duesCount(num duesNumber);
+  String duesCount(int duesNumber);
 
   ///  in  text
   ///
@@ -793,6 +811,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Notifications'**
   String get notifications;
+
+  /// Permissions required text
+  ///
+  /// In en, this message translates to:
+  /// **'Permissions required'**
+  String get permissionsRequired;
+
+  /// To be informed about deadlines and events, you need to allow notifications in the app settings. text
+  ///
+  /// In en, this message translates to:
+  /// **'To be informed about deadlines and events, you need to allow notifications in the app settings.'**
+  String get permissionsRequiredAlertBody;
+
+  /// Your vehicle insurance is expiring! text
+  ///
+  /// In en, this message translates to:
+  /// **'Your vehicle insurance is expiring!'**
+  String get insuranceNotificationsTitle;
+
+  /// The insurance of your {vehicleName} is expiring on  text
+  ///
+  /// In en, this message translates to:
+  /// **'The insurance of your {vehicleName} is expiring on '**
+  String insuranceNotificationsBody(String vehicleName);
+
+  /// Are you sure? text
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure?'**
+  String get areYouSure;
+
+  /// Data not saved will be lost. text
+  ///
+  /// In en, this message translates to:
+  /// **'Data not saved will be lost.'**
+  String get dataNotSavedWillBeLost;
 }
 
 class _AppLocalizationsDelegate

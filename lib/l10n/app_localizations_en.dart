@@ -9,6 +9,15 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
+  String get cancel => 'Cancel';
+
+  @override
+  String get stay => 'Stay';
+
+  @override
+  String get discard => 'Discard';
+
+  @override
   String get home => 'Home';
 
   @override
@@ -379,7 +388,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dueSpace => 'Due ';
 
   @override
-  String duesCount(num duesNumber) {
+  String duesCount(int duesNumber) {
     String _temp0 = intl.Intl.pluralLogic(
       duesNumber,
       locale: localeName,
@@ -394,4 +403,26 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get notifications => 'Notifications';
+
+  @override
+  String get permissionsRequired => 'Permissions required';
+
+  @override
+  String get permissionsRequiredAlertBody =>
+      'To be informed about deadlines and events, you need to allow notifications in the app settings.';
+
+  @override
+  String get insuranceNotificationsTitle =>
+      'Your vehicle insurance is expiring!';
+
+  @override
+  String insuranceNotificationsBody(String vehicleName) {
+    return 'The insurance of your $vehicleName is expiring on ';
+  }
+
+  @override
+  String get areYouSure => 'Are you sure?';
+
+  @override
+  String get dataNotSavedWillBeLost => 'Data not saved will be lost.';
 }

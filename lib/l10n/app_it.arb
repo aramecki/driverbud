@@ -1,6 +1,21 @@
 {
   "@@locale": "it",
 
+  "cancel": "Annulla",
+  "@cancel": {
+  "description": "Annulla text"
+  },
+
+  "stay": "Resta",
+  "@stay": {
+    "description": "Stay text"
+  },
+
+  "discard": "Annulla",
+  "@discard": {
+    "description": "Discard text"
+  },
+
   "home": "Home",
   "@home": {
   "description": "Main Home text shown when the app starts"
@@ -622,7 +637,9 @@
   "duesCount": "{duesNumber,plural, =1{1 rata} other{{duesNumber} rate}}",
   "@duesCount": {
     "placeholders": {
-      "duesNumber": {}
+      "duesNumber": {
+        "type": "int"
+      }
     }
   },
 
@@ -634,6 +651,41 @@
   "notifications": "Notifiche",
   "@notifications": {
     "description": "Notifiche text"
+  },
+
+  "permissionsRequired": "Permessi richiesti",
+  "@permissionsRequired": {
+    "description": "Permessi richiesti text"
+  },
+
+  "permissionsRequiredAlertBody": "Per essere informato su scadenze ed eventi, devi consentire le notifiche nelle impostazioni dell'app.",
+  "@permissionsRequiredAlertBody": {
+    "description": "Per essere informato su scadenze ed eventi, devi consentire le notifiche nelle impostazioni dell'app. text"
+  },
+
+  "insuranceNotificationsTitle": "La tua assicurazione sta per scadere!",
+  "@insuranceNotificationsTitle": {
+    "description": "La tua assicurazione sta per scadere! text"
+  },
+
+  "insuranceNotificationsBody": "L'assicurazione della tua {vehicleName} scadrà il ",
+  "@insuranceNotificationsBody": {
+      "placeholders": {
+        "vehicleName": {
+          "type": "String"
+        }
+    },
+    "description": "L'assicurazione della tua {vehicleName} scadrà il  text"
+  },
+
+  "areYouSure": "Sei sicuro?",
+  "@areYouSure": {
+    "description": "Sei sicuro? text"
+  },
+
+  "dataNotSavedWillBeLost": "I dati non salvati saranno persi.",
+  "@dataNotSavedWillBeLost": {
+    "description": "I dati non salvati saranno persi. text"
   }
 
 }

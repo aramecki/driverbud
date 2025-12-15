@@ -1,6 +1,21 @@
 {
   "@@locale": "en",
 
+  "cancel": "Cancel",
+  "@cancel": {
+  "description": "Cancel text"
+  },
+
+  "stay": "Stay",
+  "@stay": {
+    "description": "Stay text"
+  },
+
+  "discard": "Discard",
+  "@discard": {
+    "description": "Discard text"
+  },
+
   "home": "Home",
   "@home": {
   "description": "Main Home text shown when the app starts"
@@ -622,7 +637,9 @@
   "duesCount": "{duesNumber,plural, =1{1 due} other{{duesNumber} dues}}",
   "@duesCount": {
     "placeholders": {
-      "duesNumber": {}
+      "duesNumber": {
+        "type": "int"
+      }
     }
   },
 
@@ -634,6 +651,41 @@
   "notifications": "Notifications",
   "@notifications": {
     "description": "Notifications text"
+  },
+
+  "permissionsRequired": "Permissions required",
+  "@permissionsRequired": {
+    "description": "Permissions required text"
+  },
+
+  "permissionsRequiredAlertBody": "To be informed about deadlines and events, you need to allow notifications in the app settings.",
+  "@permissionsRequiredAlertBody": {
+    "description": "To be informed about deadlines and events, you need to allow notifications in the app settings. text"
+  },
+
+  "insuranceNotificationsTitle": "Your vehicle insurance is expiring!",
+  "@insuranceNotificationsTitle": {
+    "description": "Your vehicle insurance is expiring! text"
+  },
+
+  "insuranceNotificationsBody": "The insurance of your {vehicleName} is expiring on ",
+  "@insuranceNotificationsBody": {
+      "placeholders": {
+        "vehicleName": {
+          "type": "String"
+        }
+    },
+    "description": "The insurance of your {vehicleName} is expiring on  text"
+  },
+
+  "areYouSure": "Are you sure?",
+  "@areYouSure": {
+    "description": "Are you sure? text"
+  },
+
+  "dataNotSavedWillBeLost": "Data not saved will be lost.",
+  "@dataNotSavedWillBeLost": {
+    "description": "Data not saved will be lost. text"
   }
-  
+
 }

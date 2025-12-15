@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:mycargenie_2/notifications/notifications_utils.dart';
 import 'package:mycargenie_2/utils/boxes.dart';
 import 'package:mycargenie_2/home.dart';
 import 'package:mycargenie_2/vehicle/add_vehicle.dart';
@@ -49,7 +50,6 @@ void deleteVehicle(
   final savedImagePath = image?['assetImage'] as String?;
 
   if (savedImagePath != null) {
-    // String? savedImagePath = image!['assetImage'] as String?;
     if (await File(savedImagePath).exists()) {
       await File(savedImagePath).delete();
       log('Image deleted');
@@ -65,6 +65,7 @@ void deleteVehicle(
   await vehicleBox.delete(key);
 
   await deleteAllEventsForVehicle(key);
+  await deleteAllInvoicesForVehicle(key);
 
   if (favoriteKey == key) {
     if (vehicleBox.isNotEmpty) {
@@ -89,34 +90,43 @@ void deleteVehicle(
 }
 
 Future<void> deleteAllEventsForVehicle(int vehicleKey) async {
-  final maintenanceToDelete = <dynamic>[];
-  final refuelingToDelete = <dynamic>[];
-
   maintenanceBox.toMap().forEach((eventKey, eventValue) {
     if (eventValue['vehicleKey'] == vehicleKey) {
-      maintenanceToDelete.add(eventKey);
+      maintenanceBox.delete(eventKey);
       log(
         'Deleting the maintenance event $eventValue at $eventKey for vehicle $vehicleKey',
       );
     }
   });
 
-  for (var e in maintenanceToDelete) {
-    maintenanceBox.delete(e);
-  }
-
   refuelingBox.toMap().forEach((eventKey, eventValue) {
     if (eventValue['vehicleKey'] == vehicleKey) {
-      maintenanceToDelete.add(eventKey);
+      refuelingBox.delete(eventKey);
       log(
         'Deleting the refueling event $eventValue at $eventKey for vehicle $vehicleKey',
       );
     }
   });
+}
 
-  for (var e in refuelingToDelete) {
-    refuelingBox.delete(e);
-  }
+Future<void> deleteAllInvoicesForVehicle(int vehicleKey) async {
+  insuranceBox.toMap().forEach((key, value) {
+    if (value['vehicleKey'] == vehicleKey) {
+      insuranceBox.delete(key);
+      log('Deleting the insurance $value at $key for vehicle $vehicleKey');
+    }
+  });
+
+  deleteAllNotificationsInCategory(insuranceNotificationsBox, vehicleKey);
+
+  insuranceNotificationsBox.toMap().forEach((key, value) {
+    if (value['vehicleKey'] == vehicleKey) {
+      insuranceNotificationsBox.delete(key);
+      log(
+        'Deleting the insurance notification $value at $key for vehicle $vehicleKey',
+      );
+    }
+  });
 }
 
 // Function to open the vehicle editing screen
