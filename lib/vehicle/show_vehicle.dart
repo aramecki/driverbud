@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
-import 'package:mycargenie_2/boxes.dart';
+import 'package:mycargenie_2/settings/settings_logics.dart';
+import 'package:share_plus/share_plus.dart';
+import 'package:mycargenie_2/utils/boxes.dart';
 import 'package:mycargenie_2/home.dart';
 import 'package:mycargenie_2/l10n/app_localizations.dart';
 import 'package:mycargenie_2/theme/icons.dart';
 import 'package:mycargenie_2/utils/support_fun.dart';
 import 'package:provider/provider.dart';
-import 'dart:io';
 import '../utils/puzzle.dart';
 
 class ShowVehicle extends StatefulWidget {
@@ -25,6 +26,7 @@ class _ShowVehicleState extends State<ShowVehicle> {
     final localizations = AppLocalizations.of(context)!;
 
     final vehicleProvider = Provider.of<VehicleProvider>(context);
+    final settingsProvider = Provider.of<SettingsProvider>(context);
 
     final content = ValueListenableBuilder(
       valueListenable: vehicleBox.listenable(keys: [widget.editKey]),
@@ -39,14 +41,30 @@ class _ShowVehicleState extends State<ShowVehicle> {
           children: [
             Padding(
               padding: EdgeInsets.only(top: 10, bottom: 4),
-              child: CircleAvatar(
-                radius: 120,
-                backgroundColor: Colors.deepOrange,
-                backgroundImage: v['assetImage'] != null
-                    ? FileImage(File(v['assetImage']))
-                    : null,
-              ),
+              child:
+                  // Vehicle image container
+                  FutureBuilder<ImageProvider<Object>?>(
+                    future: getVehicleImageAsync(
+                      widget.editKey,
+                      settingsProvider.documentsPath,
+                    ),
+                    builder: (context, snapshot) {
+                      ImageProvider<Object>? imageProvider;
+
+                      if (snapshot.connectionState == ConnectionState.done &&
+                          snapshot.hasData) {
+                        imageProvider = snapshot.data;
+                      }
+
+                      return CircleAvatar(
+                        radius: 120,
+                        foregroundImage: imageProvider,
+                        child: (imageProvider == null) ? carIcon : null,
+                      );
+                    },
+                  ),
             ),
+
             Padding(
               padding: EdgeInsets.only(left: 16, right: 16, top: 2),
               child: Row(
@@ -168,10 +186,11 @@ class _ShowVehicleState extends State<ShowVehicle> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.deepOrange,
         child: shareIcon,
-        onPressed: () => showCustomToast(
-          context,
-          message: 'Share opened',
-        ), // TODO: Remove, for debugging
+        onPressed: () => _shareVehicle(context, localizations, widget.editKey),
+        // showCustomToast(
+        //   context,
+        //   message: 'Share opened',
+        // ), // TODO: Remove, for debugging
       ),
       body: GestureDetector(
         behavior: HitTestBehavior.opaque,
@@ -182,4 +201,53 @@ class _ShowVehicleState extends State<ShowVehicle> {
       ),
     );
   }
+}
+
+void _shareVehicle(
+  BuildContext context,
+  AppLocalizations localizations,
+  vehicleKey,
+) async {
+  final v = vehicleBox.get(vehicleKey);
+
+  final List<XFile> files = [XFile(v['assetImage'])];
+
+  String text = localizations.checkoutMy;
+
+  if (v['favorite']) {
+    text += localizations.beloved;
+  }
+
+  text += '${v['brand']} ${v['model']} ';
+
+  if (v['config'] != null) {
+    text += '${v['config']} ';
+  }
+
+  if (v['year'] != null) {
+    text += '${v['year'].toString()} ';
+  }
+
+  if (v['capacity'] != null || v['power'] != null || v['horse'] != null) {
+    text += localizations.withSpace;
+    if (v['capacity'] != null) {
+      text += '${localizations.numCc(v['capacity'])} ';
+    }
+    if (v['power'] != null) {
+      text += '${localizations.numKw(v['power'])} ';
+    }
+    if (v['horse'] != null) {
+      text += '${localizations.numCv(v['horse'])} ';
+    }
+  }
+
+  if (v['energy'] != null && v['energy'] != localizations.other) {
+    text += localizations.poweredby(v['energy']);
+  }
+
+  if (v['ecology'] != null && v['ecology'] != localizations.other) {
+    text += localizations.withStandard(v['ecology']);
+  }
+
+  await SharePlus.instance.share(ShareParams(text: text, files: files));
 }

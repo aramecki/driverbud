@@ -1,6 +1,8 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:mycargenie_2/boxes.dart';
+import 'package:mycargenie_2/utils/boxes.dart';
 import 'package:mycargenie_2/home.dart';
 import 'package:mycargenie_2/l10n/app_localizations.dart';
 import 'package:mycargenie_2/maintenance/maintenance_misc.dart';
@@ -24,11 +26,13 @@ class _MaintenanceState extends State<Maintenance> {
   bool isSorting = false;
   bool isSearching = false;
 
-  // TODO: Add the case in which the user has no vehicle
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
 
+    log(maintenanceBox.toMap().toString());
+
+    // TODO: Configure loading limit logics
     return ValueListenableBuilder(
       valueListenable: maintenanceBox.listenable(),
       builder: (context, Box box, _) {
@@ -36,6 +40,8 @@ class _MaintenanceState extends State<Maintenance> {
           context,
           listen: false,
         ).vehicleToLoad;
+
+        log('vehicleKey is: $vehicleKey');
 
         List<dynamic> items = sortByDate(
           maintenanceBox.keys
@@ -64,11 +70,12 @@ class _MaintenanceState extends State<Maintenance> {
         final content = isEmpty
             ? Column(
                 mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: vehicleKey != null
+                    ? MainAxisAlignment.spaceBetween
+                    : MainAxisAlignment.center,
                 children: [
-                  SizedBox(height: 35),
                   Padding(
-                    padding: EdgeInsetsGeometry.symmetric(horizontal: 18),
+                    padding: EdgeInsetsGeometry.symmetric(horizontal: 16),
                     child: Text(
                       localizations.youWillFindEvents(
                         localizations.maintenanceLower,
@@ -76,7 +83,15 @@ class _MaintenanceState extends State<Maintenance> {
                       textAlign: TextAlign.center,
                     ),
                   ),
-                  addEventButton(context, true),
+                  if (vehicleKey == null)
+                    Padding(
+                      padding: EdgeInsetsGeometry.symmetric(horizontal: 18),
+                      child: Text(
+                        localizations.createYourFirstVehicle,
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  if (vehicleKey != null) addEventButton(context, true),
                 ],
               )
             : Column(
@@ -96,7 +111,6 @@ class _MaintenanceState extends State<Maintenance> {
                           ? Padding(
                               padding: const EdgeInsets.symmetric(
                                 horizontal: 16.0,
-                                // vertical: 30.0,
                               ),
                               child: customSortingPanel(context, (
                                 selectedSort,

@@ -3,20 +3,38 @@ import 'package:hugeicons/hugeicons.dart';
 import 'package:mycargenie_2/theme/colors.dart';
 
 // Circle arrow down for dropdowns
-HugeIcon arrowDownIcon = HugeIcon(
-  icon: HugeIcons.strokeRoundedCircleArrowDown01,
-  size: 25,
-);
+HugeIcon arrowDownIcon({double iconSize = 25}) {
+  return HugeIcon(
+    icon: HugeIcons.strokeRoundedCircleArrowDown01,
+    size: iconSize,
+    color: Colors.white,
+  );
+}
 
 // Circle arrow up for dropdowns
-HugeIcon arrowUpIcon = HugeIcon(
-  icon: HugeIcons.strokeRoundedCircleArrowUp01,
-  size: 25,
-);
+HugeIcon arrowUpIcon({double iconSize = 25}) {
+  return HugeIcon(
+    icon: HugeIcons.strokeRoundedCircleArrowUp01,
+    size: iconSize,
+    color: Colors.white,
+  );
+}
 
 // Calendar icon
 HugeIcon calendarIcon = HugeIcon(
   icon: HugeIcons.strokeRoundedCalendar03,
+  size: 25,
+);
+
+// Start Calendar icon
+HugeIcon startCalendarIcon = HugeIcon(
+  icon: HugeIcons.strokeRoundedCalendarAdd02,
+  size: 25,
+);
+
+// Stop Calendar icon
+HugeIcon stopCalendarIcon = HugeIcon(
+  icon: HugeIcons.strokeRoundedCalendarRemove02,
   size: 25,
 );
 
@@ -86,8 +104,94 @@ HugeIcon editIcon = HugeIcon(
   color: Colors.white,
 );
 
+// Search Icon
 HugeIcon searchIcon = HugeIcon(
   icon: HugeIcons.strokeRoundedSearch01,
   size: 30,
   color: Colors.deepOrange,
+);
+
+// Circle Check Icon
+HugeIcon checkIcon = HugeIcon(
+  icon: HugeIcons.strokeRoundedCheckmarkCircle01,
+  color: Colors.deepOrange,
+  strokeWidth: 2,
+  size: 30,
+);
+
+// Language Icon
+HugeIcon languageIcon = HugeIcon(
+  icon: HugeIcons.strokeRoundedLanguageSquare,
+  size: 28,
+  strokeWidth: 1.5,
+);
+
+// Region Icon
+HugeIcon regionIcon = HugeIcon(
+  icon: HugeIcons.strokeRoundedFlag02,
+  size: 28,
+  strokeWidth: 1.5,
+);
+
+// Currency Icon
+HugeIcon currencyIcon = HugeIcon(
+  icon: HugeIcons.strokeRoundedMoney01,
+  size: 28,
+  strokeWidth: 1.5,
+);
+
+// Theme Icon
+HugeIcon themeIcon = HugeIcon(
+  icon: HugeIcons.strokeRoundedColors,
+  size: 28,
+  strokeWidth: 1.5,
+);
+
+// Backup and Restore Icon
+HugeIcon backupAndRestoreIcon = HugeIcon(
+  icon: HugeIcons.strokeRoundedDownload03,
+  size: 28,
+  strokeWidth: 1.5,
+);
+
+// Feedback Icon
+HugeIcon feedbackIcon = HugeIcon(
+  icon: HugeIcons.strokeRoundedComment01,
+  size: 28,
+  strokeWidth: 1.5,
+);
+
+// Info Icon
+HugeIcon infoIcon = HugeIcon(
+  icon: HugeIcons.strokeRoundedAlertSquare,
+  size: 28,
+  strokeWidth: 1.5,
+);
+
+// Insurance Icon
+HugeIcon insuranceIcon = HugeIcon(
+  icon: HugeIcons.strokeRoundedSafe,
+  size: 28,
+  strokeWidth: 1.5,
+);
+
+// Tax Icon
+HugeIcon taxIcon = HugeIcon(
+  icon: HugeIcons.strokeRoundedSaleTag01,
+  size: 28,
+  strokeWidth: 1.5,
+);
+
+// Revision Icon
+HugeIcon revisionIcon = HugeIcon(
+  icon: HugeIcons.strokeRoundedService,
+  size: 28,
+  strokeWidth: 1.5,
+);
+
+// Car Icon
+HugeIcon carIcon = HugeIcon(
+  icon: HugeIcons.strokeRoundedCar05,
+  strokeWidth: 1.5,
+  size: 60,
 );

@@ -1,15 +1,18 @@
+import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:mycargenie_2/get_latest_events.dart';
 import 'package:mycargenie_2/l10n/app_localizations.dart';
-import 'package:mycargenie_2/settings.dart';
+import 'package:mycargenie_2/settings/settings.dart';
+import 'package:mycargenie_2/settings/settings_logics.dart';
 import 'package:mycargenie_2/theme/icons.dart';
 import 'package:mycargenie_2/utils/puzzle.dart';
 import 'package:mycargenie_2/utils/support_fun.dart';
 import 'utils/vehicles_dropdown.dart';
 import 'vehicle/vehicles.dart';
 import 'package:provider/provider.dart';
-import 'boxes.dart';
+import 'utils/boxes.dart';
 
 class VehicleProvider with ChangeNotifier {
   int? vehicleToLoad;
@@ -66,6 +69,21 @@ class _HomePageState extends State<Home> {
     final localizations = AppLocalizations.of(context)!;
 
     final vehicleProvider = context.watch<VehicleProvider>();
+    final settingsProvider = context.watch<SettingsProvider>();
+
+    log('Starting loading: ${vehicleBox.get(vehicleProvider.vehicleToLoad)} ');
+
+    Map<dynamic, dynamic>? latestMaintenance = getLatestEvent(
+      true,
+      vehicleProvider.vehicleToLoad,
+    );
+
+    // Map<dynamic, dynamic>? latestRefueling = getLatestEvent(
+    //   false,
+    //   vehicleProvider.vehicleToLoad,
+    // );
+
+    log('Latest maintenance is $latestMaintenance');
 
     return ValueListenableBuilder(
       valueListenable: vehicleBox.listenable(),
@@ -80,22 +98,34 @@ class _HomePageState extends State<Home> {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       // Vehicle image container
-                      Padding(
-                        padding: const EdgeInsets.only(
-                          top: 20,
-                          bottom: 16,
-                          left: 8,
-                          right: 4,
+                      FutureBuilder<ImageProvider<Object>?>(
+                        future: getVehicleImageAsync(
+                          vehicleProvider.vehicleToLoad,
+                          settingsProvider.documentsPath,
                         ),
-                        child: CircleAvatar(
-                          radius: 80,
-                          foregroundImage: getVehicleImage(
-                            vehicleProvider.vehicleToLoad,
-                          ),
-                          backgroundImage: NetworkImage(
-                            'https://s3.us-west-2.amazonaws.com/portoftacoma.com.if-us-west-2-or/s3fs-public/styles/image_text_paragraph/public/2023-11/otters12.jpg',
-                          ),
-                        ),
+                        builder: (context, snapshot) {
+                          ImageProvider<Object>? imageProvider;
+
+                          if (snapshot.connectionState ==
+                                  ConnectionState.done &&
+                              snapshot.hasData) {
+                            imageProvider = snapshot.data;
+                          }
+
+                          return Padding(
+                            padding: const EdgeInsets.only(
+                              top: 20,
+                              bottom: 16,
+                              left: 8,
+                              right: 4,
+                            ),
+                            child: CircleAvatar(
+                              radius: 80,
+                              foregroundImage: imageProvider,
+                              child: (imageProvider == null) ? carIcon : null,
+                            ),
+                          );
+                        },
                       ),
 
                       // Car selection dropdown container
@@ -120,32 +150,65 @@ class _HomePageState extends State<Home> {
                     ],
                   ),
 
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: EdgeInsetsGeometry.only(left: 16),
-                        child: Text(localizations.latestEvents),
+                  if (latestMaintenance == null
+                  // && latestRefueling == null
+                  )
+                    // Row(
+                    //   mainAxisAlignment: MainAxisAlignment.center,
+                    //   children: [
+                    Padding(
+                      padding: EdgeInsetsGeometry.symmetric(
+                        vertical: 32,
+                        horizontal: 16,
                       ),
-                    ],
-                  ),
+                      child: Text(
+                        localizations.homeNoEventsMessage,
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
 
-                  // TODO: Remove precompiled, just for debugging
-                  homeRowBox(
-                    context,
-                    isRefueling: false,
-                    title: 'Sostituzione pasticche freni',
-                    date: '23/01/2025',
-                    place: 'Officine Galli',
-                  ),
-                  homeRowBox(
-                    context,
-                    isRefueling: true,
-                    date: '11/22/1963',
-                    place: 'Eni Giugliano',
-                    price: '20€',
-                    priceForUnit: '1,78€/l',
-                  ),
+                  //   ],
+                  // ),
+                  if (latestMaintenance != null
+                  // || latestRefueling != null
+                  )
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: EdgeInsetsGeometry.only(left: 16),
+                          child: Text(localizations.latestEvents),
+                        ),
+                      ],
+                    ),
+
+                  if (latestMaintenance != null)
+                    homeRowBox(
+                      context,
+                      eventKey: latestMaintenance['key'],
+                      isRefueling: false,
+                      title: latestMaintenance['value']['title'],
+                      date: latestMaintenance['value']['date'],
+                      place: latestMaintenance['value']['place'],
+                    ),
+                  // if (latestRefueling != null)
+                  //   homeRowBox(
+                  //     context,
+                  //     eventKey: latestRefueling['key'],
+                  //     isRefueling: false,
+                  //     date: latestRefueling['value']['date'],
+                  //     place: latestRefueling['value']['place'],
+                  //     price: latestRefueling['value']['price'],
+                  //     priceForUnit: latestRefueling['value']['priceForUnit'],
+                  //   ),
+                  // homeRowBox(
+                  //   context,
+                  //   isRefueling: true,
+                  //   date: '11/22/1963',
+                  //   place: 'Eni Giugliano',
+                  //   price: '20€',
+                  //   priceForUnit: '1,78€/l',
+                  // ),
                 ],
               )
             : Row(
@@ -188,29 +251,34 @@ int? getYear(int vehicleId) {
   return map['year'] as int?;
 }
 
-ImageProvider<Object>? getVehicleImage(int? vehicleKey) {
-  // log('vehicleKey: $vehicleKey in getVehicleImage()');
-  if (vehicleKey == null) return null;
+Future<ImageProvider<Object>?> getVehicleImageAsync(
+  int? vehicleKey,
+  String documentsPath,
+) async {
+  if (vehicleKey == null || documentsPath.isEmpty) return null;
 
   final dynamic raw = vehicleBox.get(vehicleKey);
-
-  // log('Get vehicle raw: $raw in getVehicleImage()');
 
   if (raw == null) return null;
 
   final map = Map<String, dynamic>.from(raw);
   String? storedImagePath = map['assetImage'] as String?;
 
-  // log('storedImagePath: $storedImagePath');
-
   if (storedImagePath == null) return null;
 
-  final File possibleFile = File(storedImagePath);
-  if (possibleFile.existsSync()) {
-    // log('possibleFile: $possibleFile  in getVehicleImage()');
-    return FileImage(possibleFile);
+  final String reconstructedPath = '$documentsPath/$storedImagePath';
+
+  final File fileFromReconstruction = File(reconstructedPath);
+
+  if (await fileFromReconstruction.exists()) {
+    return FileImage(fileFromReconstruction);
   }
 
-  // log('returning null code ended  in getVehicleImage()');
+  final File fileFromStoredPath = File(storedImagePath);
+
+  if (await fileFromStoredPath.exists()) {
+    return FileImage(fileFromStoredPath);
+  }
+
   return null;
 }

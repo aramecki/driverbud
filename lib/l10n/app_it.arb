@@ -1,6 +1,21 @@
 {
   "@@locale": "it",
 
+  "cancel": "Annulla",
+  "@cancel": {
+  "description": "Annulla text"
+  },
+
+  "stay": "Resta",
+  "@stay": {
+    "description": "Stay text"
+  },
+
+  "discard": "Annulla",
+  "@discard": {
+    "description": "Discard text"
+  },
+
   "home": "Home",
   "@home": {
   "description": "Main Home text shown when the app starts"
@@ -96,12 +111,17 @@
     "description": "Brand and model are required fields. text shown when saving a vehicle without the brand or model required fields"
   },
 
-  "youWillFindEvents": "In questa pagina troverai tutti gli eventi di {eventType} aggiunti.",
+  "youWillFindEvents": "In questa pagina troverai tutti gli eventi di {eventType}.",
   "@youWillFindEvents": {
     "placeholders": {
       "eventType": {"type": "String"}
     },
     "description": "On this page you will find all the added maintenance/refueling events. text shown when user has not maintenance event saved for the selected vehicle"
+  },
+
+  "createYourFirstVehicle": "Crea il tuo primo veicolo per aggiungerne uno.",
+  "@createYourFirstVehicle": {
+    "description": "Crea il tuo primo veicolo per aggiungerne uno. text shown when saving a vehicle without the brand or model required fields"
   },
 
   "youWillFindVehicles": "In questa pagina troverai tutti i veicoli aggiunti.",
@@ -274,6 +294,16 @@
   "description": "num currency Ex. 5€"
   },
 
+  "numCurrencyOnUnits": "{num}{currency}/{unit}",
+  "@numCurrencyOnUnits": {
+    "placeholders": {
+      "num": {"type": "String"},
+      "currency": {"type": "String"},
+      "unit": {"type": "String"}
+    },
+  "description": "num currency/unit Ex. 5€/l"
+  },
+
   "latestEvents": "Ultimi eventi:",
   "@latestEvents": {
     "description": "Latest Events: text shown in home screen"
@@ -362,6 +392,305 @@
   "bodyShop": "Carrozziere",
   "@bodyShop": {
     "description": "Body Shop text"
+  },
+
+  "backupUpper": "Backup",
+  "@backupUpper": {
+    "description": "Backup text"
+  },
+
+  "restorationUpper": "Ripristino",
+  "@restorationUpper": {
+    "description": "Ripristino text"
+  },
+
+  "exportBackup": "Esporta backup",
+  "@exportBackup": {
+    "description": "Export backup text"
+  },
+
+  "restoreBackup": "Ripristina backup",
+  "@restoreBackup": {
+    "description": "Restore backup text"
+  },
+
+  "backupAndRestore": "Backup e ripristino",
+  "@backupAndRestore": {
+    "description": "Backup and Restore text"
+  },
+
+  "creatingBackupFile": "Creo file di backup...",
+  "@creatingBackupFile": {
+    "description": "Creating backup file... text"
+  },
+
+  "restoringFile": "Ripristino file...",
+  "@restoringFile": {
+    "description": "Restoring file... text"
+  },
+
+  "backupCompleted": "Backup completato.",
+  "@backupCompleted": {
+    "description": "Backup completato. text"
+  },
+
+  "restoredSuccessfully": "Ripristinato con successo.",
+  "@restoredSuccessfully": {
+    "description": "Restored successfully. text"
+  },
+
+  "processNotCompleted": "{process} non completato.",
+  "@processNotCompleted": {
+    "placeholders": {
+      "process": {
+        "type": "String"
+      }
+    },
+    "description": "Backup/Restoration not completed. text"
+  },
+
+  "backupFileWontContainImage": "Il file di backup non includerà immagini personalizzate.",
+  "@backupFileWontContainImage": {
+    "description": "Il file di backup non includerà immagini personalizzate. text"
+  },
+
+  "checkoutMy": "Dai un'occhiata alla mia ",
+  "@checkoutMy": {
+    "description": "Dai un'occhiata  text"
+  },
+
+  "beloved": "amata ",
+  "@beloved": {
+    "description": "amata  text"
+  },
+
+  "withSpace": "con ",
+  "@withSpace": {
+    "description": "con  text"
+  },
+
+  "poweredby": "alimentata a {energy} ",
+  "@poweredby": {
+    "placeholders": {
+      "energy": {
+        "type": "String"
+      }
+    },
+    "description": "alimentata a  text"
+  },
+
+  "withStandard": "con standard {ecology}.",
+  "@withStandard": {
+    "placeholders": {
+      "ecology": {
+        "type": "String"
+      }
+    },
+    "description": "con standard  text"
+  },
+
+  "onDate": "In data ",
+  "@onDate": {
+    "description": "In data  text"
+  },
+
+  "iPerformed": "ho effettuato ",
+  "@iPerformed": {
+    "description": "ho effettuato  text"
+  },
+
+  "onMy": "sulla mia ",
+  "@onMy": {
+    "description": "sulla mia  text"
+  },
+
+  "withKm": "con ",
+  "@withKm": {
+    "description": "con  text"
+  },
+
+  "at": "presso ",
+  "@at": {
+    "description": "presso  text"
+  },
+
+  "paying": "pagando ",
+  "@paying": {
+    "description": "pagando  text"
+  },
+
+  "language": "Lingua",
+  "@language": {
+    "description": "Lingua text"
+  },
+
+  "country": "Regione",
+  "@country": {
+    "description": "Regione text"
+  },
+
+  "currency": "Valuta",
+  "@currency": {
+    "description": "Valuta text"
+  },
+
+  "theme": "Tema",
+  "@theme": {
+    "description": "Tema text"
+  },
+
+  "gotAFeedback": "Hai un feedback?",
+  "@gotAFeedback": {
+    "description": "Hai un feedback? text"
+  },
+
+  "about": "Informazioni",
+  "@about": {
+    "description": "Informazioni text"
+  },
+
+  "languageSettings": "Impostazioni lingua",
+  "@languageSettings": {
+    "description": "Impostazioni lingua text"
+  },
+
+  "themeSettings": "Impostazioni tema",
+  "@themeSettings": {
+    "description": "Impostazioni tema text"
+  },
+
+  "currencySettings": "Impostazioni valuta",
+  "@currencySettings": {
+    "description": "Impostazioni valuta text"
+  },
+
+  "followSystemTheme": "Segui impostazioni di sistema",
+  "@followSystemTheme": {
+    "description": "Segui impostazioni di sistema text"
+  },
+
+  "darkMode": "Modalità scura",
+  "@darkMode": {
+    "description": "Modalità scura text"
+  },
+
+  "homeNoEventsMessage": "Gli ultimi eventi del veicolo selezionato saranno mostrati in questa pagina.",
+  "@homeNoEventsMessage": {
+    "description": "Gli ultimi eventi del veicolo selezionato saranno mostrati in questa pagina. text"
+  },
+
+  "thirdPartyInsurance": "Assicurazione RCA",
+  "@thirdPartyInsurance": {
+    "description": "Assicurazione RCA text"
+  },
+
+  "carTax": "Tassa automobilistica",
+  "@carTax": {
+    "description": "Tassa automobilistica text"
+  },
+
+  "carInspection": "Revisione",
+  "@carInspection": {
+    "description": "Revisione text"
+  },
+
+  "expiring": "In scadenza:",
+  "@expiring": {
+    "description": "In scadenza: text"
+  },
+
+  "editInsuranceDetails": "Modifica dettagli polizza",
+  "@editInsuranceDetails": {
+    "description": "Modifica dettagli polizza text"
+  },
+
+  "insurance": "assicurazione",
+  "@insurance": {
+    "description": "assicurazione text"
+  },
+
+  "insuranceAgency": "Agenzia assicurativa",
+  "@insuranceAgency": {
+    "description": "Agenzia assicurativa text"
+  },
+
+  "notes": "Note",
+  "@notes": {
+    "description": "Note text"
+  },
+  
+  "totalAmount": "Importo totale",
+  "@totalAmount": {
+    "description": "Importo totale text"
+  },
+
+  "customizeDues": "Personalizza rate",
+  "@customizeDues": {
+    "description": "Personalizza rate text"
+  },
+
+  "dueSpace": "Rata ",
+  "@dueSpace": {
+    "description": "Rata  text"
+  },
+
+  "duesCount": "{duesNumber,plural, =1{1 rata} other{{duesNumber} rate}}",
+  "@duesCount": {
+    "placeholders": {
+      "duesNumber": {
+        "type": "int"
+      }
+    }
+  },
+
+  "spaceInSpace": " in ",
+  "@spaceInSpace": {
+    "description": " in  text"
+  },
+
+  "notifications": "Notifiche",
+  "@notifications": {
+    "description": "Notifiche text"
+  },
+
+  "permissionsRequired": "Permessi richiesti",
+  "@permissionsRequired": {
+    "description": "Permessi richiesti text"
+  },
+
+  "permissionsRequiredAlertBody": "Per essere informato su scadenze ed eventi, devi consentire le notifiche nelle impostazioni dell'app.",
+  "@permissionsRequiredAlertBody": {
+    "description": "Per essere informato su scadenze ed eventi, devi consentire le notifiche nelle impostazioni dell'app. text"
+  },
+
+  "insuranceNotificationsTitle": "La tua assicurazione sta per scadere!",
+  "@insuranceNotificationsTitle": {
+    "description": "La tua assicurazione sta per scadere! text"
+  },
+
+  "insuranceNotificationsBody": "L'assicurazione della tua {vehicleName} scadrà il ",
+  "@insuranceNotificationsBody": {
+      "placeholders": {
+        "vehicleName": {
+          "type": "String"
+        }
+    },
+    "description": "L'assicurazione della tua {vehicleName} scadrà il  text"
+  },
+
+  "areYouSure": "Sei sicuro?",
+  "@areYouSure": {
+    "description": "Sei sicuro? text"
+  },
+
+  "dataNotSavedWillBeLost": "I dati non salvati saranno persi.",
+  "@dataNotSavedWillBeLost": {
+    "description": "I dati non salvati saranno persi. text"
+  },
+
+  "reachedMaxEntry": "Hai raggiunto il numero massimo di veicoli nel garage.",
+  "@reachedMaxEntry": {
+    "description": "Hai raggiunto il numero massimo di veicoli nel garage. text"
   }
 
 }

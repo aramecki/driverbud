@@ -50,7 +50,7 @@ class FocusableDropdown extends StatelessWidget {
                       selectedItem ?? name,
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
-                    controller.isOpen ? arrowUpIcon : arrowDownIcon,
+                    controller.isOpen ? arrowUpIcon() : arrowDownIcon(),
                   ],
                 ),
               ),

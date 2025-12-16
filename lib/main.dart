@@ -3,23 +3,34 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:mycargenie_2/l10n/app_localizations.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hugeicons/hugeicons.dart';
-import 'package:mycargenie_2/theme/theme.dart';
+import 'package:mycargenie_2/notifications/notifications_utils.dart';
+import 'package:mycargenie_2/settings/settings_logics.dart';
+import 'package:mycargenie_2/theme/theme_light.dart';
+import 'package:mycargenie_2/theme/theme_dark.dart';
 import 'package:provider/provider.dart';
 import 'vehicle/vehicles.dart';
 import 'home.dart';
 import 'maintenance/maintenance.dart';
-import 'refueling.dart';
-import 'invoices.dart';
-import 'boxes.dart';
+import 'refueling/refueling.dart';
+import 'invoices/invoices.dart';
+import 'utils/boxes.dart';
 import 'startup_image_loader_debug.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  final systemLocale = WidgetsBinding.instance.platformDispatcher.locale;
+
+  await initNotifications();
 
   await Hive.initFlutter();
 
   await Hive.openBox('vehicle');
   await Hive.openBox('maintenance');
+  await Hive.openBox('refueling');
+  await Hive.openBox('insurance');
+  await Hive.openBox('insuranceNotifications');
+
+  await cleanupDeliveredNotifications(insuranceNotificationsBox);
 
   if (vehicleBox.isEmpty) {
     await startupImageLoader();
@@ -69,8 +80,11 @@ void main() async {
   }
 
   runApp(
-    ChangeNotifierProvider(
-      create: (context) => VehicleProvider(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => VehicleProvider()),
+        ChangeNotifierProvider(create: (_) => SettingsProvider(systemLocale)),
+      ],
       child: MyCarGenie(),
     ),
   );
@@ -81,17 +95,26 @@ class MyCarGenie extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final settingsProvider = context.watch<SettingsProvider>();
+
+    if (settingsProvider.settings == null) {
+      return const MaterialApp(
+        home: Center(child: CircularProgressIndicator()),
+      );
+    }
+
     return MaterialApp(
       //title: 'MyCarGenie2',
+      themeMode: settingsProvider.themeMode,
       theme: lightTheme,
       darkTheme: darkTheme,
       home: const MyCarGenieMain(),
-      supportedLocales: const [Locale('en', ''), Locale('it', '')],
+      locale: settingsProvider.locale,
       localizationsDelegates: const [
         AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
+        ...GlobalMaterialLocalizations.delegates,
       ],
+      supportedLocales: const [Locale('en'), Locale('it')],
     );
   }
 }

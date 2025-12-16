@@ -2,13 +2,15 @@ import 'package:currency_textfield/currency_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:mycargenie_2/home.dart';
 import 'package:mycargenie_2/l10n/app_localizations.dart';
+import 'package:mycargenie_2/settings/settings_logics.dart';
+import 'package:mycargenie_2/theme/text_styles.dart';
 import 'package:mycargenie_2/utils/date_picker.dart';
 import 'package:mycargenie_2/utils/focusable_dropdown.dart';
 import 'package:mycargenie_2/utils/reusable_textfield.dart';
 import 'package:provider/provider.dart';
 import '../utils/lists.dart';
 import '../utils/puzzle.dart';
-import '../boxes.dart';
+import '../utils/boxes.dart';
 
 class AddMaintenance extends StatefulWidget {
   final Map<String, dynamic>? maintenanceEvent;
@@ -26,13 +28,7 @@ class _AddMaintenanceState extends State<AddMaintenance> {
   final TextEditingController _kilometersCtrl = TextEditingController();
   final TextEditingController _descriptionCtrl = TextEditingController();
 
-  final CurrencyTextFieldController _priceCtrl = CurrencyTextFieldController(
-    currencySymbol: "€",
-    decimalSymbol: ",",
-    thousandSymbol: ".",
-    maxDigits: 8,
-    enableNegative: false,
-  );
+  CurrencyTextFieldController? _priceCtrl;
 
   final MenuController menuController = MenuController();
 
@@ -46,6 +42,17 @@ class _AddMaintenanceState extends State<AddMaintenance> {
   void initState() {
     super.initState();
 
+    final settingsProvider = context.read<SettingsProvider>();
+    final currencySymbol = settingsProvider.currency;
+
+    _priceCtrl = CurrencyTextFieldController(
+      currencySymbol: currencySymbol!,
+      decimalSymbol: ',',
+      thousandSymbol: ' ',
+      maxDigits: 8,
+      enableNegative: false,
+    );
+
     final eventToEdit = widget.maintenanceEvent;
 
     if (eventToEdit != null) {
@@ -53,7 +60,8 @@ class _AddMaintenanceState extends State<AddMaintenance> {
       _placeCtrl.text = eventToEdit['place'] ?? '';
       _kilometersCtrl.text = eventToEdit['kilometers']?.toString() ?? '';
       _descriptionCtrl.text = eventToEdit['description'] ?? '';
-      _priceCtrl.text = eventToEdit['price']?.toString() ?? '';
+
+      _priceCtrl!.text = eventToEdit['price']?.toString() ?? '';
 
       _date = eventToEdit['date'] as DateTime;
       _maintenanceType = eventToEdit['maintenanceType'] as String?;
@@ -66,7 +74,7 @@ class _AddMaintenanceState extends State<AddMaintenance> {
     _placeCtrl.dispose();
     _kilometersCtrl.dispose();
     _descriptionCtrl.dispose();
-    _priceCtrl.dispose();
+    _priceCtrl!.dispose();
     super.dispose();
   }
 
@@ -80,7 +88,7 @@ class _AddMaintenanceState extends State<AddMaintenance> {
 
     if (!mounted) return;
 
-    final double priceDoubleValue = _priceCtrl.doubleValue;
+    final double priceDoubleValue = _priceCtrl!.doubleValue;
 
     final maintenanceMap = <String, dynamic>{
       'title': _titleCtrl.text.trim(),
@@ -181,7 +189,7 @@ class _AddMaintenanceState extends State<AddMaintenance> {
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.max,
             children: [
-              DatePickerExample(
+              DatePickerWidget(
                 editDate: isEdit ? _date : null,
                 onSelected: (value) {
                   setState(() => _date = value);
@@ -278,6 +286,7 @@ class _AddMaintenanceState extends State<AddMaintenance> {
                 child: Text(
                   localizations.asteriskRequiredFields,
                   textAlign: TextAlign.center,
+                  style: bottomMessageStyle,
                 ),
               ),
             ],
@@ -286,21 +295,36 @@ class _AddMaintenanceState extends State<AddMaintenance> {
       ],
     );
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          isEdit
-              ? localizations.editValue(localizations.maintenanceUpper)
-              : localizations.addValue(localizations.maintenanceUpper),
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) async {
+        if (didPop) return;
+
+        final bool? shouldPop = await discardConfirmOnBack(
+          context,
+          popScope: true,
+        );
+
+        if (shouldPop == true && context.mounted) {
+          Navigator.of(context).pop();
+        }
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(
+            isEdit
+                ? localizations.editValue(localizations.maintenanceUpper)
+                : localizations.addValue(localizations.maintenanceUpper),
+          ),
+          leading: customBackButton(context, confirmation: true),
         ),
-        leading: customBackButton(context),
-      ),
-      body: GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onTap: () {
-          FocusScope.of(context).unfocus();
-        },
-        child: SingleChildScrollView(child: content),
+        body: GestureDetector(
+          behavior: HitTestBehavior.opaque,
+          onTap: () {
+            FocusScope.of(context).unfocus();
+          },
+          child: SingleChildScrollView(child: content),
+        ),
       ),
     );
   }

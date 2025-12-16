@@ -9,6 +9,15 @@ class AppLocalizationsIt extends AppLocalizations {
   AppLocalizationsIt([String locale = 'it']) : super(locale);
 
   @override
+  String get cancel => 'Annulla';
+
+  @override
+  String get stay => 'Resta';
+
+  @override
+  String get discard => 'Annulla';
+
+  @override
   String get home => 'Home';
 
   @override
@@ -68,8 +77,12 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String youWillFindEvents(String eventType) {
-    return 'In questa pagina troverai tutti gli eventi di $eventType aggiunti.';
+    return 'In questa pagina troverai tutti gli eventi di $eventType.';
   }
+
+  @override
+  String get createYourFirstVehicle =>
+      'Crea il tuo primo veicolo per aggiungerne uno.';
 
   @override
   String get youWillFindVehicles =>
@@ -176,6 +189,11 @@ class AppLocalizationsIt extends AppLocalizations {
   }
 
   @override
+  String numCurrencyOnUnits(String num, String currency, String unit) {
+    return '$num$currency/$unit';
+  }
+
+  @override
   String get latestEvents => 'Ultimi eventi:';
 
   @override
@@ -228,4 +246,190 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get bodyShop => 'Carrozziere';
+
+  @override
+  String get backupUpper => 'Backup';
+
+  @override
+  String get restorationUpper => 'Ripristino';
+
+  @override
+  String get exportBackup => 'Esporta backup';
+
+  @override
+  String get restoreBackup => 'Ripristina backup';
+
+  @override
+  String get backupAndRestore => 'Backup e ripristino';
+
+  @override
+  String get creatingBackupFile => 'Creo file di backup...';
+
+  @override
+  String get restoringFile => 'Ripristino file...';
+
+  @override
+  String get backupCompleted => 'Backup completato.';
+
+  @override
+  String get restoredSuccessfully => 'Ripristinato con successo.';
+
+  @override
+  String processNotCompleted(String process) {
+    return '$process non completato.';
+  }
+
+  @override
+  String get backupFileWontContainImage =>
+      'Il file di backup non includerà immagini personalizzate.';
+
+  @override
+  String get checkoutMy => 'Dai un\'occhiata alla mia ';
+
+  @override
+  String get beloved => 'amata ';
+
+  @override
+  String get withSpace => 'con ';
+
+  @override
+  String poweredby(String energy) {
+    return 'alimentata a $energy ';
+  }
+
+  @override
+  String withStandard(String ecology) {
+    return 'con standard $ecology.';
+  }
+
+  @override
+  String get onDate => 'In data ';
+
+  @override
+  String get iPerformed => 'ho effettuato ';
+
+  @override
+  String get onMy => 'sulla mia ';
+
+  @override
+  String get withKm => 'con ';
+
+  @override
+  String get at => 'presso ';
+
+  @override
+  String get paying => 'pagando ';
+
+  @override
+  String get language => 'Lingua';
+
+  @override
+  String get country => 'Regione';
+
+  @override
+  String get currency => 'Valuta';
+
+  @override
+  String get theme => 'Tema';
+
+  @override
+  String get gotAFeedback => 'Hai un feedback?';
+
+  @override
+  String get about => 'Informazioni';
+
+  @override
+  String get languageSettings => 'Impostazioni lingua';
+
+  @override
+  String get themeSettings => 'Impostazioni tema';
+
+  @override
+  String get currencySettings => 'Impostazioni valuta';
+
+  @override
+  String get followSystemTheme => 'Segui impostazioni di sistema';
+
+  @override
+  String get darkMode => 'Modalità scura';
+
+  @override
+  String get homeNoEventsMessage =>
+      'Gli ultimi eventi del veicolo selezionato saranno mostrati in questa pagina.';
+
+  @override
+  String get thirdPartyInsurance => 'Assicurazione RCA';
+
+  @override
+  String get carTax => 'Tassa automobilistica';
+
+  @override
+  String get carInspection => 'Revisione';
+
+  @override
+  String get expiring => 'In scadenza:';
+
+  @override
+  String get editInsuranceDetails => 'Modifica dettagli polizza';
+
+  @override
+  String get insurance => 'assicurazione';
+
+  @override
+  String get insuranceAgency => 'Agenzia assicurativa';
+
+  @override
+  String get notes => 'Note';
+
+  @override
+  String get totalAmount => 'Importo totale';
+
+  @override
+  String get customizeDues => 'Personalizza rate';
+
+  @override
+  String get dueSpace => 'Rata ';
+
+  @override
+  String duesCount(int duesNumber) {
+    String _temp0 = intl.Intl.pluralLogic(
+      duesNumber,
+      locale: localeName,
+      other: '$duesNumber rate',
+      one: '1 rata',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get spaceInSpace => ' in ';
+
+  @override
+  String get notifications => 'Notifiche';
+
+  @override
+  String get permissionsRequired => 'Permessi richiesti';
+
+  @override
+  String get permissionsRequiredAlertBody =>
+      'Per essere informato su scadenze ed eventi, devi consentire le notifiche nelle impostazioni dell\'app.';
+
+  @override
+  String get insuranceNotificationsTitle =>
+      'La tua assicurazione sta per scadere!';
+
+  @override
+  String insuranceNotificationsBody(String vehicleName) {
+    return 'L\'assicurazione della tua $vehicleName scadrà il ';
+  }
+
+  @override
+  String get areYouSure => 'Sei sicuro?';
+
+  @override
+  String get dataNotSavedWillBeLost => 'I dati non salvati saranno persi.';
+
+  @override
+  String get reachedMaxEntry =>
+      'Hai raggiunto il numero massimo di veicoli nel garage.';
 }

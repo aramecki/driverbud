@@ -1,6 +1,17 @@
 import 'package:flutter/widgets.dart';
 import 'package:mycargenie_2/l10n/app_localizations.dart';
 
+final List<Map<String, String>> currenciesList = [
+  {'symbol': '€', 'name': 'Euro', 'code': 'EUR', 'country': ''},
+  {'symbol': 'zł', 'name': 'Złoty', 'code': 'PLN', 'country': 'PL'},
+  {'symbol': 'Ft', 'name': 'Forint', 'code': 'HUF', 'country': 'HU'},
+  {'symbol': 'Kč', 'name': 'Česká Koruna', 'code': 'CZK', 'country': 'CZ'},
+  {'symbol': 'kr', 'name': 'Svensk Krona', 'code': 'SEK', 'country': 'SE'},
+  {'symbol': 'kr', 'name': 'Dansk Krone', 'code': 'DKK', 'country': 'DK'},
+  {'symbol': 'lei', 'name': 'Leu Românesc', 'code': 'RON', 'country': 'RO'},
+  {'symbol': 'лв', 'name': 'Български Лев', 'code': 'BGN', 'country': 'BG'},
+];
+
 List<String> getVehicleCategoryList(BuildContext context) {
   final localizations = AppLocalizations.of(context)!;
   return [
@@ -15,17 +26,6 @@ List<String> getVehicleCategoryList(BuildContext context) {
   ];
 }
 
-// const List<String> vehicleCategoryList = <String>[
-//   'Berlina',
-//   'Coupé',
-//   'Sportiva',
-//   'SUV',
-//   'Station Wagon',
-//   'Monovolume',
-//   'Supercar',
-//   'Altro',
-// ];
-
 List<String> getVehicleEnergyList(BuildContext context) {
   final localizations = AppLocalizations.of(context)!;
   return [
@@ -37,15 +37,6 @@ List<String> getVehicleEnergyList(BuildContext context) {
     localizations.other,
   ];
 }
-
-// const List<String> vehicleEnergyList = <String>[
-//   'Benzina',
-//   'Gasolio',
-//   'GPL',
-//   'Metano',
-//   'Elettrico',
-//   'Altro',
-// ];
 
 const List<String> vehicleEcoList = <String>[
   'Euro 1',
@@ -66,13 +57,6 @@ List<String> getMaintenanceTypeList(BuildContext context) {
     localizations.other,
   ];
 }
-
-// const List<String> maintenanceTypeList = <String>[
-//   'Meccanico',
-//   'Elettrauto',
-//   'Carroziere',
-//   'Altro',
-// ];
 
 // TODO: Valuate if changing the ui to make the user select the vehicle category first
 // TODO: Valuate if divide the list in cars and motorbikes brand

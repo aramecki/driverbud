@@ -98,6 +98,24 @@ abstract class AppLocalizations {
     Locale('it'),
   ];
 
+  /// Cancel text
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancel;
+
+  /// Stay text
+  ///
+  /// In en, this message translates to:
+  /// **'Stay'**
+  String get stay;
+
+  /// Discard text
+  ///
+  /// In en, this message translates to:
+  /// **'Discard'**
+  String get discard;
+
   /// Main Home text shown when the app starts
   ///
   /// In en, this message translates to:
@@ -215,8 +233,14 @@ abstract class AppLocalizations {
   /// On this page you will find all the added maintenance/refueling events. text shown when user has not maintenance event saved for the selected vehicle
   ///
   /// In en, this message translates to:
-  /// **'On this page you will find all the created {eventType} events.'**
+  /// **'On this page you will find all the {eventType} events.'**
   String youWillFindEvents(String eventType);
+
+  /// Create your first vehicle to add one. text shown when saving a vehicle without the brand or model required fields
+  ///
+  /// In en, this message translates to:
+  /// **'Create your first vehicle to add one.'**
+  String get createYourFirstVehicle;
 
   /// On this page you will find all the saved vehicles. text shown when user has not vehicles saved
   ///
@@ -386,6 +410,12 @@ abstract class AppLocalizations {
   /// **'{num}{currency}'**
   String numCurrency(String num, String currency);
 
+  /// num currency/unit Ex. 5€/l
+  ///
+  /// In en, this message translates to:
+  /// **'{num}{currency}/{unit}'**
+  String numCurrencyOnUnits(String num, String currency, String unit);
+
   /// Latest Events: text shown in home screen
   ///
   /// In en, this message translates to:
@@ -493,6 +523,336 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Body Shop'**
   String get bodyShop;
+
+  /// Backup text
+  ///
+  /// In en, this message translates to:
+  /// **'Backup'**
+  String get backupUpper;
+
+  /// Restoration text
+  ///
+  /// In en, this message translates to:
+  /// **'Restoration'**
+  String get restorationUpper;
+
+  /// Export backup text
+  ///
+  /// In en, this message translates to:
+  /// **'Export backup'**
+  String get exportBackup;
+
+  /// Restore backup text
+  ///
+  /// In en, this message translates to:
+  /// **'Restore backup'**
+  String get restoreBackup;
+
+  /// Backup and bestore text
+  ///
+  /// In en, this message translates to:
+  /// **'Backup and restore'**
+  String get backupAndRestore;
+
+  /// Creating backup file... text
+  ///
+  /// In en, this message translates to:
+  /// **'Creating backup file...'**
+  String get creatingBackupFile;
+
+  /// Restoring file... text
+  ///
+  /// In en, this message translates to:
+  /// **'Restoring file...'**
+  String get restoringFile;
+
+  /// Backup completed. text
+  ///
+  /// In en, this message translates to:
+  /// **'Backup completed.'**
+  String get backupCompleted;
+
+  /// Restored successfully. text
+  ///
+  /// In en, this message translates to:
+  /// **'Restored successfully.'**
+  String get restoredSuccessfully;
+
+  /// Backup/Restoration not completed. text
+  ///
+  /// In en, this message translates to:
+  /// **'{process} not completed.'**
+  String processNotCompleted(String process);
+
+  /// The backup file won't include custom images. text
+  ///
+  /// In en, this message translates to:
+  /// **'The backup file won\'t include custom images.'**
+  String get backupFileWontContainImage;
+
+  /// Checkout my  text
+  ///
+  /// In en, this message translates to:
+  /// **'Checkout my '**
+  String get checkoutMy;
+
+  /// beloved  text
+  ///
+  /// In en, this message translates to:
+  /// **'beloved '**
+  String get beloved;
+
+  /// with  text
+  ///
+  /// In en, this message translates to:
+  /// **'with '**
+  String get withSpace;
+
+  /// powered by  text
+  ///
+  /// In en, this message translates to:
+  /// **'powered by {energy} '**
+  String poweredby(String energy);
+
+  /// with standard  text
+  ///
+  /// In en, this message translates to:
+  /// **'with standard {ecology}.'**
+  String withStandard(String ecology);
+
+  /// On  text
+  ///
+  /// In en, this message translates to:
+  /// **'On '**
+  String get onDate;
+
+  /// I performed  text
+  ///
+  /// In en, this message translates to:
+  /// **'I performed '**
+  String get iPerformed;
+
+  /// on my  text
+  ///
+  /// In en, this message translates to:
+  /// **'on my '**
+  String get onMy;
+
+  /// with  text
+  ///
+  /// In en, this message translates to:
+  /// **'with '**
+  String get withKm;
+
+  /// at  text
+  ///
+  /// In en, this message translates to:
+  /// **'at '**
+  String get at;
+
+  /// paying  text
+  ///
+  /// In en, this message translates to:
+  /// **'paying '**
+  String get paying;
+
+  /// Language text
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get language;
+
+  /// Country text
+  ///
+  /// In en, this message translates to:
+  /// **'Country'**
+  String get country;
+
+  /// Currency text
+  ///
+  /// In en, this message translates to:
+  /// **'Currency'**
+  String get currency;
+
+  /// Theme text
+  ///
+  /// In en, this message translates to:
+  /// **'Theme'**
+  String get theme;
+
+  /// Got a feedback? text
+  ///
+  /// In en, this message translates to:
+  /// **'Got a feedback?'**
+  String get gotAFeedback;
+
+  /// About text
+  ///
+  /// In en, this message translates to:
+  /// **'About'**
+  String get about;
+
+  /// Language settings text
+  ///
+  /// In en, this message translates to:
+  /// **'Language settings'**
+  String get languageSettings;
+
+  /// Theme settings text
+  ///
+  /// In en, this message translates to:
+  /// **'Theme settings'**
+  String get themeSettings;
+
+  /// Currency settings text
+  ///
+  /// In en, this message translates to:
+  /// **'Currency settings'**
+  String get currencySettings;
+
+  /// Follow system theme text
+  ///
+  /// In en, this message translates to:
+  /// **'Follow system theme'**
+  String get followSystemTheme;
+
+  /// Dark mode text
+  ///
+  /// In en, this message translates to:
+  /// **'Dark mode'**
+  String get darkMode;
+
+  /// The latest events of the selected vehicle will be shown on this page. text
+  ///
+  /// In en, this message translates to:
+  /// **'The latest events of the selected vehicle will be shown on this page.'**
+  String get homeNoEventsMessage;
+
+  /// Third party insurance text
+  ///
+  /// In en, this message translates to:
+  /// **'Third party insurance'**
+  String get thirdPartyInsurance;
+
+  /// Car tax text
+  ///
+  /// In en, this message translates to:
+  /// **'Car tax'**
+  String get carTax;
+
+  /// Car inspection text
+  ///
+  /// In en, this message translates to:
+  /// **'Car inspection'**
+  String get carInspection;
+
+  /// Expiring: text
+  ///
+  /// In en, this message translates to:
+  /// **'Expiring:'**
+  String get expiring;
+
+  /// Edit insurance details text
+  ///
+  /// In en, this message translates to:
+  /// **'Edit insurance details'**
+  String get editInsuranceDetails;
+
+  /// insurance text
+  ///
+  /// In en, this message translates to:
+  /// **'insurance'**
+  String get insurance;
+
+  /// Insurance agency text
+  ///
+  /// In en, this message translates to:
+  /// **'Insurance agency'**
+  String get insuranceAgency;
+
+  /// Notes text
+  ///
+  /// In en, this message translates to:
+  /// **'Notes'**
+  String get notes;
+
+  /// Total amount text
+  ///
+  /// In en, this message translates to:
+  /// **'Total amount'**
+  String get totalAmount;
+
+  /// Customize dues text
+  ///
+  /// In en, this message translates to:
+  /// **'Customize dues'**
+  String get customizeDues;
+
+  /// Due  text
+  ///
+  /// In en, this message translates to:
+  /// **'Due '**
+  String get dueSpace;
+
+  /// No description provided for @duesCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{duesNumber,plural, =1{1 due} other{{duesNumber} dues}}'**
+  String duesCount(int duesNumber);
+
+  ///  in  text
+  ///
+  /// In en, this message translates to:
+  /// **' in '**
+  String get spaceInSpace;
+
+  /// Notifications text
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications'**
+  String get notifications;
+
+  /// Permissions required text
+  ///
+  /// In en, this message translates to:
+  /// **'Permissions required'**
+  String get permissionsRequired;
+
+  /// To be informed about deadlines and events, you need to allow notifications in the app settings. text
+  ///
+  /// In en, this message translates to:
+  /// **'To be informed about deadlines and events, you need to allow notifications in the app settings.'**
+  String get permissionsRequiredAlertBody;
+
+  /// Your vehicle insurance is expiring! text
+  ///
+  /// In en, this message translates to:
+  /// **'Your vehicle insurance is expiring!'**
+  String get insuranceNotificationsTitle;
+
+  /// The insurance of your {vehicleName} is expiring on  text
+  ///
+  /// In en, this message translates to:
+  /// **'The insurance of your {vehicleName} is expiring on '**
+  String insuranceNotificationsBody(String vehicleName);
+
+  /// Are you sure? text
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure?'**
+  String get areYouSure;
+
+  /// Data not saved will be lost. text
+  ///
+  /// In en, this message translates to:
+  /// **'Data not saved will be lost.'**
+  String get dataNotSavedWillBeLost;
+
+  /// You've reached the vehicle limit in your garage. text
+  ///
+  /// In en, this message translates to:
+  /// **'You\'ve reached the vehicle limit in your garage.'**
+  String get reachedMaxEntry;
 }
 
 class _AppLocalizationsDelegate

@@ -1,17 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:hugeicons/hugeicons.dart';
 import 'package:mycargenie_2/l10n/app_localizations.dart';
 import 'package:mycargenie_2/theme/icons.dart';
 
-class DatePickerExample extends StatefulWidget {
+class DatePickerWidget extends StatefulWidget {
   final ValueChanged<DateTime>? onSelected;
   final DateTime? editDate;
-  const DatePickerExample({super.key, this.onSelected, this.editDate});
+  final HugeIcon? pickerIcon;
+  final DateTime? preSelectedDate;
+  const DatePickerWidget({
+    super.key,
+    this.onSelected,
+    this.editDate,
+    this.pickerIcon,
+    this.preSelectedDate,
+  });
 
   @override
-  State<DatePickerExample> createState() => _DatePickerExampleState();
+  State<DatePickerWidget> createState() => _DatePickerWidgetState();
 }
 
-class _DatePickerExampleState extends State<DatePickerExample> {
+class _DatePickerWidgetState extends State<DatePickerWidget> {
   DateTime? selectedDate;
   DateTime now = DateTime.now();
   DateTime get today => DateTime(now.year, now.month, now.day);
@@ -23,7 +32,7 @@ class _DatePickerExampleState extends State<DatePickerExample> {
     if (widget.editDate != null) {
       dateToShow = widget.editDate;
     } else {
-      dateToShow = today;
+      dateToShow = widget.preSelectedDate ?? today;
     }
   }
 
@@ -75,7 +84,7 @@ class _DatePickerExampleState extends State<DatePickerExample> {
                         dateToShow!.year,
                       ),
               ),
-              calendarIcon,
+              widget.pickerIcon ?? calendarIcon, //
             ],
           ),
         ),

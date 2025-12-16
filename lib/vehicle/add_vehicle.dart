@@ -12,7 +12,7 @@ import 'package:mycargenie_2/utils/year_picker.dart';
 import 'package:provider/provider.dart';
 import '../utils/lists.dart';
 import '../utils/puzzle.dart';
-import '../boxes.dart';
+import '../utils/boxes.dart';
 import '../home.dart';
 
 class AddVehicle extends StatefulWidget {
@@ -121,7 +121,9 @@ class _AddVehicleState extends State<AddVehicle> {
 
     if (!mounted) return;
 
-    if (vehicleMap['brand'].isEmpty || vehicleMap['model'].isEmpty) {
+    if (vehicleMap['brand'] == null ||
+        vehicleMap['model'] == null ||
+        vehicleMap['model'] == '') {
       showCustomToast(context, message: localizations.brandModelRequiredField);
       return;
     }
@@ -198,8 +200,8 @@ class _AddVehicleState extends State<AddVehicle> {
                         (item) => DropdownMenuEntry(value: item, label: item),
                       )
                       .toList(),
-                  trailingIcon: arrowDownIcon,
-                  selectedTrailingIcon: arrowUpIcon,
+                  trailingIcon: arrowDownIcon(),
+                  selectedTrailingIcon: arrowUpIcon(),
                   menuStyle: const MenuStyle(
                     maximumSize: WidgetStatePropertyAll(
                       Size(double.infinity, 200),
@@ -391,21 +393,36 @@ class _AddVehicleState extends State<AddVehicle> {
       ],
     );
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          isEdit
-              ? localizations.editValue(localizations.vehicleUpper)
-              : localizations.addValue(localizations.vehicleUpper),
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) async {
+        if (didPop) return;
+
+        final bool? shouldPop = await discardConfirmOnBack(
+          context,
+          popScope: true,
+        );
+
+        if (shouldPop == true && context.mounted) {
+          Navigator.of(context).pop();
+        }
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(
+            isEdit
+                ? localizations.editValue(localizations.vehicleUpper)
+                : localizations.addValue(localizations.vehicleUpper),
+          ),
+          leading: customBackButton(context, confirmation: true),
         ),
-        leading: customBackButton(context),
-      ),
-      body: GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onTap: () {
-          FocusScope.of(context).unfocus();
-        },
-        child: SingleChildScrollView(child: content),
+        body: GestureDetector(
+          behavior: HitTestBehavior.opaque,
+          onTap: () {
+            FocusScope.of(context).unfocus();
+          },
+          child: SingleChildScrollView(child: content),
+        ),
       ),
     );
   }

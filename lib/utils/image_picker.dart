@@ -113,6 +113,7 @@ String? showImagePreview(String srcPath) {
   return srcFile.path;
 }
 
+// TODO: Solve bug for image loading and saving on iOS
 Future<String?> saveImageToMmry(String srcPath) async {
   final File srcFile = File(srcPath);
 

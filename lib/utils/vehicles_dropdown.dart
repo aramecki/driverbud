@@ -1,7 +1,7 @@
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:mycargenie_2/theme/icons.dart';
-import '../boxes.dart';
+import 'boxes.dart';
 
 typedef MenuEntry = DropdownMenuEntry<int>;
 
@@ -83,8 +83,8 @@ class _VehiclesDropdownState extends State<VehiclesDropdown> {
           textAlign: TextAlign.start,
           textStyle: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           initialSelection: dropdownKey,
-          trailingIcon: arrowDownIcon,
-          selectedTrailingIcon: arrowUpIcon,
+          trailingIcon: arrowDownIcon(),
+          selectedTrailingIcon: arrowUpIcon(),
           dropdownMenuEntries: menuEntries,
           onSelected: (int? key) {
             if (key == null) return;

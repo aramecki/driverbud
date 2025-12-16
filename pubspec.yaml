@@ -44,9 +44,15 @@ dependencies:
   path: ^1.9.1 # To manage paths
   hugeicons: ^1.1.0 # Icons pack
   currency_textfield: ^5.0.0+1 # Preset textfield for currency
+  flutter_local_notifications: ^19.5.0 # Local notifications
+  timezone: ^0.10.1
+  flutter_timezone: ^5.0.1 
+  permission_handler: ^12.0.1
   
   flutter_localizations:
     sdk: flutter
+  share_plus: ^12.0.1
+  shared_preferences: ^2.5.3
 
 dev_dependencies:
   flutter_test:

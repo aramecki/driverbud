@@ -1,6 +1,21 @@
 {
   "@@locale": "en",
 
+  "cancel": "Cancel",
+  "@cancel": {
+  "description": "Cancel text"
+  },
+
+  "stay": "Stay",
+  "@stay": {
+    "description": "Stay text"
+  },
+
+  "discard": "Discard",
+  "@discard": {
+    "description": "Discard text"
+  },
+
   "home": "Home",
   "@home": {
   "description": "Main Home text shown when the app starts"
@@ -96,12 +111,17 @@
     "description": "Brand and model are required fields. text shown when saving a vehicle without the brand or model required fields"
   },
 
-  "youWillFindEvents": "On this page you will find all the created {eventType} events.",
+  "youWillFindEvents": "On this page you will find all the {eventType} events.",
   "@youWillFindEvents": {
     "placeholders": {
       "eventType": {"type": "String"}
     },
     "description": "On this page you will find all the added maintenance/refueling events. text shown when user has not maintenance event saved for the selected vehicle"
+  },
+
+  "createYourFirstVehicle": "Create your first vehicle to add one.",
+  "@createYourFirstVehicle": {
+    "description": "Create your first vehicle to add one. text shown when saving a vehicle without the brand or model required fields"
   },
 
   "youWillFindVehicles": "On this page you will find all the saved vehicles.",
@@ -274,6 +294,16 @@
   "description": "num currency Ex. 5€"
   },
 
+  "numCurrencyOnUnits": "{num}{currency}/{unit}",
+  "@numCurrencyOnUnits": {
+    "placeholders": {
+      "num": {"type": "String"},
+      "currency": {"type": "String"},
+      "unit": {"type": "String"}
+    },
+  "description": "num currency/unit Ex. 5€/l"
+  },
+
   "latestEvents": "Latest events:",
   "@latestEvents": {
     "description": "Latest Events: text shown in home screen"
@@ -362,6 +392,305 @@
   "bodyShop": "Body Shop",
   "@bodyShop": {
     "description": "Body Shop text"
+  },
+
+  "backupUpper": "Backup",
+  "@backupUpper": {
+    "description": "Backup text"
+  },
+
+  "restorationUpper": "Restoration",
+  "@restorationUpper": {
+    "description": "Restoration text"
+  },
+
+  "exportBackup": "Export backup",
+  "@exportBackup": {
+    "description": "Export backup text"
+  },
+
+  "restoreBackup": "Restore backup",
+  "@restoreBackup": {
+    "description": "Restore backup text"
+  },
+
+  "backupAndRestore": "Backup and restore",
+  "@backupAndRestore": {
+    "description": "Backup and bestore text"
+  },
+
+  "creatingBackupFile": "Creating backup file...",
+  "@creatingBackupFile": {
+    "description": "Creating backup file... text"
+  },
+
+  "restoringFile": "Restoring file...",
+  "@restoringFile": {
+    "description": "Restoring file... text"
+  },
+
+  "backupCompleted": "Backup completed.",
+  "@backupCompleted": {
+    "description": "Backup completed. text"
+  },
+
+  "restoredSuccessfully": "Restored successfully.",
+  "@restoredSuccessfully": {
+    "description": "Restored successfully. text"
+  },
+
+  "processNotCompleted": "{process} not completed.",
+  "@processNotCompleted": {
+    "placeholders": {
+      "process": {
+        "type": "String"
+      }
+    },
+    "description": "Backup/Restoration not completed. text"
+  },
+
+  "backupFileWontContainImage": "The backup file won't include custom images.",
+  "@backupFileWontContainImage": {
+    "description": "The backup file won't include custom images. text"
+  },
+
+  "checkoutMy": "Checkout my ",
+  "@checkoutMy": {
+    "description": "Checkout my  text"
+  },
+
+  "beloved": "beloved ",
+  "@beloved": {
+    "description": "beloved  text"
+  },
+
+  "withSpace": "with ",
+  "@withSpace": {
+    "description": "with  text"
+  },
+
+  "poweredby": "powered by {energy} ",
+  "@poweredby": {
+    "placeholders": {
+      "energy": {
+        "type": "String"
+      }
+    },
+    "description": "powered by  text"
+  },
+
+  "withStandard": "with standard {ecology}.",
+  "@withStandard": {
+    "placeholders": {
+      "ecology": {
+        "type": "String"
+      }
+    },
+    "description": "with standard  text"
+  },
+
+  "onDate": "On ",
+  "@onDate": {
+    "description": "On  text"
+  },
+
+  "iPerformed": "I performed ",
+  "@iPerformed": {
+    "description": "I performed  text"
+  },
+
+  "onMy": "on my ",
+  "@onMy": {
+    "description": "on my  text"
+  },
+
+  "withKm": "with ",
+  "@withKm": {
+    "description": "with  text"
+  },
+
+  "at": "at ",
+  "@at": {
+    "description": "at  text"
+  },
+
+  "paying": "paying ",
+  "@paying": {
+    "description": "paying  text"
+  },
+
+  "language": "Language",
+  "@language": {
+    "description": "Language text"
+  },
+
+  "country": "Country",
+  "@country": {
+    "description": "Country text"
+  },
+
+  "currency": "Currency",
+  "@currency": {
+    "description": "Currency text"
+  },
+
+  "theme": "Theme",
+  "@theme": {
+    "description": "Theme text"
+  },
+
+  "gotAFeedback": "Got a feedback?",
+  "@gotAFeedback": {
+    "description": "Got a feedback? text"
+  },
+
+  "about": "About",
+  "@about": {
+    "description": "About text"
+  },
+
+  "languageSettings": "Language settings",
+  "@languageSettings": {
+    "description": "Language settings text"
+  },
+
+  "themeSettings": "Theme settings",
+  "@themeSettings": {
+    "description": "Theme settings text"
+  },
+
+  "currencySettings": "Currency settings",
+  "@currencySettings": {
+    "description": "Currency settings text"
+  },
+
+  "followSystemTheme": "Follow system theme",
+  "@followSystemTheme": {
+    "description": "Follow system theme text"
+  },
+
+  "darkMode": "Dark mode",
+  "@darkMode": {
+    "description": "Dark mode text"
+  },
+
+  "homeNoEventsMessage": "The latest events of the selected vehicle will be shown on this page.",
+  "@homeNoEventsMessage": {
+    "description": "The latest events of the selected vehicle will be shown on this page. text"
+  },
+
+  "thirdPartyInsurance": "Third party insurance",
+  "@thirdPartyInsurance": {
+    "description": "Third party insurance text"
+  },
+
+  "carTax": "Car tax",
+  "@carTax": {
+    "description": "Car tax text"
+  },
+
+  "carInspection": "Car inspection",
+  "@carInspection": {
+    "description": "Car inspection text"
+  },
+
+  "expiring": "Expiring:",
+  "@expiring": {
+    "description": "Expiring: text"
+  },
+
+  "editInsuranceDetails": "Edit insurance details",
+  "@editInsuranceDetails": {
+    "description": "Edit insurance details text"
+  },
+
+  "insurance": "insurance",
+  "@insurance": {
+    "description": "insurance text"
+  },
+
+  "insuranceAgency": "Insurance agency",
+  "@insuranceAgency": {
+    "description": "Insurance agency text"
+  },
+
+  "notes": "Notes",
+  "@notes": {
+    "description": "Notes text"
+  },
+  
+  "totalAmount": "Total amount",
+  "@totalAmount": {
+    "description": "Total amount text"
+  },
+
+  "customizeDues": "Customize dues",
+  "@customizeDues": {
+    "description": "Customize dues text"
+  },
+
+  "dueSpace": "Due ",
+  "@dueSpace": {
+    "description": "Due  text"
+  },
+
+  "duesCount": "{duesNumber,plural, =1{1 due} other{{duesNumber} dues}}",
+  "@duesCount": {
+    "placeholders": {
+      "duesNumber": {
+        "type": "int"
+      }
+    }
+  },
+
+  "spaceInSpace": " in ",
+  "@spaceInSpace": {
+    "description": " in  text"
+  },
+
+  "notifications": "Notifications",
+  "@notifications": {
+    "description": "Notifications text"
+  },
+
+  "permissionsRequired": "Permissions required",
+  "@permissionsRequired": {
+    "description": "Permissions required text"
+  },
+
+  "permissionsRequiredAlertBody": "To be informed about deadlines and events, you need to allow notifications in the app settings.",
+  "@permissionsRequiredAlertBody": {
+    "description": "To be informed about deadlines and events, you need to allow notifications in the app settings. text"
+  },
+
+  "insuranceNotificationsTitle": "Your vehicle insurance is expiring!",
+  "@insuranceNotificationsTitle": {
+    "description": "Your vehicle insurance is expiring! text"
+  },
+
+  "insuranceNotificationsBody": "The insurance of your {vehicleName} is expiring on ",
+  "@insuranceNotificationsBody": {
+      "placeholders": {
+        "vehicleName": {
+          "type": "String"
+        }
+    },
+    "description": "The insurance of your {vehicleName} is expiring on  text"
+  },
+
+  "areYouSure": "Are you sure?",
+  "@areYouSure": {
+    "description": "Are you sure? text"
+  },
+
+  "dataNotSavedWillBeLost": "Data not saved will be lost.",
+  "@dataNotSavedWillBeLost": {
+    "description": "Data not saved will be lost. text"
+  },
+
+  "reachedMaxEntry": "You've reached the vehicle limit in your garage.",
+  "@reachedMaxEntry": {
+    "description": "You've reached the vehicle limit in your garage. text"
   }
 
 }
