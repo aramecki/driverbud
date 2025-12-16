@@ -255,11 +255,6 @@ Widget customSearchingPanel(
         child: TextField(
           autofocus: true,
           decoration: InputDecoration(
-            // prefixIcon: Padding(
-            //   padding: EdgeInsetsGeometry.only(left: 8),
-            //   child: searchIcon,
-            // ),
-            // prefixStyle: TextStyle(),
             hintText: localizations.searchInEvents(
               localizations.maintenanceLower,
             ),
@@ -309,37 +304,9 @@ Widget addEventButton(BuildContext context, bool isMaintenance) {
         );
       },
       text: localizations.addValue(eventTypeString),
-      // text: 'Aggiungi prima manutenzione',
     ),
   );
 }
-
-// Future<bool> discardConfirmOnBack(BuildContext context) {
-//   final localizations = AppLocalizations.of(context)!;
-
-//   return showDialog<bool>(
-//     context: context,
-//     builder: (BuildContext context) {
-//       return AlertDialog(
-//         title: Text(localizations.areYouSure),
-//         content: Text(localizations.dataNotSavedWillBeLost),
-//         actions: <Widget>[
-//           TextButton(
-//             child: Text(localizations.discard),
-//             onPressed: () {
-//               Navigator.of(context).pop(true);
-//               Navigator.of(context).pop(true);
-//             },
-//           ),
-//           TextButton(
-//             child: Text(localizations.stay),
-//             onPressed: () => Navigator.of(context).pop(false),
-//           ),
-//         ],
-//       );
-//     },
-//   ) ?? false;
-// }
 
 Future<bool?> discardConfirmOnBack(
   BuildContext context, {

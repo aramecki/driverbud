@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:mycargenie_2/l10n/app_localizations.dart';
 import 'package:mycargenie_2/theme/icons.dart';
+import 'package:mycargenie_2/theme/text_styles.dart';
 import 'package:mycargenie_2/utils/support_fun.dart';
 import 'package:mycargenie_2/vehicle/vehicle_info.dart';
 import 'package:mycargenie_2/vehicle/vehicles_misc.dart';
@@ -30,6 +31,7 @@ class _GarageState extends State<Garage> {
       valueListenable: vehicleBox.listenable(),
       builder: (context, Box box, _) {
         final isEmpty = box.isEmpty;
+        final isFull = box.length >= 10 ? true : false;
 
         final content = isEmpty
             ? Column(
@@ -108,6 +110,7 @@ class _GarageState extends State<Garage> {
                       ),
                     ),
                   ),
+
                   Padding(
                     padding: const EdgeInsets.only(
                       left: 16.0,
@@ -115,22 +118,29 @@ class _GarageState extends State<Garage> {
                       bottom: 28.0,
                     ),
                     child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Expanded(
-                          child: buildAddButton(
-                            context,
-                            onPressed: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (_) => const AddVehicle(),
+                        !isFull
+                            ? Expanded(
+                                child: buildAddButton(
+                                  context,
+                                  onPressed: () {
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (_) => const AddVehicle(),
+                                      ),
+                                    );
+                                  },
+                                  text: localizations.addValue(
+                                    localizations.vehicleLower,
+                                  ),
                                 ),
-                              );
-                            },
-                            text: localizations.addValue(
-                              localizations.vehicleLower,
-                            ),
-                          ),
-                        ),
+                              )
+                            : Text(
+                                localizations.reachedMaxEntry,
+                                style: bottomMessageStyle,
+                                textAlign: TextAlign.center,
+                              ),
                       ],
                     ),
                   ),

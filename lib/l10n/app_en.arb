@@ -686,6 +686,11 @@
   "dataNotSavedWillBeLost": "Data not saved will be lost.",
   "@dataNotSavedWillBeLost": {
     "description": "Data not saved will be lost. text"
+  },
+
+  "reachedMaxEntry": "You've reached the vehicle limit in your garage.",
+  "@reachedMaxEntry": {
+    "description": "You've reached the vehicle limit in your garage. text"
   }
 
 }

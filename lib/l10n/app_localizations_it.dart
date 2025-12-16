@@ -428,4 +428,8 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get dataNotSavedWillBeLost => 'I dati non salvati saranno persi.';
+
+  @override
+  String get reachedMaxEntry =>
+      'Hai raggiunto il numero massimo di veicoli nel garage.';
 }

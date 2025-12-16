@@ -847,6 +847,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Data not saved will be lost.'**
   String get dataNotSavedWillBeLost;
+
+  /// You've reached the vehicle limit in your garage. text
+  ///
+  /// In en, this message translates to:
+  /// **'You\'ve reached the vehicle limit in your garage.'**
+  String get reachedMaxEntry;
 }
 
 class _AppLocalizationsDelegate
