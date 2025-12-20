@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
-import 'package:mycargenie_2/settings/settings_logics.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:mycargenie_2/utils/boxes.dart';
 import 'package:mycargenie_2/home.dart';
@@ -26,7 +25,6 @@ class _ShowVehicleState extends State<ShowVehicle> {
     final localizations = AppLocalizations.of(context)!;
 
     final vehicleProvider = Provider.of<VehicleProvider>(context);
-    final settingsProvider = Provider.of<SettingsProvider>(context);
 
     final content = ValueListenableBuilder(
       valueListenable: vehicleBox.listenable(keys: [widget.editKey]),
@@ -44,10 +42,7 @@ class _ShowVehicleState extends State<ShowVehicle> {
               child:
                   // Vehicle image container
                   FutureBuilder<ImageProvider<Object>?>(
-                    future: getVehicleImageAsync(
-                      widget.editKey,
-                      settingsProvider.documentsPath,
-                    ),
+                    future: getVehicleImageAsync(widget.editKey),
                     builder: (context, snapshot) {
                       ImageProvider<Object>? imageProvider;
 

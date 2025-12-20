@@ -688,6 +688,16 @@
     "description": "I dati non salvati saranno persi. text"
   },
 
+  "actionCantBeUndone": "Questa azione non potrà essere annullata.",
+  "@actionCantBeUndone": {
+    "description": "Questa azione non potrà essere annullata. text"
+  },
+
+  "delete": "Elimina",
+  "@delete": {
+    "description": "Elimina text"
+  },
+
   "reachedMaxEntry": "Hai raggiunto il numero massimo di veicoli nel garage.",
   "@reachedMaxEntry": {
     "description": "Hai raggiunto il numero massimo di veicoli nel garage. text"

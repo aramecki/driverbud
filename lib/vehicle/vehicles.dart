@@ -82,11 +82,15 @@ class _GarageState extends State<Garage> {
                                 children: [
                                   slideableIcon(
                                     context,
-                                    onPressed: (_) => deleteVehicle(
-                                      vehicleProvider,
+                                    onPressed: (_) => deletionConfirmAlert(
                                       context,
-                                      key,
+                                      () => deleteVehicle(
+                                        vehicleProvider,
+                                        context,
+                                        key,
+                                      ),
                                     ),
+
                                     icon: deleteIcon(),
                                   ),
                                   slideableIcon(
@@ -136,10 +140,12 @@ class _GarageState extends State<Garage> {
                                   ),
                                 ),
                               )
-                            : Text(
-                                localizations.reachedMaxEntry,
-                                style: bottomMessageStyle,
-                                textAlign: TextAlign.center,
+                            : Expanded(
+                                child: Text(
+                                  localizations.reachedMaxEntry,
+                                  style: bottomMessageStyle,
+                                  textAlign: TextAlign.center,
+                                ),
                               ),
                       ],
                     ),

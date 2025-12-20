@@ -848,6 +848,18 @@ abstract class AppLocalizations {
   /// **'Data not saved will be lost.'**
   String get dataNotSavedWillBeLost;
 
+  /// This action cannot be undone. text
+  ///
+  /// In en, this message translates to:
+  /// **'This action cannot be undone.'**
+  String get actionCantBeUndone;
+
+  /// Delete text
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get delete;
+
   /// You've reached the vehicle limit in your garage. text
   ///
   /// In en, this message translates to:

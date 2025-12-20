@@ -339,3 +339,32 @@ Future<bool?> discardConfirmOnBack(
     },
   );
 }
+
+Future<void> deletionConfirmAlert(BuildContext context, Function onDelete) {
+  final localizations = AppLocalizations.of(context)!;
+
+  return showDialog<void>(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text(localizations.areYouSure),
+        content: Text(localizations.actionCantBeUndone),
+        actions: <Widget>[
+          TextButton(
+            child: Text(localizations.discard),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+          TextButton(
+            child: Text(localizations.delete),
+            onPressed: () {
+              Navigator.of(context).pop();
+              onDelete();
+            },
+          ),
+        ],
+      );
+    },
+  );
+}

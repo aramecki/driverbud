@@ -5,10 +5,11 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:mycargenie_2/get_latest_events.dart';
 import 'package:mycargenie_2/l10n/app_localizations.dart';
 import 'package:mycargenie_2/settings/settings.dart';
-import 'package:mycargenie_2/settings/settings_logics.dart';
 import 'package:mycargenie_2/theme/icons.dart';
 import 'package:mycargenie_2/utils/puzzle.dart';
 import 'package:mycargenie_2/utils/support_fun.dart';
+import 'package:path/path.dart' as p;
+import 'package:path_provider/path_provider.dart';
 import 'utils/vehicles_dropdown.dart';
 import 'vehicle/vehicles.dart';
 import 'package:provider/provider.dart';
@@ -69,7 +70,6 @@ class _HomePageState extends State<Home> {
     final localizations = AppLocalizations.of(context)!;
 
     final vehicleProvider = context.watch<VehicleProvider>();
-    final settingsProvider = context.watch<SettingsProvider>();
 
     log('Starting loading: ${vehicleBox.get(vehicleProvider.vehicleToLoad)} ');
 
@@ -95,13 +95,12 @@ class _HomePageState extends State<Home> {
                 children: [
                   Row(
                     mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       // Vehicle image container
                       FutureBuilder<ImageProvider<Object>?>(
                         future: getVehicleImageAsync(
                           vehicleProvider.vehicleToLoad,
-                          settingsProvider.documentsPath,
                         ),
                         builder: (context, snapshot) {
                           ImageProvider<Object>? imageProvider;
@@ -116,8 +115,8 @@ class _HomePageState extends State<Home> {
                             padding: const EdgeInsets.only(
                               top: 20,
                               bottom: 16,
-                              left: 8,
-                              right: 4,
+                              //left: 8,
+                              right: 8,
                             ),
                             child: CircleAvatar(
                               radius: 80,
@@ -128,14 +127,16 @@ class _HomePageState extends State<Home> {
                         },
                       ),
 
+                      //Expanded(child: SizedBox()),
+
                       // Car selection dropdown container
                       Expanded(
                         child: Padding(
                           padding: const EdgeInsets.only(
                             top: 20,
                             bottom: 20,
-                            left: 4,
-                            right: 8,
+                            left: 8,
+                            //right: 8,
                           ),
                           child: VehiclesDropdown(
                             defaultId: vehicleProvider.vehicleToLoad,
@@ -251,33 +252,24 @@ int? getYear(int vehicleId) {
   return map['year'] as int?;
 }
 
-Future<ImageProvider<Object>?> getVehicleImageAsync(
-  int? vehicleKey,
-  String documentsPath,
-) async {
-  if (vehicleKey == null || documentsPath.isEmpty) return null;
+Future<ImageProvider?> getVehicleImageAsync(int? vehicleKey) async {
+  if (vehicleKey == null) return null;
 
   final dynamic raw = vehicleBox.get(vehicleKey);
-
   if (raw == null) return null;
 
   final map = Map<String, dynamic>.from(raw);
-  String? storedImagePath = map['assetImage'] as String?;
+  String? fileName = map['assetImage'] as String?;
 
-  if (storedImagePath == null) return null;
+  if (fileName == null || fileName.isEmpty) return null;
 
-  final String reconstructedPath = '$documentsPath/$storedImagePath';
+  final Directory docsDir = await getApplicationDocumentsDirectory();
 
-  final File fileFromReconstruction = File(reconstructedPath);
+  final String fullPath = p.join(docsDir.path, 'images', fileName);
+  final File file = File(fullPath);
 
-  if (await fileFromReconstruction.exists()) {
-    return FileImage(fileFromReconstruction);
-  }
-
-  final File fileFromStoredPath = File(storedImagePath);
-
-  if (await fileFromStoredPath.exists()) {
-    return FileImage(fileFromStoredPath);
+  if (await file.exists()) {
+    return FileImage(file);
   }
 
   return null;

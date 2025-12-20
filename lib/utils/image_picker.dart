@@ -116,7 +116,6 @@ String? showImagePreview(String srcPath) {
 // TODO: Solve bug for image loading and saving on iOS
 Future<String?> saveImageToMmry(String srcPath) async {
   final File srcFile = File(srcPath);
-
   final String timestamp = DateFormat(
     'yyyy-MM-dd_HH-mm-ss',
   ).format(DateTime.now());
@@ -130,5 +129,5 @@ Future<String?> saveImageToMmry(String srcPath) async {
   final String destPath = p.join(imagesDir.path, newFileName);
   await srcFile.copy(destPath);
 
-  return destPath;
+  return newFileName;
 }

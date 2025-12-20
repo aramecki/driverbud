@@ -427,6 +427,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dataNotSavedWillBeLost => 'Data not saved will be lost.';
 
   @override
+  String get actionCantBeUndone => 'This action cannot be undone.';
+
+  @override
+  String get delete => 'Delete';
+
+  @override
   String get reachedMaxEntry =>
       'You\'ve reached the vehicle limit in your garage.';
 }

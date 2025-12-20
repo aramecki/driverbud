@@ -607,7 +607,3 @@ bool scheduleInsuranceNotifications(
     return false;
   }
 }
-
-// Future<bool> _showExitConfirmationDialog(BuildContext context) async {
-//   return await discardConfirmOnBack(context) ?? false; // Restituisce false se il dialogo viene chiuso toccando fuori
-// }

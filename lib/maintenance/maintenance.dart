@@ -147,7 +147,11 @@ class _MaintenanceState extends State<Maintenance> {
                                         children: [
                                           slideableIcon(
                                             context,
-                                            onPressed: (_) => deleteEvent(key),
+                                            onPressed: (_) =>
+                                                deletionConfirmAlert(
+                                                  context,
+                                                  () => deleteEvent(key),
+                                                ),
                                             icon: deleteIcon(),
                                           ),
                                           slideableIcon(

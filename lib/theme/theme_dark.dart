@@ -61,37 +61,24 @@ ThemeData darkTheme = ThemeData(
   // Dropdown menu theme(not button)
   dropdownMenuTheme: DropdownMenuThemeData(
     menuStyle: MenuStyle(
-      //backgroundColor: WidgetStateProperty.all<Color>(Colors.transparent),
       shape: WidgetStateProperty.all(
         RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30.0),
           side: const BorderSide(color: Colors.deepOrange, width: 1.5),
         ),
       ),
-      padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
-        EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
-      ),
-      fixedSize: WidgetStatePropertyAll(Size.fromWidth(200)),
     ),
   ),
 
   // Single button in dropdown menu theme
   menuButtonTheme: MenuButtonThemeData(
     style: ButtonStyle(
-      //backgroundColor: WidgetStateProperty.all<Color>(Colors.transparent),
       overlayColor: WidgetStateProperty.all<Color>(Colors.deepOrangeAccent),
       shape: WidgetStateProperty.all(
-        RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(50.0),
-          //side: const BorderSide(color: Colors.deepOrange, width: 1.5),
-        ),
+        RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
       ),
       textStyle: WidgetStatePropertyAll(
-        TextStyle(
-          fontWeight: FontWeight.bold,
-          fontSize: 16,
-          color: Colors.black,
-        ),
+        TextStyle(fontSize: 16, color: Colors.black),
       ),
     ),
   ),
