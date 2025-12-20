@@ -27,7 +27,9 @@ Future<void> initNotifications() async {
 
   tz.setLocalLocation(tz.getLocation(timeZoneName));
 
-  const androidSettings = AndroidInitializationSettings('@drawable/small_icon');
+  const androidSettings = AndroidInitializationSettings(
+    '@drawable/notification_icon',
+  );
   const darwinSettings = DarwinInitializationSettings();
 
   const InitializationSettings initializationSettings = InitializationSettings(
