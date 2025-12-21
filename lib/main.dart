@@ -6,8 +6,6 @@ import 'package:mycargenie_2/notifications/notifications_utils.dart';
 import 'package:mycargenie_2/settings/settings_logics.dart';
 import 'package:mycargenie_2/theme/icons.dart';
 import 'package:mycargenie_2/theme/teme.dart';
-import 'package:mycargenie_2/theme/theme_light.dart';
-import 'package:mycargenie_2/theme/theme_dark.dart';
 import 'package:provider/provider.dart';
 import 'vehicle/vehicles.dart';
 import 'home.dart';
