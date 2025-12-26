@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'package:hive/hive.dart';
 import 'package:mycargenie_2/l10n/app_localizations.dart';
 import 'package:mycargenie_2/notifications/notifications_utils.dart';
 import 'package:mycargenie_2/utils/boxes.dart';
@@ -18,25 +19,29 @@ bool scheduleInvoiceNotifications(
     String title = '';
     String body = '';
 
-    // TODO: Change to l10n strings
+    Box notificationsBox;
+
     if (notificationType == NotificationType.insurance) {
       title = localizations.insuranceNotificationsTitle;
       body = localizations.insuranceNotificationsBody(
         vehicleName,
         localizations.ggMmAaaa(date.day, date.month, date.year),
       );
+      notificationsBox = insuranceNotificationsBox;
     } else if (notificationType == NotificationType.tax) {
       title = localizations.taxNotificationsTitle;
       body = localizations.taxNotificationsBody(
         vehicleName,
         localizations.ggMmAaaa(date.day, date.month, date.year),
       );
+      notificationsBox = taxNotificationsBox;
     } else {
       title = localizations.inspectionNotificationsTitle;
       body = localizations.inspectionNotificationsBody(
         vehicleName,
         localizations.ggMmAaaa(date.day, date.month, date.year),
       );
+      notificationsBox = inspectionNotificationsBox;
     }
 
     DateTime effectiveDate = date.add(const Duration(hours: 9));
@@ -46,6 +51,7 @@ bool scheduleInvoiceNotifications(
       body: body,
       date: effectiveDate,
       //date: DateTime.now().add(const Duration(seconds: 10)),
+      notificationsBox: notificationsBox,
     );
     return true;
   } else {

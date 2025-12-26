@@ -1,7 +1,6 @@
 import 'dart:developer';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:hive/hive.dart';
-import 'package:mycargenie_2/utils/boxes.dart';
 import 'package:timezone/timezone.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
 import 'package:timezone/timezone.dart' as tz;
@@ -69,6 +68,8 @@ Future<void> scheduleNotification({
   required String title,
   String? body,
   required DateTime date,
+  required Box notificationsBox,
+  bool isDue = false,
 }) async {
   TZDateTime scheduledDate = tz.TZDateTime.from(date, tz.local);
 
@@ -95,15 +96,16 @@ Future<void> scheduleNotification({
     //  .dayOfWeekAndTime, // Repeat every day of the week at the same time
   );
 
-  final insuranceNotificationsMap = <String, dynamic>{
+  final notificationsMap = <String, dynamic>{
     'vehicleKey': vehicleKey,
     'date': date,
+    'isDue': isDue,
   };
 
-  insuranceNotificationsBox.put(id, insuranceNotificationsMap);
+  notificationsBox.put(id, notificationsMap);
 
   log('scheduled notification for: $scheduledDate with id $id');
-  log('added to hive box: ${insuranceNotificationsMap.toString()}');
+  log('added to hive box: ${notificationsMap.toString()}');
 }
 
 int createUniqueId(DateTime date) {
@@ -111,42 +113,48 @@ int createUniqueId(DateTime date) {
 }
 
 Future<void> deleteAllNotificationsInCategory(
-  Box<dynamic> box,
-  int vehicleKey,
-) async {
-  log('starting iterating in $box');
+  Box<dynamic> notificationsBox,
+  int vehicleKey, {
+  bool isDue = false,
+}) async {
+  log('starting iterating in $notificationsBox');
 
-  for (var entry in box.toMap().entries) {
+  for (var entry in notificationsBox.toMap().entries) {
     final key = entry.key;
     final value = entry.value;
     log('value is: $value');
 
-    if (value['vehicleKey'] == vehicleKey) {
+    if (value['vehicleKey'] == vehicleKey &&
+        (!isDue || value['isDue'] == true)) {
       log('found corrisponding key, deleting notification');
       await notificationsPlugin.cancel(key);
 
-      await box.delete(key);
+      await notificationsBox.delete(key);
     }
   }
 
-  log('now box contains ${box.toMap().toString()}');
+  log('now box contains ${notificationsBox.toMap().toString()}');
 }
 
-Future<void> cleanupDeliveredNotifications(Box<dynamic> box) async {
+Future<void> cleanupDeliveredNotifications(
+  Box<dynamic> notificationsBox,
+) async {
   final List<PendingNotificationRequest> pendingRequests =
       await notificationsPlugin.pendingNotificationRequests();
 
   final Set<int> osPendingIds = pendingRequests.map((req) => req.id).toSet();
 
-  final List<dynamic> boxKeys = box.keys.toList();
+  final List<dynamic> boxKeys = notificationsBox.keys.toList();
 
   for (final key in boxKeys) {
     final int? notificationId = int.tryParse(key.toString());
 
     if (notificationId != null) {
       if (!osPendingIds.contains(notificationId)) {
-        await box.delete(key);
-        log('Deleted delivered notification with ID $key from ${box.name}.');
+        await notificationsBox.delete(key);
+        log(
+          'Deleted delivered notification with ID $key from ${notificationsBox.name}.',
+        );
       }
     }
   }

@@ -31,7 +31,11 @@ class _EditInspectionState extends State<EditInspection> {
   DateTime? _endDate;
   bool _notifications = false;
 
+  String? _bkInspector;
+  String? _bkNote;
+  DateTime? _bkStartDate;
   DateTime? _bkEndDate;
+  bool? _bkNotifications;
 
   final now = DateTime.now();
   DateTime get today => DateTime(now.year, now.month, now.day);
@@ -46,10 +50,12 @@ class _EditInspectionState extends State<EditInspection> {
 
     if (details != null) {
       _inspectorCtrl.text = details['inspector'] ?? '';
+      _bkInspector = _inspectorCtrl.text;
       log('loading inspector: ${_inspectorCtrl.text}');
 
       if (details['startDate'] is DateTime) {
         _startDate = details['startDate'];
+        _bkStartDate = _startDate;
         log('loading startDate: ${_startDate.toString()}');
       }
 
@@ -60,10 +66,12 @@ class _EditInspectionState extends State<EditInspection> {
       }
 
       _noteCtrl.text = details['note'] ?? '';
+      _bkNote = _noteCtrl.text;
 
       _notifications = details['notifications'] ?? false;
+      _bkNotifications = _notifications;
 
-      log('loading note: ${_noteCtrl.text}');
+      //log('loading note: ${_noteCtrl.text}');
     } else {
       _startDate = today;
       _endDate = today.add(const Duration(days: 365));
@@ -269,6 +277,13 @@ class _EditInspectionState extends State<EditInspection> {
       onPopInvokedWithResult: (didPop, result) async {
         if (didPop) return;
 
+        final hasChanges = _isSomethingChanged();
+
+        if (!hasChanges) {
+          if (context.mounted) Navigator.of(context).pop();
+          return;
+        }
+
         final bool? shouldPop = await discardConfirmOnBack(
           context,
           popScope: true,
@@ -285,7 +300,11 @@ class _EditInspectionState extends State<EditInspection> {
                 ? localizations.editValue(localizations.inspectionLower)
                 : localizations.addValue(localizations.inspectionLower),
           ),
-          leading: customBackButton(context, confirmation: true),
+          leading: customBackButton(
+            context,
+            confirmation: true,
+            checkChanges: _isSomethingChanged,
+          ),
           actions: <Widget>[
             if (widget.editKey != null)
               IconButton(
@@ -310,5 +329,13 @@ class _EditInspectionState extends State<EditInspection> {
         ),
       ),
     );
+  }
+
+  bool _isSomethingChanged() {
+    return _inspectorCtrl.text != _bkInspector ||
+        _startDate != _bkStartDate ||
+        _endDate != _bkEndDate ||
+        _noteCtrl.text != _bkNote ||
+        _notifications != _bkNotifications;
   }
 }

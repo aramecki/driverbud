@@ -30,7 +30,10 @@ class _EditTaxState extends State<EditTax> {
   DateTime? _endDate;
   bool _notifications = false;
 
+  String? _bkNote;
   DateTime? _bkEndDate;
+  String? _bkTotalPrice;
+  bool? _bkNotifications;
 
   final now = DateTime.now();
   DateTime get today => DateTime(now.year, now.month, now.day);
@@ -53,12 +56,15 @@ class _EditTaxState extends State<EditTax> {
       }
 
       _noteCtrl.text = details['note'] ?? '';
+      _bkNote = _noteCtrl.text;
       log('loading note: ${_noteCtrl.text}');
 
       _totalPriceCtrl!.text = details['totalPrice']?.toString() ?? '';
+      _bkTotalPrice = _totalPriceCtrl!.text;
       log('loading totPrice: ${_totalPriceCtrl!.text.toString()}');
 
       _notifications = details['notifications'] ?? false;
+      _bkNotifications = _notifications;
     } else {
       _endDate = today.add(const Duration(days: 365));
     }
@@ -251,6 +257,13 @@ class _EditTaxState extends State<EditTax> {
       onPopInvokedWithResult: (didPop, result) async {
         if (didPop) return;
 
+        final hasChanges = _isSomethingChanged();
+
+        if (!hasChanges) {
+          if (context.mounted) Navigator.of(context).pop();
+          return;
+        }
+
         final bool? shouldPop = await discardConfirmOnBack(
           context,
           popScope: true,
@@ -267,7 +280,11 @@ class _EditTaxState extends State<EditTax> {
                 ? localizations.editValue(localizations.taxLower)
                 : localizations.addValue(localizations.taxLower),
           ),
-          leading: customBackButton(context, confirmation: true),
+          leading: customBackButton(
+            context,
+            confirmation: true,
+            checkChanges: _isSomethingChanged,
+          ),
           actions: <Widget>[
             if (widget.editKey != null)
               IconButton(
@@ -290,5 +307,12 @@ class _EditTaxState extends State<EditTax> {
         ),
       ),
     );
+  }
+
+  bool _isSomethingChanged() {
+    return _endDate != _bkEndDate ||
+        _noteCtrl.text != _bkNote ||
+        _totalPriceCtrl!.text != _bkTotalPrice ||
+        _notifications != _bkNotifications;
   }
 }

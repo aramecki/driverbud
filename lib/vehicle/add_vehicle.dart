@@ -1,5 +1,4 @@
 import 'dart:developer';
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mycargenie_2/l10n/app_localizations.dart';
@@ -48,6 +47,19 @@ class _AddVehicleState extends State<AddVehicle> {
   bool _favorite = false;
   String? _assetImage;
 
+  String? _bkModel;
+  String? _bkConfig;
+  String? _bkCapacity;
+  String? _bkPower;
+  String? _bkHorse;
+  String? _bkImage;
+  String? _bkBrand;
+  int? _bkYear;
+  String? _bkCategory;
+  String? _bkEnergy;
+  String? _bkEcology;
+  bool? _bkFavorite;
+
   @override
   void initState() {
     super.initState();
@@ -56,20 +68,42 @@ class _AddVehicleState extends State<AddVehicle> {
 
     if (eventToEdit != null) {
       _savedImagePath = eventToEdit['assetImage'] as String?;
+      _previewImagePath = _savedImagePath;
+      _bkImage = _savedImagePath;
       _assetImage = _savedImagePath;
 
       _modelCtrl.text = eventToEdit['model'] ?? '';
+      _bkModel = _modelCtrl.text;
+
       _configCtrl.text = eventToEdit['config'] ?? '';
+      _bkConfig = _configCtrl.text;
+
       _capacityCtrl.text = eventToEdit['capacity']?.toString() ?? '';
+      _bkCapacity = _capacityCtrl.text;
+
       _powerCtrl.text = eventToEdit['power']?.toString() ?? '';
+      _bkPower = _powerCtrl.text;
+
       _horseCtrl.text = eventToEdit['horse']?.toString() ?? '';
+      _bkHorse = _horseCtrl.text;
 
       _brand = eventToEdit['brand'] as String?;
+      _bkBrand = _brand;
+
       _year = eventToEdit['year'] as int?;
+      _bkYear = _year;
+
       _category = eventToEdit['category'] as String?;
+      _bkCategory = _category;
+
       _energy = eventToEdit['energy'] as String?;
+      _bkEnergy = _energy;
+
       _ecology = eventToEdit['ecology'] as String?;
+      _bkEcology = _ecology;
+
       _favorite = eventToEdit['favorite'] ?? false;
+      _bkFavorite = _favorite;
     }
   }
 
@@ -87,14 +121,7 @@ class _AddVehicleState extends State<AddVehicle> {
     final localizations = AppLocalizations.of(context)!;
 
     if (_previewImagePath != null) {
-      if (_savedImagePath != null) {
-        try {
-          File(_savedImagePath!).delete;
-          log('Old image deleted: $_savedImagePath');
-        } catch (error) {
-          log("Can't delete $_savedImagePath: $error");
-        }
-      }
+      deleteImageFromMmry(_savedImagePath);
       _assetImage = await saveImageToMmry(_previewImagePath!);
     }
 
@@ -398,6 +425,13 @@ class _AddVehicleState extends State<AddVehicle> {
       onPopInvokedWithResult: (didPop, result) async {
         if (didPop) return;
 
+        final hasChanges = _isSomethingChanged();
+
+        if (!hasChanges) {
+          if (context.mounted) Navigator.of(context).pop();
+          return;
+        }
+
         final bool? shouldPop = await discardConfirmOnBack(
           context,
           popScope: true,
@@ -414,7 +448,11 @@ class _AddVehicleState extends State<AddVehicle> {
                 ? localizations.editValue(localizations.vehicleUpper)
                 : localizations.addValue(localizations.vehicleUpper),
           ),
-          leading: customBackButton(context, confirmation: true),
+          leading: customBackButton(
+            context,
+            confirmation: true,
+            checkChanges: _isSomethingChanged,
+          ),
         ),
         body: GestureDetector(
           behavior: HitTestBehavior.opaque,
@@ -425,5 +463,20 @@ class _AddVehicleState extends State<AddVehicle> {
         ),
       ),
     );
+  }
+
+  bool _isSomethingChanged() {
+    return _previewImagePath != _bkImage ||
+        _modelCtrl.text != _bkModel ||
+        _configCtrl.text != _bkConfig ||
+        _capacityCtrl.text != _bkCapacity ||
+        _powerCtrl.text != _bkPower ||
+        _horseCtrl.text != _bkHorse ||
+        _brand != _bkBrand ||
+        _year != _bkYear ||
+        _category != _bkCategory ||
+        _energy != _bkEnergy ||
+        _ecology != _bkEcology ||
+        _favorite != _bkFavorite;
   }
 }

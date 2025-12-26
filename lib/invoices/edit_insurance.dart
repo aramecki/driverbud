@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'package:currency_textfield/currency_textfield.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:mycargenie_2/home.dart';
@@ -36,14 +37,23 @@ class _EditInsuranceState extends State<EditInsurance> {
 
   CurrencyTextFieldController? _totalPriceCtrl;
 
-  final MenuController menuController = MenuController();
+  //final MenuController menuController = MenuController();
 
   DateTime? _startDate;
   DateTime? _endDate;
   bool _personalizeDues = false;
   bool _notifications = false;
 
+  String? _bkInsurer;
+  String? _bkNote;
+  DateTime? _bkStartDate;
   DateTime? _bkEndDate;
+  String? _bkDues;
+  String? _bkTotalPrice;
+  bool? _bkPersonalize;
+  bool? _bkNotifications;
+  final List<double> _bkDuesPrices = [];
+  final List<DateTime> _bkDuesDates = [];
 
   final now = DateTime.now();
   DateTime get today => DateTime(now.year, now.month, now.day);
@@ -65,10 +75,12 @@ class _EditInsuranceState extends State<EditInsurance> {
 
     if (details != null) {
       _insurerCtrl.text = details['insurer'] ?? '';
+      _bkInsurer = _insurerCtrl.text;
       log('loading insurer: ${_insurerCtrl.text}');
 
       if (details['startDate'] is DateTime) {
         _startDate = details['startDate'];
+        _bkStartDate = _startDate;
         log('loading startDate: ${_startDate.toString()}');
       }
 
@@ -79,31 +91,41 @@ class _EditInsuranceState extends State<EditInsurance> {
       }
 
       _noteCtrl.text = details['note'] ?? '';
+      _bkNote = _noteCtrl.text;
       log('loading note: ${_noteCtrl.text}');
 
       _totalPriceCtrl!.text = details['totalPrice']?.toString() ?? '';
+      _bkTotalPrice = _totalPriceCtrl!.text;
       log('loading totPrice: ${_totalPriceCtrl!.text.toString()}');
 
       _duesCtrl.text = details['dues'] ?? '1';
+      _bkDues = _duesCtrl.text;
 
       _personalizeDues = details['personalizeDues'] ?? false;
+      _bkPersonalize = _personalizeDues;
+
       _notifications = details['notifications'] ?? false;
+      _bkNotifications = _notifications;
 
       final int? duesNumber = int.tryParse(_duesCtrl.text);
 
       if (duesNumber != null && duesNumber > 1) {
         for (int i = 0; i < duesNumber; i++) {
           log('loading controller $i');
-          _duesPersonalizationControllers.add(
-            customCurrencyTextFieldController(context),
-          );
 
-          _duesPersonalizationControllers[i].text =
-              details['due$i']?.toString() ?? '';
+          final controller = customCurrencyTextFieldController(context);
+
+          controller.text = details['due$i']?.toString() ?? '';
+
+          _duesPersonalizationControllers.add(controller);
+
+          _bkDuesPrices.add(controller.doubleValue);
 
           _duesPersonalizationDates.add(details['dueDate$i'] as DateTime);
+          _bkDuesDates.add(details['dueDate$i'] as DateTime);
         }
       }
+      log('bkprices are: ${_bkDuesPrices.toString()}');
     } else {
       _startDate = today;
       _endDate = today.add(const Duration(days: 365));
@@ -196,12 +218,19 @@ class _EditInsuranceState extends State<EditInsurance> {
 
     if (_notifications == true && _duesPersonalizationDates.length > 1) {
       for (int i = 0; i < _duesPersonalizationDates.length; i++) {
-        scheduleInvoiceNotifications(
-          localizations,
-          vehicleKey,
-          _duesPersonalizationDates[i],
-          NotificationType.insurance,
-        );
+        if (_duesPersonalizationDates[i].compareTo(today) > 0) {
+          deleteAllNotificationsInCategory(
+            insuranceBox,
+            vehicleKey!,
+            isDue: true,
+          );
+          scheduleInvoiceNotifications(
+            localizations,
+            vehicleKey,
+            _duesPersonalizationDates[i],
+            NotificationType.insurance,
+          );
+        }
       }
     }
 
@@ -503,6 +532,13 @@ class _EditInsuranceState extends State<EditInsurance> {
       onPopInvokedWithResult: (didPop, result) async {
         if (didPop) return;
 
+        final hasChanges = _isSomethingChanged();
+
+        if (!hasChanges) {
+          if (context.mounted) Navigator.of(context).pop();
+          return;
+        }
+
         final bool? shouldPop = await discardConfirmOnBack(
           context,
           popScope: true,
@@ -519,7 +555,11 @@ class _EditInsuranceState extends State<EditInsurance> {
                 ? localizations.editValue(localizations.insurance)
                 : localizations.addValue(localizations.insurance),
           ),
-          leading: customBackButton(context, confirmation: true),
+          leading: customBackButton(
+            context,
+            confirmation: true,
+            checkChanges: _isSomethingChanged,
+          ),
           actions: <Widget>[
             if (widget.editKey != null)
               IconButton(
@@ -584,6 +624,25 @@ class _EditInsuranceState extends State<EditInsurance> {
     if (duePrice != null) {
       await assignPriceToDues(duePrice);
     }
+  }
+
+  bool _isSomethingChanged() {
+    List<double> duesPrices = [];
+
+    for (int i = 0; i < _duesPersonalizationControllers.length; i++) {
+      duesPrices.add(_duesPersonalizationControllers[i].doubleValue);
+    }
+
+    return _insurerCtrl.text != _bkInsurer ||
+        _noteCtrl.text != _bkNote ||
+        _startDate != _bkStartDate ||
+        _endDate != _bkEndDate ||
+        _duesCtrl.text != _bkDues ||
+        _totalPriceCtrl!.text != _bkTotalPrice ||
+        _personalizeDues != _bkPersonalize ||
+        _notifications != _bkNotifications ||
+        !listEquals(duesPrices, _bkDuesPrices) ||
+        !listEquals(_duesPersonalizationDates, _bkDuesDates);
   }
 }
 

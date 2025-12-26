@@ -195,12 +195,23 @@ Widget homeRowBox(
 }
 
 // Custom back button for appbar
-Widget customBackButton(BuildContext context, {bool confirmation = false}) {
+Widget customBackButton(
+  BuildContext context, {
+  bool confirmation = false,
+  bool Function()? checkChanges,
+}) {
   return IconButton(
     icon: backIcon,
-    onPressed: () => confirmation
-        ? discardConfirmOnBack(context)
-        : Navigator.of(context).pop(),
+    onPressed: () {
+      bool actuallyChanged = checkChanges?.call() ?? false;
+      log('changed: $actuallyChanged');
+      if (confirmation && actuallyChanged) {
+        discardConfirmOnBack(context);
+        return;
+      } else {
+        Navigator.of(context).pop();
+      }
+    },
   );
 }
 

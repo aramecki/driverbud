@@ -88,13 +88,13 @@ void main() async {
         ChangeNotifierProvider(create: (_) => VehicleProvider()),
         ChangeNotifierProvider(create: (_) => SettingsProvider(systemLocale)),
       ],
-      child: MyCarGenie(),
+      child: DriverBud(),
     ),
   );
 }
 
-class MyCarGenie extends StatelessWidget {
-  const MyCarGenie({super.key});
+class DriverBud extends StatelessWidget {
+  const DriverBud({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -107,11 +107,11 @@ class MyCarGenie extends StatelessWidget {
     }
 
     return MaterialApp(
-      //title: 'MyCarGenie2',
+      //title: 'DriverBud',
       themeMode: settingsProvider.themeMode,
       theme: lightTheme,
       darkTheme: darkTheme,
-      home: const MyCarGenieMain(),
+      home: const DriverBudMain(),
       locale: settingsProvider.locale,
       localizationsDelegates: const [
         AppLocalizations.delegate,
@@ -123,14 +123,14 @@ class MyCarGenie extends StatelessWidget {
 }
 
 // MainMaterialPage
-class MyCarGenieMain extends StatefulWidget {
-  const MyCarGenieMain({super.key});
+class DriverBudMain extends StatefulWidget {
+  const DriverBudMain({super.key});
 
   @override
-  State<MyCarGenieMain> createState() => _MyCarGenieMainState();
+  State<DriverBudMain> createState() => _DriverBudMainState();
 }
 
-class _MyCarGenieMainState extends State<MyCarGenieMain> {
+class _DriverBudMainState extends State<DriverBudMain> {
   // Variables to track navigation
   int _currentIndex = 0;
   int _latestIndex = 0;

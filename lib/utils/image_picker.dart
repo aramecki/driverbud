@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -5,6 +6,11 @@ import 'package:intl/intl.dart';
 import 'package:mycargenie_2/theme/icons.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
+
+Future<String> loadSavedImage(String? imageName) async {
+  final Directory docsDir = await getApplicationDocumentsDirectory();
+  return p.join(docsDir.path, 'images', imageName ?? '');
+}
 
 class VehicleImagePicker extends StatefulWidget {
   final ValueChanged<String?>? onImagePicked;
@@ -28,9 +34,18 @@ class VehicleImagePickerState extends State<VehicleImagePicker> {
   void initState() {
     super.initState();
 
+    Future<void> initImage() async {
+      final path = await loadSavedImage(widget.initialImagePath);
+      if (mounted) {
+        setState(() {
+          imagePreview = path;
+        });
+      }
+    }
+
     if (widget.initialImagePath != null &&
         widget.initialImagePath!.isNotEmpty) {
-      imagePreview = widget.initialImagePath;
+      initImage();
     }
   }
 
@@ -113,7 +128,6 @@ String? showImagePreview(String srcPath) {
   return srcFile.path;
 }
 
-// TODO: Solve bug for image loading and saving on iOS
 Future<String?> saveImageToMmry(String srcPath) async {
   final File srcFile = File(srcPath);
   final String timestamp = DateFormat(
@@ -130,4 +144,21 @@ Future<String?> saveImageToMmry(String srcPath) async {
   await srcFile.copy(destPath);
 
   return newFileName;
+}
+
+Future<void> deleteImageFromMmry(String? fileName) async {
+  if (fileName != null) {
+    try {
+      final Directory docsDir = await getApplicationDocumentsDirectory();
+      final String imagesDir = p.join(docsDir.path, 'images', fileName);
+      final File fileToDelete = File(imagesDir);
+
+      if (await fileToDelete.exists()) {
+        await fileToDelete.delete();
+        log('File deletion completed.');
+      }
+    } catch (e) {
+      log(e.toString());
+    }
+  }
 }

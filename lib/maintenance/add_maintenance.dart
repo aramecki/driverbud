@@ -35,6 +35,14 @@ class _AddMaintenanceState extends State<AddMaintenance> {
   DateTime? _date;
   String? _maintenanceType;
 
+  String? _bkTitle;
+  String? _bkPlace;
+  String? _bkKilometers;
+  String? _bkDescription;
+  String? _bkPrice;
+  DateTime? _bkDate;
+  String? _bkType;
+
   final now = DateTime.now();
   DateTime get today => DateTime(now.year, now.month, now.day);
 
@@ -57,14 +65,25 @@ class _AddMaintenanceState extends State<AddMaintenance> {
 
     if (eventToEdit != null) {
       _titleCtrl.text = eventToEdit['title'] ?? '';
+      _bkTitle = _titleCtrl.text;
+
       _placeCtrl.text = eventToEdit['place'] ?? '';
+      _bkPlace = _placeCtrl.text;
+
       _kilometersCtrl.text = eventToEdit['kilometers']?.toString() ?? '';
+      _bkKilometers = _kilometersCtrl.text;
+
       _descriptionCtrl.text = eventToEdit['description'] ?? '';
+      _bkDescription = _descriptionCtrl.text;
 
       _priceCtrl!.text = eventToEdit['price']?.toString() ?? '';
+      _bkPrice = _priceCtrl!.text;
 
       _date = eventToEdit['date'] as DateTime;
+      _bkDate = _date;
+
       _maintenanceType = eventToEdit['maintenanceType'] as String?;
+      _bkType = _maintenanceType;
     }
   }
 
@@ -302,6 +321,13 @@ class _AddMaintenanceState extends State<AddMaintenance> {
       onPopInvokedWithResult: (didPop, result) async {
         if (didPop) return;
 
+        final hasChanges = _isSomethingChanged();
+
+        if (!hasChanges) {
+          if (context.mounted) Navigator.of(context).pop();
+          return;
+        }
+
         final bool? shouldPop = await discardConfirmOnBack(
           context,
           popScope: true,
@@ -318,7 +344,11 @@ class _AddMaintenanceState extends State<AddMaintenance> {
                 ? localizations.editValue(localizations.maintenanceUpper)
                 : localizations.addValue(localizations.maintenanceUpper),
           ),
-          leading: customBackButton(context, confirmation: true),
+          leading: customBackButton(
+            context,
+            confirmation: true,
+            checkChanges: _isSomethingChanged,
+          ),
         ),
         body: GestureDetector(
           behavior: HitTestBehavior.opaque,
@@ -329,5 +359,15 @@ class _AddMaintenanceState extends State<AddMaintenance> {
         ),
       ),
     );
+  }
+
+  bool _isSomethingChanged() {
+    return _titleCtrl.text != _bkTitle ||
+        _placeCtrl.text != _bkPlace ||
+        _kilometersCtrl.text != _bkKilometers ||
+        _descriptionCtrl.text != _bkDescription ||
+        _priceCtrl!.text != _bkPrice ||
+        _date != _bkDate ||
+        _maintenanceType != _bkType;
   }
 }
