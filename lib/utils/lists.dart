@@ -6,8 +6,12 @@ final List<Map<String, String>> currenciesList = [
   {'symbol': 'zł', 'name': 'Złoty', 'code': 'PLN', 'country': 'PL'},
   {'symbol': 'Ft', 'name': 'Forint', 'code': 'HUF', 'country': 'HU'},
   {'symbol': 'Kč', 'name': 'Česká Koruna', 'code': 'CZK', 'country': 'CZ'},
-  {'symbol': 'kr', 'name': 'Svensk Krona', 'code': 'SEK', 'country': 'SE'},
-  {'symbol': 'kr', 'name': 'Dansk Krone', 'code': 'DKK', 'country': 'DK'},
+  {
+    'symbol': 'kr',
+    'name': 'Svensk Krona/Dansk Krone',
+    'code': 'SEK/DKK',
+    'country': 'SE/DK',
+  },
   {'symbol': 'lei', 'name': 'Leu Românesc', 'code': 'RON', 'country': 'RO'},
   {'symbol': 'лв', 'name': 'Български Лев', 'code': 'BGN', 'country': 'BG'},
 ];

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mycargenie_2/settings/backup/backup_restore_screen.dart';
 import 'package:mycargenie_2/l10n/app_localizations.dart';
 import 'package:mycargenie_2/settings/currency_settings.dart';
+import 'package:mycargenie_2/settings/about.dart';
 import 'package:mycargenie_2/settings/language_settings.dart';
 import 'package:mycargenie_2/settings/theme_settings.dart';
 import 'package:mycargenie_2/theme/icons.dart';
@@ -80,7 +81,7 @@ class _SettingsState extends State<Settings> {
             localizations.about,
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
           ),
-          // onTap: () => navigateToPage(context, BackupRestoreScreen()),
+          onTap: () => navigateToPage(context, About()),
         ),
       ],
     );
