@@ -10,9 +10,13 @@ bool scheduleInvoiceNotifications(
   AppLocalizations localizations,
   int? vehicleKey,
   DateTime? date,
-  NotificationType notificationType,
-) {
+  NotificationType notificationType, {
+  int? id,
+  bool isRestoring = false,
+}) {
   if (vehicleKey != null && date != null) {
+    DateTime effectiveDate;
+
     final vehicle = vehicleBox.get(vehicleKey);
     String vehicleName = '${vehicle['brand']} ${vehicle['model']}';
 
@@ -44,7 +48,12 @@ bool scheduleInvoiceNotifications(
       notificationsBox = inspectionNotificationsBox;
     }
 
-    DateTime effectiveDate = date.add(const Duration(hours: 9));
+    if (!isRestoring) {
+      effectiveDate = date.add(const Duration(hours: 9));
+    } else {
+      effectiveDate = date;
+    }
+
     scheduleNotification(
       vehicleKey: vehicleKey,
       title: title,
@@ -52,6 +61,8 @@ bool scheduleInvoiceNotifications(
       date: effectiveDate,
       //date: DateTime.now().add(const Duration(seconds: 10)),
       notificationsBox: notificationsBox,
+      id: id,
+      isRestoring: isRestoring,
     );
     return true;
   } else {

@@ -98,6 +98,12 @@ abstract class AppLocalizations {
     Locale('it'),
   ];
 
+  /// DriverBud text
+  ///
+  /// In en, this message translates to:
+  /// **'DriverBud'**
+  String get appName;
+
   /// Cancel text
   ///
   /// In en, this message translates to:
@@ -152,16 +158,16 @@ abstract class AppLocalizations {
   /// **'Capacity cc'**
   String get capacityCcUpper;
 
-  /// Power kw text
+  /// Power kW text
   ///
   /// In en, this message translates to:
-  /// **'Power kw'**
+  /// **'Power kW'**
   String get powerKwUpper;
 
-  /// HorsePower cv text
+  /// HorsePower CV text
   ///
   /// In en, this message translates to:
-  /// **'HorsePower cv'**
+  /// **'HorsePower CV'**
   String get horsePowerCvUpper;
 
   /// Main Maintenance uppercase text shown in navigation bar and in maintenance section
@@ -236,11 +242,23 @@ abstract class AppLocalizations {
   /// **'On this page you will find all the {eventType} events.'**
   String youWillFindEvents(String eventType);
 
-  /// Create your first vehicle to add one. text shown when saving a vehicle without the brand or model required fields
+  /// On this page you will find all the invoices. text shown when user has no invoices saved for the selected vehicle
+  ///
+  /// In en, this message translates to:
+  /// **'On this page you will find all the invoices.'**
+  String get youWillFindInvoices;
+
+  /// Create your first vehicle to add one. text
   ///
   /// In en, this message translates to:
   /// **'Create your first vehicle to add one.'**
   String get createYourFirstVehicle;
+
+  /// Add your first vehicle to see details. text
+  ///
+  /// In en, this message translates to:
+  /// **'Add your first vehicle to see details.'**
+  String get createYourFirstVehicleToVisualize;
 
   /// On this page you will find all the saved vehicles. text shown when user has not vehicles saved
   ///
@@ -319,6 +337,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Ecology'**
   String get ecologyUpper;
+
+  /// Plate text
+  ///
+  /// In en, this message translates to:
+  /// **'Plate'**
+  String get plateUpper;
 
   /// Update text shown as save button when editing an event
   ///
@@ -433,6 +457,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Other'**
   String get other;
+
+  /// Cars text
+  ///
+  /// In en, this message translates to:
+  /// **'Cars'**
+  String get cars;
+
+  /// Motorcycles text
+  ///
+  /// In en, this message translates to:
+  /// **'Motorcycles'**
+  String get motorcycles;
 
   /// Sedan vehicle text
   ///
@@ -560,10 +596,10 @@ abstract class AppLocalizations {
   /// **'Creating backup file...'**
   String get creatingBackupFile;
 
-  /// Restoring file... text
+  /// Waiting for file... text
   ///
   /// In en, this message translates to:
-  /// **'Restoring file...'**
+  /// **'Waiting for file...'**
   String get restoringFile;
 
   /// Backup completed. text
@@ -913,6 +949,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'You\'ve reached the vehicle limit in your garage.'**
   String get reachedMaxEntry;
+
+  /// A solo project by aramecki text
+  ///
+  /// In en, this message translates to:
+  /// **'A solo project by aramecki'**
+  String get aSoloProject;
+
+  /// Get more info on: text
+  ///
+  /// In en, this message translates to:
+  /// **'Get more info on:'**
+  String get getMoreInfoOn;
 }
 
 class _AppLocalizationsDelegate

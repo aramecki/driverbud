@@ -9,6 +9,9 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
+  String get appName => 'DriverBud';
+
+  @override
   String get cancel => 'Cancel';
 
   @override
@@ -36,10 +39,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get capacityCcUpper => 'Capacity cc';
 
   @override
-  String get powerKwUpper => 'Power kw';
+  String get powerKwUpper => 'Power kW';
 
   @override
-  String get horsePowerCvUpper => 'HorsePower cv';
+  String get horsePowerCvUpper => 'HorsePower CV';
 
   @override
   String get maintenanceUpper => 'Maintenance';
@@ -80,7 +83,15 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get youWillFindInvoices =>
+      'On this page you will find all the invoices.';
+
+  @override
   String get createYourFirstVehicle => 'Create your first vehicle to add one.';
+
+  @override
+  String get createYourFirstVehicleToVisualize =>
+      'Add your first vehicle to see details.';
 
   @override
   String get youWillFindVehicles =>
@@ -121,6 +132,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get ecologyUpper => 'Ecology';
+
+  @override
+  String get plateUpper => 'Plate';
 
   @override
   String get updateUpper => 'Update';
@@ -200,6 +214,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get other => 'Other';
 
   @override
+  String get cars => 'Cars';
+
+  @override
+  String get motorcycles => 'Motorcycles';
+
+  @override
   String get sedan => 'Sedan';
 
   @override
@@ -263,7 +283,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get creatingBackupFile => 'Creating backup file...';
 
   @override
-  String get restoringFile => 'Restoring file...';
+  String get restoringFile => 'Waiting for file...';
 
   @override
   String get backupCompleted => 'Backup completed.';
@@ -466,4 +486,10 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get reachedMaxEntry =>
       'You\'ve reached the vehicle limit in your garage.';
+
+  @override
+  String get aSoloProject => 'A solo project by aramecki';
+
+  @override
+  String get getMoreInfoOn => 'Get more info on:';
 }

@@ -7,22 +7,22 @@ import 'package:url_launcher/url_launcher.dart';
 class About extends StatelessWidget {
   const About({super.key});
 
+  static const String appVersion = 'v0.3.0-alpha';
+  static const String gitHub = 'GitHub';
+
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
 
     final content = Column(
-      //mainAxisAlignment: MainAxisAlignment.center,
-      //crossAxisAlignment: CrossAxisAlignment.center,
-      //mainAxisSize: MainAxisSize.max,
       children: [
-        SizedBox(height: 100),
+        const SizedBox(height: 100),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              'DriverBud',
-              style: TextStyle(
+              localizations.appName,
+              style: const TextStyle(
                 fontSize: 30,
                 fontWeight: FontWeight.w500,
                 color: Colors.deepOrange,
@@ -30,24 +30,21 @@ class About extends StatelessWidget {
             ),
           ],
         ),
-        Text('v0.0.2', style: bottomMessageStyle),
-        SizedBox(height: 50),
+        const Text(appVersion, style: bottomMessageStyle),
+        const SizedBox(height: 50),
 
-        Text('A solo project by aramecki', style: TextStyle(fontSize: 18)),
+        Text(localizations.aSoloProject, style: const TextStyle(fontSize: 18)),
         SizedBox(height: 15),
 
-        Text('Get more info on:'),
-        SizedBox(height: 5),
+        Text(localizations.getMoreInfoOn),
+        const SizedBox(height: 5),
 
-        ElevatedButton(onPressed: _launchURL, child: Text('GitHub')),
+        const ElevatedButton(onPressed: _launchURL, child: Text(gitHub)),
       ],
     );
 
     return Scaffold(
-      appBar: AppBar(
-        //title: Text(localizations.settings),
-        leading: customBackButton(context),
-      ),
+      appBar: AppBar(leading: customBackButton(context)),
       body: content,
     );
   }

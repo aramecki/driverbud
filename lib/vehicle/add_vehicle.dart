@@ -30,32 +30,37 @@ class _AddVehicleState extends State<AddVehicle> {
   final TextEditingController _capacityCtrl = TextEditingController();
   final TextEditingController _powerCtrl = TextEditingController();
   final TextEditingController _horseCtrl = TextEditingController();
+  final TextEditingController _plateCtrl = TextEditingController();
 
-  final MenuController brandMenuController = MenuController();
   final MenuController categoryMenuController = MenuController();
+  final MenuController brandMenuController = MenuController();
+  final MenuController typeMenuController = MenuController();
   final MenuController energyMenuController = MenuController();
   final MenuController ecologyMenuController = MenuController();
 
   String? _savedImagePath;
   String? _previewImagePath;
 
+  String? _category;
   String? _brand;
   int? _year;
-  String? _category;
+  String? _type;
   String? _energy;
   String? _ecology;
   bool _favorite = false;
   String? _assetImage;
 
+  String? _bkCategory;
   String? _bkModel;
   String? _bkConfig;
   String? _bkCapacity;
   String? _bkPower;
   String? _bkHorse;
+  String? _bkPlate;
   String? _bkImage;
   String? _bkBrand;
   int? _bkYear;
-  String? _bkCategory;
+  String? _bkType;
   String? _bkEnergy;
   String? _bkEcology;
   bool? _bkFavorite;
@@ -87,14 +92,20 @@ class _AddVehicleState extends State<AddVehicle> {
       _horseCtrl.text = eventToEdit['horse']?.toString() ?? '';
       _bkHorse = _horseCtrl.text;
 
+      _plateCtrl.text = eventToEdit['plate']?.toString() ?? '';
+      _bkPlate = _plateCtrl.text;
+
+      _category = eventToEdit['category'] as String?;
+      _bkCategory = _category;
+
       _brand = eventToEdit['brand'] as String?;
       _bkBrand = _brand;
 
       _year = eventToEdit['year'] as int?;
       _bkYear = _year;
 
-      _category = eventToEdit['category'] as String?;
-      _bkCategory = _category;
+      _type = eventToEdit['type'] as String?;
+      _bkType = _type;
 
       _energy = eventToEdit['energy'] as String?;
       _bkEnergy = _energy;
@@ -114,6 +125,7 @@ class _AddVehicleState extends State<AddVehicle> {
     _capacityCtrl.dispose();
     _powerCtrl.dispose();
     _horseCtrl.dispose();
+    _plateCtrl.dispose();
     super.dispose();
   }
 
@@ -132,6 +144,7 @@ class _AddVehicleState extends State<AddVehicle> {
     }
 
     final vehicleMap = <String, dynamic>{
+      'category': _category,
       'brand': _brand,
       'model': _modelCtrl.text.trim(),
       'config': _configCtrl.text.trim(),
@@ -139,7 +152,8 @@ class _AddVehicleState extends State<AddVehicle> {
       'capacity': int.tryParse(_capacityCtrl.text),
       'power': int.tryParse(_powerCtrl.text),
       'horse': int.tryParse(_horseCtrl.text),
-      'category': _category,
+      'plate': _plateCtrl.text.trim(),
+      'type': _type,
       'energy': _energy,
       'ecology': _ecology,
       'favorite': _favorite,
@@ -148,7 +162,8 @@ class _AddVehicleState extends State<AddVehicle> {
 
     if (!mounted) return;
 
-    if (vehicleMap['brand'] == null ||
+    if (vehicleMap['category'] == null ||
+        vehicleMap['brand'] == null ||
         vehicleMap['model'] == null ||
         vehicleMap['model'] == '') {
       showCustomToast(context, message: localizations.brandModelRequiredField);
@@ -200,6 +215,7 @@ class _AddVehicleState extends State<AddVehicle> {
     final localizations = AppLocalizations.of(context)!;
 
     final vehicleCategoryList = getVehicleCategoryList(context);
+    final vehicleTypeList = getVehicleTypeList(context);
     final vehicleEnergyList = getVehicleEnergyList(context);
 
     final isEdit = widget.editKey != null;
@@ -213,11 +229,27 @@ class _AddVehicleState extends State<AddVehicle> {
           onImagePicked: (value) => _previewImagePath = value,
         ),
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.max,
             children: [
+              Expanded(
+                child: FocusableDropdown(
+                  menuController: categoryMenuController,
+                  name: localizations.categoryUpper,
+                  items: vehicleCategoryList,
+                  selectedItem: _category,
+                  onSelected: (value) {
+                    setState(() => _category = value);
+                    categoryMenuController.close();
+                    //_openMenu();
+                  },
+                ),
+              ),
+
+              const SizedBox(width: 8),
+
               Expanded(
                 child: DropdownMenu<String>(
                   hintText: localizations.brandUpper,
@@ -240,22 +272,24 @@ class _AddVehicleState extends State<AddVehicle> {
                   },
                 ),
               ),
-              const SizedBox(width: 8),
+            ],
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.max,
+            children: [
               customTextField(
                 context,
                 hintText: localizations.modelUpper,
                 controller: _modelCtrl,
                 action: TextInputAction.next,
               ),
-            ],
-          ),
-        ),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.max,
-            children: [
+
+              const SizedBox(width: 8),
+
               customTextField(
                 context,
                 hintText: localizations.configurationUpper,
@@ -267,7 +301,7 @@ class _AddVehicleState extends State<AddVehicle> {
           ),
         ),
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.max,
@@ -286,13 +320,15 @@ class _AddVehicleState extends State<AddVehicle> {
                 maxLength: 4,
                 formatter: [FilteringTextInputFormatter.digitsOnly],
                 controller: _capacityCtrl,
+                suffixText: 'cc',
+
                 action: TextInputAction.next,
               ),
             ],
           ),
         ),
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.max,
@@ -304,6 +340,8 @@ class _AddVehicleState extends State<AddVehicle> {
                 maxLength: 4,
                 formatter: [FilteringTextInputFormatter.digitsOnly],
                 controller: _powerCtrl,
+                suffixText: 'kW',
+
                 action: TextInputAction.next,
               ),
               const SizedBox(width: 8),
@@ -314,27 +352,28 @@ class _AddVehicleState extends State<AddVehicle> {
                 maxLength: 4,
                 formatter: [FilteringTextInputFormatter.digitsOnly],
                 controller: _horseCtrl,
-                onSubmitted: (_) => _openMenu(categoryMenuController),
+                onSubmitted: (_) => _openMenu(typeMenuController),
+                suffixText: 'CV',
                 action: TextInputAction.next,
               ),
             ],
           ),
         ),
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.max,
             children: [
               Expanded(
                 child: FocusableDropdown(
-                  menuController: categoryMenuController,
-                  name: localizations.categoryUpper,
-                  items: vehicleCategoryList,
-                  selectedItem: _category,
+                  menuController: typeMenuController,
+                  name: localizations.typeUpper,
+                  items: vehicleTypeList,
+                  selectedItem: _type,
                   onSelected: (value) {
-                    setState(() => _category = value);
-                    categoryMenuController.close();
+                    setState(() => _type = value);
+                    typeMenuController.close();
                     _openMenu(energyMenuController);
                   },
                 ),
@@ -349,7 +388,7 @@ class _AddVehicleState extends State<AddVehicle> {
                   selectedItem: _energy,
                   onSelected: (value) {
                     setState(() => _energy = value);
-                    categoryMenuController.close();
+                    typeMenuController.close();
                     _openMenu(ecologyMenuController);
                   },
                 ),
@@ -358,7 +397,7 @@ class _AddVehicleState extends State<AddVehicle> {
           ),
         ),
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             mainAxisSize: MainAxisSize.max,
@@ -371,14 +410,34 @@ class _AddVehicleState extends State<AddVehicle> {
                   selectedItem: _ecology,
                   onSelected: (value) {
                     setState(() => _ecology = value);
-                    categoryMenuController.close();
+                    typeMenuController.close();
                     FocusScope.of(context).nextFocus();
                   },
                 ),
               ),
 
               const SizedBox(width: 8),
-              if (!isEdit)
+
+              customTextField(
+                context,
+                hintText: localizations.plateUpper,
+                maxLength: 9,
+                controller: _plateCtrl,
+                action: TextInputAction.send,
+              ),
+            ],
+          ),
+        ),
+
+        if (!isEdit)
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                const Expanded(child: SizedBox()),
+
                 Expanded(
                   child: CustomSwitch(
                     isSelected: _favorite,
@@ -389,11 +448,12 @@ class _AddVehicleState extends State<AddVehicle> {
                     },
                   ),
                 ),
-            ],
+              ],
+            ),
           ),
-        ),
+
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          padding: EdgeInsets.only(left: 16, right: 16, top: 8),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.max,
@@ -445,8 +505,8 @@ class _AddVehicleState extends State<AddVehicle> {
         appBar: AppBar(
           title: Text(
             isEdit
-                ? localizations.editValue(localizations.vehicleUpper)
-                : localizations.addValue(localizations.vehicleUpper),
+                ? localizations.editValue(localizations.vehicleLower)
+                : localizations.addValue(localizations.vehicleLower),
           ),
           leading: customBackButton(
             context,
@@ -467,14 +527,16 @@ class _AddVehicleState extends State<AddVehicle> {
 
   bool _isSomethingChanged() {
     return _previewImagePath != _bkImage ||
+        _category != _bkCategory ||
         _modelCtrl.text != _bkModel ||
         _configCtrl.text != _bkConfig ||
         _capacityCtrl.text != _bkCapacity ||
         _powerCtrl.text != _bkPower ||
         _horseCtrl.text != _bkHorse ||
+        _plateCtrl.text != _bkPlate ||
         _brand != _bkBrand ||
         _year != _bkYear ||
-        _category != _bkCategory ||
+        _type != _bkType ||
         _energy != _bkEnergy ||
         _ecology != _bkEcology ||
         _favorite != _bkFavorite;

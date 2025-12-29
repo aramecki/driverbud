@@ -33,12 +33,17 @@ void main() async {
   await Hive.openBox('inspection');
   await Hive.openBox('inspectionNotifications');
 
-  await cleanupDeliveredNotifications(insuranceNotificationsBox);
+  await cleanDeliveredNotificationFromBoxes();
+
+  // await cleanupDeliveredNotifications(insuranceNotificationsBox);
+  // await cleanupDeliveredNotifications(taxNotificationsBox);
+  // await cleanupDeliveredNotifications(inspectionNotificationsBox);
 
   if (vehicleBox.isEmpty) {
     await startupImageLoader();
 
     await vehicleBox.add({
+      'category': 'Cars',
       'brand': 'Toyota',
       'model': 'Corolla',
       'config': 'B-Turbo',
@@ -46,13 +51,15 @@ void main() async {
       'capacity': 1400,
       'power': 100,
       'horse': 140,
-      'category': 'Sport',
+      'plate': 'AF345TG',
+      'type': 'Sport',
       'energy': 'Benzina',
       'ecology': 'Euro 4',
       'favorite': false,
       'assetImage': imageOne,
     });
     await vehicleBox.add({
+      'category': 'Cars',
       'brand': 'Ford',
       'model': 'Focus',
       'config': null,
@@ -60,13 +67,15 @@ void main() async {
       'capacity': 1400,
       'power': 100,
       'horse': 140,
-      'category': 'Berlina',
+      'plate': 'EF345GH',
+      'type': 'Berlina',
       'energy': 'Benzina',
       'ecology': 'Euro 6',
       'favorite': false,
       'assetImage': imageTwo,
     });
     await vehicleBox.add({
+      'category': 'Cars',
       'brand': 'Audi',
       'model': 'TT',
       'config': 'Quattro',
@@ -74,7 +83,8 @@ void main() async {
       'capacity': 2000,
       'power': 100,
       'horse': 190,
-      'category': 'Sport',
+      'plate': 'AB123CD',
+      'type': 'Sport',
       'energy': 'Benzina',
       'ecology': 'Euro 3',
       'favorite': true,

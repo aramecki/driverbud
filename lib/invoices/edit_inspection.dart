@@ -146,8 +146,6 @@ class _EditInspectionState extends State<EditInspection> {
     Navigator.of(context).pop();
   }
 
-  //TODO: Manage when there are no vehicles
-
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
@@ -310,9 +308,11 @@ class _EditInspectionState extends State<EditInspection> {
               IconButton(
                 onPressed: () {
                   WidgetsBinding.instance.addPostFrameCallback((_) {
+                    deleteAllNotificationsInCategory(
+                      inspectionNotificationsBox,
+                      widget.editKey,
+                    );
                     inspectionBox.delete(widget.editKey);
-                    // TODO: Add notifications box deletion
-                    // TODO: Add notification disable
                     Navigator.of(context).popUntil((route) => route.isFirst);
                   });
                 },

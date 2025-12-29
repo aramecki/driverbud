@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 // Personalized colors
-Color lightGrey = Colors.grey[300]!;
-Color middleGrey = Colors.grey[600]!;
-Color darkGrey = Colors.grey[900]!;
+const Color lightGrey = Color.fromRGBO(224, 224, 224, 1);
+const Color middleGrey = Color(0xFF757575);
+const Color darkGrey = Color.fromRGBO(33, 33, 33, 1);
 Color alphaGrey = Colors.grey.withValues(alpha: 0.3);
-Color halfAlphaBlack = Colors.black54;
+const Color halfAlphaBlack = Colors.black54;

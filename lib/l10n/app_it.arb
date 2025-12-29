@@ -1,6 +1,11 @@
 {
   "@@locale": "it",
 
+  "appName": "DriverBud",
+  "@appName": {
+    "description": "DriverBud text"
+  },
+
   "cancel": "Annulla",
   "@cancel": {
   "description": "Annulla text"
@@ -46,14 +51,14 @@
     "description": "Capacity cc text"
   },
 
-  "powerKwUpper": "Potenza kw",
+  "powerKwUpper": "Potenza kW",
   "@powerKwUpper": {
-    "description": "Power kw text"
+    "description": "Power kW text"
   },
 
-  "horsePowerCvUpper": "Cavalli cv",
+  "horsePowerCvUpper": "Cavalli CV",
   "@horsePowerCvUpper": {
-    "description": "HorsePower cv text"
+    "description": "HorsePower CV text"
   },
 
   "maintenanceUpper": "Manutenzione",
@@ -119,9 +124,19 @@
     "description": "On this page you will find all the added maintenance/refueling events. text shown when user has not maintenance event saved for the selected vehicle"
   },
 
+  "youWillFindInvoices": "In questa pagina troverai tutte le scadenze.",
+  "@youWillFindInvoices": {
+    "description": "In questa pagina troverai tutte le scadenze. text shown when user has no invoices saved for the selected vehicle"
+  },
+
   "createYourFirstVehicle": "Crea il tuo primo veicolo per aggiungerne uno.",
   "@createYourFirstVehicle": {
-    "description": "Crea il tuo primo veicolo per aggiungerne uno. text shown when saving a vehicle without the brand or model required fields"
+    "description": "Crea il tuo primo veicolo per aggiungerne uno. text."
+  },
+
+  "createYourFirstVehicleToVisualize": "Crea il tuo primo veicolo per visualizzarle.",
+  "@createYourFirstVehicleToVisualize": {
+    "description": "Crea il tuo primo veicolo per visualizzarle. text"
   },
 
   "youWillFindVehicles": "In questa pagina troverai tutti i veicoli aggiunti.",
@@ -187,6 +202,11 @@
   "ecologyUpper": "Ecologia",
   "@ecologyUpper": {
     "description": "Ecology text"
+  },
+
+  "plateUpper": "Targa",
+  "@plateUpper": {
+    "description": "Targa text"
   },
 
   "updateUpper": "Aggiorna",
@@ -319,6 +339,16 @@
     "description": "Other text"
   },
 
+  "cars": "Auto",
+  "@cars": {
+    "description": "Auto text"
+  },
+
+  "motorcycles": "Moto",
+  "@motorcycles": {
+    "description": "Moto text"
+  },
+
   "sedan": "Berlina",
   "@sedan": {
     "description": "Sedan vehicle text"
@@ -424,9 +454,9 @@
     "description": "Creating backup file... text"
   },
 
-  "restoringFile": "Ripristino file...",
+  "restoringFile": "Attendo il file...",
   "@restoringFile": {
-    "description": "Restoring file... text"
+    "description": "Attendo il file... text"
   },
 
   "backupCompleted": "Backup completato.",
@@ -765,6 +795,16 @@
   "reachedMaxEntry": "Hai raggiunto il numero massimo di veicoli nel garage.",
   "@reachedMaxEntry": {
     "description": "Hai raggiunto il numero massimo di veicoli nel garage. text"
+  },
+
+  "aSoloProject": "Creato interamente da aramecki",
+  "@aSoloProject": {
+    "description": "Creato interamente da aramecki text"
+  },
+
+  "getMoreInfoOn": "Più info su:",
+  "@getMoreInfoOn": {
+    "description": "Più info su: text"
   }
 
 }

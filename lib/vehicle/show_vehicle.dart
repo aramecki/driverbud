@@ -182,10 +182,6 @@ class _ShowVehicleState extends State<ShowVehicle> {
         backgroundColor: Colors.deepOrange,
         child: shareIcon,
         onPressed: () => _shareVehicle(context, localizations, widget.editKey),
-        // showCustomToast(
-        //   context,
-        //   message: 'Share opened',
-        // ), // TODO: Remove, for debugging
       ),
       body: GestureDetector(
         behavior: HitTestBehavior.opaque,

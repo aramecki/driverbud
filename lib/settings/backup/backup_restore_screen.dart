@@ -25,6 +25,7 @@ class _BackupRestoreScreenState extends State<BackupRestoreScreen> {
     'taxNotifications',
     'inspection',
     'inspectionNotifications',
+    // TODO: Add maintenance notifications
   ];
   String _statusBackup = '';
   String _statusRestore = '';
@@ -48,7 +49,7 @@ class _BackupRestoreScreenState extends State<BackupRestoreScreen> {
           trailing: _isBackingUp ? sizedProgressIndicator() : null,
           onTap: () => _performBackup(localizations),
         ),
-        Divider(height: 20),
+        const Divider(height: 20),
         ListTile(
           title: Text(
             localizations.restoreBackup,
@@ -113,7 +114,10 @@ class _BackupRestoreScreenState extends State<BackupRestoreScreen> {
       _isRestoring = true;
     });
 
-    final bool success = await restoreBoxFromPath(vehicleProvider);
+    final bool success = await restoreBoxFromPath(
+      vehicleProvider,
+      localizations,
+    );
 
     setState(() {
       if (success) {

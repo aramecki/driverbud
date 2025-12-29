@@ -6,6 +6,7 @@ Widget customTextField(
   BuildContext context, {
   required TextEditingController controller,
   Widget? suffixIcon,
+  String suffixText = '',
   required String hintText,
   String counterText = '',
   int minLines = 1,
@@ -22,6 +23,7 @@ Widget customTextField(
       controller: controller,
       decoration: InputDecoration(
         suffixIcon: suffixIcon,
+        suffixText: suffixText,
         suffixIconConstraints: BoxConstraints(maxHeight: 30.0, maxWidth: 30.0),
         hintText: hintText,
         floatingLabelBehavior: FloatingLabelBehavior.never,

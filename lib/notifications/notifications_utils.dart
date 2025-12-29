@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:hive/hive.dart';
+import 'package:mycargenie_2/utils/boxes.dart';
 import 'package:timezone/timezone.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
 import 'package:timezone/timezone.dart' as tz;
@@ -37,8 +38,6 @@ Future<void> initNotifications() async {
   );
 
   await notificationsPlugin.initialize(initializationSettings);
-
-  //await requestPermissions(); // put permissions request when scheduling a notificatiojn
 }
 
 Future<void> showInstantNotification({
@@ -69,11 +68,13 @@ Future<void> scheduleNotification({
   String? body,
   required DateTime date,
   required Box notificationsBox,
+  int? id,
   bool isDue = false,
+  bool isRestoring = false,
 }) async {
   TZDateTime scheduledDate = tz.TZDateTime.from(date, tz.local);
 
-  int id = createUniqueId(date);
+  id ??= createUniqueId(date);
 
   await notificationsPlugin.zonedSchedule(
     id,
@@ -96,16 +97,18 @@ Future<void> scheduleNotification({
     //  .dayOfWeekAndTime, // Repeat every day of the week at the same time
   );
 
-  final notificationsMap = <String, dynamic>{
-    'vehicleKey': vehicleKey,
-    'date': date,
-    'isDue': isDue,
-  };
+  if (!isRestoring) {
+    final notificationsMap = <String, dynamic>{
+      'vehicleKey': vehicleKey,
+      'date': date,
+      'isDue': isDue,
+    };
 
-  notificationsBox.put(id, notificationsMap);
+    notificationsBox.put(id, notificationsMap);
+    log('added to hive box: ${notificationsMap.toString()}');
+  }
 
   log('scheduled notification for: $scheduledDate with id $id');
-  log('added to hive box: ${notificationsMap.toString()}');
 }
 
 int createUniqueId(DateTime date) {
@@ -117,7 +120,7 @@ Future<void> deleteAllNotificationsInCategory(
   int vehicleKey, {
   bool isDue = false,
 }) async {
-  log('starting iterating in $notificationsBox');
+  log('starting iterating in ${notificationsBox.toMap().toString()}');
 
   for (var entry in notificationsBox.toMap().entries) {
     final key = entry.key;
@@ -134,6 +137,13 @@ Future<void> deleteAllNotificationsInCategory(
   }
 
   log('now box contains ${notificationsBox.toMap().toString()}');
+}
+
+Future<void> deleteAllNotifications(int vehicleKey) async {
+  deleteAllNotificationsInCategory(insuranceNotificationsBox, vehicleKey);
+  deleteAllNotificationsInCategory(taxNotificationsBox, vehicleKey);
+  deleteAllNotificationsInCategory(inspectionNotificationsBox, vehicleKey);
+  // TODO: Add maintenance notifications
 }
 
 Future<void> cleanupDeliveredNotifications(
@@ -158,4 +168,10 @@ Future<void> cleanupDeliveredNotifications(
       }
     }
   }
+}
+
+Future<void> cleanDeliveredNotificationFromBoxes() async {
+  await cleanupDeliveredNotifications(insuranceNotificationsBox);
+  await cleanupDeliveredNotifications(taxNotificationsBox);
+  await cleanupDeliveredNotifications(inspectionNotificationsBox);
 }

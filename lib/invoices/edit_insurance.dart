@@ -245,8 +245,6 @@ class _EditInsuranceState extends State<EditInsurance> {
     Navigator.of(context).pop();
   }
 
-  //TODO: Manage when there are no vehicles
-
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
@@ -565,9 +563,11 @@ class _EditInsuranceState extends State<EditInsurance> {
               IconButton(
                 onPressed: () {
                   WidgetsBinding.instance.addPostFrameCallback((_) {
+                    deleteAllNotificationsInCategory(
+                      insuranceNotificationsBox,
+                      widget.editKey,
+                    );
                     insuranceBox.delete(widget.editKey);
-                    // TODO: Add notifications box deletion
-                    // TODO: Add notification disable
                     Navigator.of(context).popUntil((route) => route.isFirst);
                   });
                 },

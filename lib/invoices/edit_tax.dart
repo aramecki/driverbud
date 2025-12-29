@@ -290,6 +290,10 @@ class _EditTaxState extends State<EditTax> {
               IconButton(
                 onPressed: () {
                   WidgetsBinding.instance.addPostFrameCallback((_) {
+                    deleteAllNotificationsInCategory(
+                      taxNotificationsBox,
+                      widget.editKey,
+                    );
                     taxBox.delete(widget.editKey);
                     Navigator.of(context).popUntil((route) => route.isFirst);
                   });

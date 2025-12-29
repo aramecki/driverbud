@@ -18,6 +18,11 @@ final List<Map<String, String>> currenciesList = [
 
 List<String> getVehicleCategoryList(BuildContext context) {
   final localizations = AppLocalizations.of(context)!;
+  return [localizations.cars, localizations.motorcycles, localizations.other];
+}
+
+List<String> getVehicleTypeList(BuildContext context) {
+  final localizations = AppLocalizations.of(context)!;
   return [
     localizations.sedan,
     localizations.coupe,

@@ -66,16 +66,29 @@ class _InvoicesState extends State<Invoices> {
             ],
           )
         : Column(
-            mainAxisSize: MainAxisSize.max,
+            //mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Padding(
                 padding: EdgeInsetsGeometry.symmetric(horizontal: 16),
-                child: Text(
-                  'In questa pagina potrai gestire le scadenze relative al tuo veicolo.',
-                  textAlign: TextAlign.center,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      localizations.youWillFindInvoices,
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
                 ),
               ),
+              if (vehicleKey == null)
+                Padding(
+                  padding: EdgeInsetsGeometry.symmetric(horizontal: 18),
+                  child: Text(
+                    localizations.createYourFirstVehicleToVisualize,
+                    textAlign: TextAlign.center,
+                  ),
+                ),
             ],
           );
 

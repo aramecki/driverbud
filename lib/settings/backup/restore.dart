@@ -4,6 +4,10 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:hive/hive.dart';
 import 'package:mycargenie_2/home.dart';
+import 'package:mycargenie_2/l10n/app_localizations.dart';
+import 'package:mycargenie_2/notifications/notifications_schedulers.dart';
+import 'package:mycargenie_2/notifications/notifications_utils.dart';
+import 'package:mycargenie_2/utils/boxes.dart';
 
 bool _isIsoString(String value) {
   try {
@@ -38,8 +42,10 @@ Map<dynamic, dynamic> _checkJsonForMap(Map<dynamic, dynamic> jsonMap) {
   return checkedMap;
 }
 
-Future<bool> restoreBoxFromPath(VehicleProvider vehicleProvider) async {
-  // TODO: If there are active notifications, disable, then pick active notifications from boxes
+Future<bool> restoreBoxFromPath(
+  VehicleProvider vehicleProvider,
+  AppLocalizations localizations,
+) async {
   try {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
@@ -58,6 +64,13 @@ Future<bool> restoreBoxFromPath(VehicleProvider vehicleProvider) async {
 
     final Map<dynamic, dynamic> stringMap = json.decode(jsonString);
 
+    // Disabling notifications before restoring
+    for (var i = 0; i < vehicleBox.length; i++) {
+      int vehicleKey = vehicleBox.keyAt(i);
+      await deleteAllNotifications(vehicleKey);
+      log('Deleted al notifications from ${vehicleKey.toString()}');
+    }
+
     for (final boxName in stringMap.keys) {
       final Map<dynamic, dynamic> stringDataForBox =
           stringMap[boxName] as Map<dynamic, dynamic>;
@@ -72,9 +85,29 @@ Future<bool> restoreBoxFromPath(VehicleProvider vehicleProvider) async {
       log('Restored $boxName from $filePath');
     }
 
+    List<(Box, NotificationType)> notificationsBoxes = [
+      (insuranceNotificationsBox, NotificationType.insurance),
+      (taxNotificationsBox, NotificationType.tax),
+      (inspectionNotificationsBox, NotificationType.inspection),
+    ];
+
+    // Restoring notifications
+    for (final (box, type) in notificationsBoxes) {
+      Map<dynamic, dynamic> notificationsMap = box.toMap();
+
+      notificationsMap.forEach((key, value) {
+        scheduleInvoiceNotifications(
+          localizations,
+          value['vehicleKey'],
+          value['date'],
+          type,
+          id: key,
+          isRestoring: true,
+        );
+      });
+    }
+
     log('Restore completed from $filePath');
-    // final firstKey = vehicleBox.keyAt(0);
-    // vehicleProvider.vehicleToLoad = firstKey;
     vehicleProvider.loadInitialData();
     return true;
   } catch (e) {

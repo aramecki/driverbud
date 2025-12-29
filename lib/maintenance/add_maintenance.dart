@@ -1,5 +1,6 @@
 import 'package:currency_textfield/currency_textfield.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:mycargenie_2/home.dart';
 import 'package:mycargenie_2/l10n/app_localizations.dart';
 import 'package:mycargenie_2/settings/settings_logics.dart';
@@ -218,12 +219,12 @@ class _AddMaintenanceState extends State<AddMaintenance> {
 
               SizedBox(width: 8),
 
-              // TODO: Fix user can input characters in kilometers field
               customTextField(
                 context,
                 hintText: localizations.kilometersUpper,
                 maxLength: 7,
                 type: TextInputType.number,
+                formatter: [FilteringTextInputFormatter.digitsOnly],
                 action: TextInputAction.next,
                 controller: _kilometersCtrl,
               ),
