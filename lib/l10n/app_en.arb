@@ -46,19 +46,19 @@
     "description": "Configuration text"
   },
 
-  "capacityCcUpper": "Capacity cc",
-  "@capacityCcUpper": {
-    "description": "Capacity cc text"
+  "capacityUpper": "Capacity",
+  "@capacityUpper": {
+    "description": "Capacity text"
   },
 
-  "powerKwUpper": "Power kW",
-  "@powerKwUpper": {
-    "description": "Power kW text"
+  "powerUpper": "Power",
+  "@powerUpper": {
+    "description": "Power text"
   },
 
-  "horsePowerCvUpper": "HorsePower CV",
-  "@horsePowerCvUpper": {
-    "description": "HorsePower CV text"
+  "horsePowerUpper": "HorsePower",
+  "@horsePowerUpper": {
+    "description": "HorsePower text"
   },
 
   "maintenanceUpper": "Maintenance",
@@ -111,9 +111,9 @@
     "description": "Title is a required field. text shown when saving an event without the title required field"
   },
 
-  "brandModelRequiredField": "Brand and model are required fields.",
+  "brandModelRequiredField": "Category, brand and model are required fields.",
   "@brandModelRequiredField": {
-    "description": "Brand and model are required fields. text shown when saving a vehicle without the brand or model required fields"
+    "description": "Category, brand and model are required fields. text shown when saving a vehicle without the brand or model required fields"
   },
 
   "youWillFindEvents": "On this page you will find all the {eventType} events.",
@@ -805,6 +805,16 @@
   "getMoreInfoOn": "Get more info on:",
   "@getMoreInfoOn": {
     "description": "Get more info on: text"
+  },
+
+  "cantFindBrandSub": "DriverBud - Report: Unable to find a brand.",
+  "@cantFindBrandSub": {
+    "description": "DriverBud - Report: Unable to find a brand. text"
+  },
+
+  "feedbackSub": "DriverBud - Feedback",
+  "@feedbackSub": {
+    "description": "DriverBud - Feedback text"
   }
 
 }

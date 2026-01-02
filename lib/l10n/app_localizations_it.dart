@@ -36,13 +36,13 @@ class AppLocalizationsIt extends AppLocalizations {
   String get configurationUpper => 'Configurazione';
 
   @override
-  String get capacityCcUpper => 'Cilindrata cc';
+  String get capacityUpper => 'Cilindrata';
 
   @override
-  String get powerKwUpper => 'Potenza kW';
+  String get powerUpper => 'Potenza';
 
   @override
-  String get horsePowerCvUpper => 'Cavalli CV';
+  String get horsePowerUpper => 'Cavalli';
 
   @override
   String get maintenanceUpper => 'Manutenzione';
@@ -76,7 +76,7 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get brandModelRequiredField =>
-      'Marchio è modello sono campi obbligatori.';
+      'Categoria, marchio e modello sono campi obbligatori.';
 
   @override
   String youWillFindEvents(String eventType) {
@@ -495,4 +495,11 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get getMoreInfoOn => 'Più info su:';
+
+  @override
+  String get cantFindBrandSub =>
+      'DriverBud - Segnalazione: Non riesco a trovare un brand.';
+
+  @override
+  String get feedbackSub => 'DriverBud - Feedback';
 }

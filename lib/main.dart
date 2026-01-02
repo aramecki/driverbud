@@ -35,15 +35,11 @@ void main() async {
 
   await cleanDeliveredNotificationFromBoxes();
 
-  // await cleanupDeliveredNotifications(insuranceNotificationsBox);
-  // await cleanupDeliveredNotifications(taxNotificationsBox);
-  // await cleanupDeliveredNotifications(inspectionNotificationsBox);
-
   if (vehicleBox.isEmpty) {
     await startupImageLoader();
 
     await vehicleBox.add({
-      'category': 'Cars',
+      'category': 1,
       'brand': 'Toyota',
       'model': 'Corolla',
       'config': 'B-Turbo',
@@ -59,7 +55,7 @@ void main() async {
       'assetImage': imageOne,
     });
     await vehicleBox.add({
-      'category': 'Cars',
+      'category': 1,
       'brand': 'Ford',
       'model': 'Focus',
       'config': null,
@@ -75,7 +71,7 @@ void main() async {
       'assetImage': imageTwo,
     });
     await vehicleBox.add({
-      'category': 'Cars',
+      'category': 1,
       'brand': 'Audi',
       'model': 'TT',
       'config': 'Quattro',

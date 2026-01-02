@@ -16,9 +16,18 @@ final List<Map<String, String>> currenciesList = [
   {'symbol': 'лв', 'name': 'Български Лев', 'code': 'BGN', 'country': 'BG'},
 ];
 
-List<String> getVehicleCategoryList(BuildContext context) {
+// List<String> getVehicleCategoryList(BuildContext context) {
+//   final localizations = AppLocalizations.of(context)!;
+//   return [localizations.cars, localizations.motorcycles, localizations.other];
+// }
+
+Map<int, String> getVehicleCategoryList(BuildContext context) {
   final localizations = AppLocalizations.of(context)!;
-  return [localizations.cars, localizations.motorcycles, localizations.other];
+  return {
+    1: localizations.cars,
+    2: localizations.motorcycles,
+    3: localizations.other,
+  };
 }
 
 List<String> getVehicleTypeList(BuildContext context) {
@@ -67,14 +76,9 @@ List<String> getMaintenanceTypeList(BuildContext context) {
   ];
 }
 
-// TODO: Valuate if changing the ui to make the user select the vehicle category first
-// TODO: Valuate if divide the list in cars and motorbikes brand
-// TODO: Valuate if inserting truck brands too
-
-const List<String> vehicleBrandList = <String>[
+const List<String> carBrandList = <String>[
   'Abarth',
   'Alfa Romeo',
-  'Aprilia',
   'Aston Martin',
   'Audi',
   'Bentley',
@@ -85,23 +89,19 @@ const List<String> vehicleBrandList = <String>[
   'Citroën',
   'Cupra',
   'Dacia',
-  'Daihatsu', // Remove? (Retired from European market, but plenty of used vehicles)
+  'Daihatsu',
   'Dodge',
-  'Ducati',
   'DS',
   'Ferrari',
   'Fiat',
   'Ford',
   'Genesis',
-  'Harley-Davidson',
   'Honda',
   'Hyundai',
-  'Infiniti', // Remove? (Retired from European market, evaluate how spread in used market)
+  'Infiniti',
   'Jaguar',
   'Jeep',
-  'Kawasaki',
   'Kia',
-  'KTM',
   'Lamborghini',
   'Lancia',
   'Land Rover',
@@ -111,27 +111,53 @@ const List<String> vehicleBrandList = <String>[
   'Mercedes-Benz',
   'Mini',
   'Mitsubishi',
-  'Moto Guzzi',
-  'MV Agusta',
   'Nissan',
   'Opel',
   'Peugeot',
-  'Piaggio',
   'Porsche',
   'Renault',
   'Rolls-Royce',
   'SEAT',
   'Škoda',
   'Smart',
-  'Ssangyong/KGM', // Chose? If the choise is 'KGM' only move it under 'Kawasaki'
+  'Ssangyong/KGM',
   'Subaru',
   'Suzuki',
-  'Sym',
   'Tesla',
   'Toyota',
-  'Triumph',
   'Volkswagen',
   'Volvo',
+];
+
+const List<String> motorcycleBrandList = <String>[
+  'Aprilia',
+  'BMW',
+  'Ducati',
+  'Harley-Davidson',
+  'Honda',
+  'Kawasaki',
+  'KTM',
+  'Moto Guzzi',
+  'MV Agusta',
+  'Piaggio',
+  'Suzuki',
+  'Sym',
+  'Triumph',
   'Yamaha',
   'Zero Motorcycles',
+];
+
+const List<String> otherBrandList = <String>[
+  'DAF',
+  'Hymer',
+  'Iveco',
+  'MAN',
+  'MANS',
+  'Scania',
+  'Renault Trucks',
+  'Fuso',
+  'Adria',
+  'Bürstner',
+  'Chausson',
+  'Isuzu',
 ];

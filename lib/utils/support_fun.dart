@@ -6,6 +6,7 @@ import 'package:mycargenie_2/utils/boxes.dart';
 import 'package:mycargenie_2/home.dart';
 import 'package:mycargenie_2/vehicle/add_vehicle.dart';
 import 'package:mycargenie_2/vehicle/show_vehicle.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 // Function to get the favorite vehicle key
 int? getFavoriteKey() {
@@ -140,4 +141,12 @@ void openVehicleEditScreen(BuildContext context, dynamic key) {
       builder: (_) => AddVehicle(vehicle: vehicleMap, editKey: key),
     ),
   );
+}
+
+Future<void> mailContact(String subject) async {
+  final address = 'test@test.test'; // TODO: Implement real mail
+  final Uri url = Uri.parse('mailto:$address?subject=$subject');
+  if (!await launchUrl(url)) {
+    throw Exception('Could not launch $url');
+  }
 }

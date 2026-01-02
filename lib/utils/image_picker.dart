@@ -68,7 +68,7 @@ class VehicleImagePickerState extends State<VehicleImagePicker> {
       mainAxisSize: MainAxisSize.max,
       children: [
         Padding(
-          padding: EdgeInsets.only(top: 16, bottom: 12),
+          padding: EdgeInsets.only(bottom: 4),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

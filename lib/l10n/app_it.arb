@@ -46,19 +46,19 @@
     "description": "Configuration text"
   },
 
-  "capacityCcUpper": "Cilindrata cc",
-  "@capacityCcUpper": {
-    "description": "Capacity cc text"
+  "capacityUpper": "Cilindrata",
+  "@capacityUpper": {
+    "description": "Capacity text"
   },
 
-  "powerKwUpper": "Potenza kW",
-  "@powerKwUpper": {
-    "description": "Power kW text"
+  "powerUpper": "Potenza",
+  "@powerUpper": {
+    "description": "Power text"
   },
 
-  "horsePowerCvUpper": "Cavalli CV",
-  "@horsePowerCvUpper": {
-    "description": "HorsePower CV text"
+  "horsePowerUpper": "Cavalli",
+  "@horsePowerUpper": {
+    "description": "HorsePower text"
   },
 
   "maintenanceUpper": "Manutenzione",
@@ -111,9 +111,9 @@
     "description": "Title is a required field. text shown when saving an event without the title required field"
   },
 
-  "brandModelRequiredField": "Marchio è modello sono campi obbligatori.",
+  "brandModelRequiredField": "Categoria, marchio e modello sono campi obbligatori.",
   "@brandModelRequiredField": {
-    "description": "Brand and model are required fields. text shown when saving a vehicle without the brand or model required fields"
+    "description": "Categoria, marchio e modello sono campi obbligatori. text shown when saving a vehicle without the brand or model required fields"
   },
 
   "youWillFindEvents": "In questa pagina troverai tutti gli eventi di {eventType}.",
@@ -805,6 +805,16 @@
   "getMoreInfoOn": "Più info su:",
   "@getMoreInfoOn": {
     "description": "Più info su: text"
+  },
+
+  "cantFindBrandSub": "DriverBud - Segnalazione: Non riesco a trovare un brand.",
+  "@cantFindBrandSub": {
+    "description": "DriverBud - Segnalazione: Non riesco a trovare un brand. text"
+  },
+
+  "feedbackSub": "DriverBud - Feedback",
+  "@feedbackSub": {
+    "description": "DriverBud - Feedback text"
   }
 
 }

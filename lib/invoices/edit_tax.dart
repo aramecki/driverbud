@@ -138,8 +138,6 @@ class _EditTaxState extends State<EditTax> {
     Navigator.of(context).pop();
   }
 
-  //TODO: Manage when there are no vehicles
-
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;

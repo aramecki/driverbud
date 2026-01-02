@@ -152,23 +152,23 @@ abstract class AppLocalizations {
   /// **'Configuration'**
   String get configurationUpper;
 
-  /// Capacity cc text
+  /// Capacity text
   ///
   /// In en, this message translates to:
-  /// **'Capacity cc'**
-  String get capacityCcUpper;
+  /// **'Capacity'**
+  String get capacityUpper;
 
-  /// Power kW text
+  /// Power text
   ///
   /// In en, this message translates to:
-  /// **'Power kW'**
-  String get powerKwUpper;
+  /// **'Power'**
+  String get powerUpper;
 
-  /// HorsePower CV text
+  /// HorsePower text
   ///
   /// In en, this message translates to:
-  /// **'HorsePower CV'**
-  String get horsePowerCvUpper;
+  /// **'HorsePower'**
+  String get horsePowerUpper;
 
   /// Main Maintenance uppercase text shown in navigation bar and in maintenance section
   ///
@@ -230,10 +230,10 @@ abstract class AppLocalizations {
   /// **'Title is a required field.'**
   String get titleRequiredField;
 
-  /// Brand and model are required fields. text shown when saving a vehicle without the brand or model required fields
+  /// Category, brand and model are required fields. text shown when saving a vehicle without the brand or model required fields
   ///
   /// In en, this message translates to:
-  /// **'Brand and model are required fields.'**
+  /// **'Category, brand and model are required fields.'**
   String get brandModelRequiredField;
 
   /// On this page you will find all the added maintenance/refueling events. text shown when user has not maintenance event saved for the selected vehicle
@@ -961,6 +961,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Get more info on:'**
   String get getMoreInfoOn;
+
+  /// DriverBud - Report: Unable to find a brand. text
+  ///
+  /// In en, this message translates to:
+  /// **'DriverBud - Report: Unable to find a brand.'**
+  String get cantFindBrandSub;
+
+  /// DriverBud - Feedback text
+  ///
+  /// In en, this message translates to:
+  /// **'DriverBud - Feedback'**
+  String get feedbackSub;
 }
 
 class _AppLocalizationsDelegate

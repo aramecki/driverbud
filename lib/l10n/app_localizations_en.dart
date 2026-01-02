@@ -36,13 +36,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get configurationUpper => 'Configuration';
 
   @override
-  String get capacityCcUpper => 'Capacity cc';
+  String get capacityUpper => 'Capacity';
 
   @override
-  String get powerKwUpper => 'Power kW';
+  String get powerUpper => 'Power';
 
   @override
-  String get horsePowerCvUpper => 'HorsePower CV';
+  String get horsePowerUpper => 'HorsePower';
 
   @override
   String get maintenanceUpper => 'Maintenance';
@@ -75,7 +75,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get titleRequiredField => 'Title is a required field.';
 
   @override
-  String get brandModelRequiredField => 'Brand and model are required fields.';
+  String get brandModelRequiredField =>
+      'Category, brand and model are required fields.';
 
   @override
   String youWillFindEvents(String eventType) {
@@ -492,4 +493,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get getMoreInfoOn => 'Get more info on:';
+
+  @override
+  String get cantFindBrandSub => 'DriverBud - Report: Unable to find a brand.';
+
+  @override
+  String get feedbackSub => 'DriverBud - Feedback';
 }

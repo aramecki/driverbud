@@ -25,6 +25,7 @@ class AddVehicle extends StatefulWidget {
 }
 
 class _AddVehicleState extends State<AddVehicle> {
+  final TextEditingController _brandCtrl = TextEditingController();
   final TextEditingController _modelCtrl = TextEditingController();
   final TextEditingController _configCtrl = TextEditingController();
   final TextEditingController _capacityCtrl = TextEditingController();
@@ -41,7 +42,7 @@ class _AddVehicleState extends State<AddVehicle> {
   String? _savedImagePath;
   String? _previewImagePath;
 
-  String? _category;
+  int? _category;
   String? _brand;
   int? _year;
   String? _type;
@@ -50,7 +51,7 @@ class _AddVehicleState extends State<AddVehicle> {
   bool _favorite = false;
   String? _assetImage;
 
-  String? _bkCategory;
+  int? _bkCategory;
   String? _bkModel;
   String? _bkConfig;
   String? _bkCapacity;
@@ -95,9 +96,10 @@ class _AddVehicleState extends State<AddVehicle> {
       _plateCtrl.text = eventToEdit['plate']?.toString() ?? '';
       _bkPlate = _plateCtrl.text;
 
-      _category = eventToEdit['category'] as String?;
+      _category = eventToEdit['category'] as int?;
       _bkCategory = _category;
 
+      _brandCtrl.text = eventToEdit['brand'] ?? '';
       _brand = eventToEdit['brand'] as String?;
       _bkBrand = _brand;
 
@@ -120,6 +122,7 @@ class _AddVehicleState extends State<AddVehicle> {
 
   @override
   void dispose() {
+    _brandCtrl.dispose();
     _modelCtrl.dispose();
     _configCtrl.dispose();
     _capacityCtrl.dispose();
@@ -132,7 +135,7 @@ class _AddVehicleState extends State<AddVehicle> {
   Future<void> _onSavePressed() async {
     final localizations = AppLocalizations.of(context)!;
 
-    if (_previewImagePath != null) {
+    if (_previewImagePath != _bkImage && _previewImagePath != null) {
       deleteImageFromMmry(_savedImagePath);
       _assetImage = await saveImageToMmry(_previewImagePath!);
     }
@@ -153,7 +156,7 @@ class _AddVehicleState extends State<AddVehicle> {
       'power': int.tryParse(_powerCtrl.text),
       'horse': int.tryParse(_horseCtrl.text),
       'plate': _plateCtrl.text.trim(),
-      'type': _type,
+      'type': _type, // TODO: Change type string to type key for localization
       'energy': _energy,
       'ecology': _ecology,
       'favorite': _favorite,
@@ -215,6 +218,14 @@ class _AddVehicleState extends State<AddVehicle> {
     final localizations = AppLocalizations.of(context)!;
 
     final vehicleCategoryList = getVehicleCategoryList(context);
+
+    List<String> vehicleBrandList = switch (_category) {
+      _ when _category == 1 => carBrandList,
+      _ when _category == 2 => motorcycleBrandList,
+      _ when _category == 3 => otherBrandList,
+      _ => [],
+    };
+
     final vehicleTypeList = getVehicleTypeList(context);
     final vehicleEnergyList = getVehicleEnergyList(context);
 
@@ -235,15 +246,32 @@ class _AddVehicleState extends State<AddVehicle> {
             mainAxisSize: MainAxisSize.max,
             children: [
               Expanded(
-                child: FocusableDropdown(
-                  menuController: categoryMenuController,
-                  name: localizations.categoryUpper,
-                  items: vehicleCategoryList,
-                  selectedItem: _category,
+                child: DropdownMenu<int>(
+                  expandedInsets: EdgeInsets.zero,
+                  hintText: localizations.categoryUpper,
+                  initialSelection: _category,
+                  dropdownMenuEntries: vehicleCategoryList.entries
+                      .map(
+                        (entry) => DropdownMenuEntry(
+                          value: entry.key,
+                          label: entry.value,
+                        ),
+                      )
+                      .toList(),
+                  trailingIcon: arrowDownIcon(),
+                  selectedTrailingIcon: arrowUpIcon(),
+                  menuStyle: const MenuStyle(
+                    maximumSize: WidgetStatePropertyAll(
+                      Size(double.infinity, 200),
+                    ),
+                  ),
                   onSelected: (value) {
-                    setState(() => _category = value);
+                    setState(() {
+                      _category = value;
+                      _brand = null;
+                      _brandCtrl.clear();
+                    });
                     categoryMenuController.close();
-                    //_openMenu();
                   },
                 ),
               ),
@@ -252,6 +280,9 @@ class _AddVehicleState extends State<AddVehicle> {
 
               Expanded(
                 child: DropdownMenu<String>(
+                  expandedInsets: EdgeInsets.zero,
+                  enabled: vehicleBrandList.isNotEmpty,
+                  controller: _brandCtrl,
                   hintText: localizations.brandUpper,
                   initialSelection: _brand,
                   dropdownMenuEntries: vehicleBrandList
@@ -259,7 +290,11 @@ class _AddVehicleState extends State<AddVehicle> {
                         (item) => DropdownMenuEntry(value: item, label: item),
                       )
                       .toList(),
-                  trailingIcon: arrowDownIcon(),
+                  trailingIcon: arrowDownIcon(
+                    color: vehicleBrandList.isNotEmpty
+                        ? null
+                        : Colors.transparent,
+                  ),
                   selectedTrailingIcon: arrowUpIcon(),
                   menuStyle: const MenuStyle(
                     maximumSize: WidgetStatePropertyAll(
@@ -315,7 +350,7 @@ class _AddVehicleState extends State<AddVehicle> {
               const SizedBox(width: 8),
               customTextField(
                 context,
-                hintText: localizations.capacityCcUpper,
+                hintText: '${localizations.capacityUpper} cc',
                 type: TextInputType.number,
                 maxLength: 4,
                 formatter: [FilteringTextInputFormatter.digitsOnly],
@@ -335,7 +370,7 @@ class _AddVehicleState extends State<AddVehicle> {
             children: [
               customTextField(
                 context,
-                hintText: localizations.powerKwUpper,
+                hintText: '${localizations.powerUpper} kW',
                 type: TextInputType.number,
                 maxLength: 4,
                 formatter: [FilteringTextInputFormatter.digitsOnly],
@@ -347,7 +382,7 @@ class _AddVehicleState extends State<AddVehicle> {
               const SizedBox(width: 8),
               customTextField(
                 context,
-                hintText: localizations.horsePowerCvUpper,
+                hintText: '${localizations.horsePowerUpper} CV',
                 type: TextInputType.number,
                 maxLength: 4,
                 formatter: [FilteringTextInputFormatter.digitsOnly],
@@ -470,12 +505,12 @@ class _AddVehicleState extends State<AddVehicle> {
             ],
           ),
         ),
-        TextButton(
-          onPressed: () => showCustomToast(
-            context,
-            message: 'Brand opened',
-          ), // TODO: Remove, for debugging
-          child: Text(localizations.cantFindYourVehicleBrand),
+        Padding(
+          padding: EdgeInsets.only(bottom: 8),
+          child: TextButton(
+            onPressed: () => mailContact(localizations.cantFindBrandSub),
+            child: Text(localizations.cantFindYourVehicleBrand),
+          ),
         ),
       ],
     );
