@@ -1,12 +1,17 @@
+import 'dart:developer';
+
 import 'package:currency_textfield/currency_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mycargenie_2/home.dart';
 import 'package:mycargenie_2/l10n/app_localizations.dart';
+import 'package:mycargenie_2/notifications/notifications_schedulers.dart';
+import 'package:mycargenie_2/notifications/notifications_utils.dart';
+import 'package:mycargenie_2/notifications/permissions.dart';
 import 'package:mycargenie_2/settings/settings_logics.dart';
+import 'package:mycargenie_2/theme/icons.dart';
 import 'package:mycargenie_2/theme/text_styles.dart';
 import 'package:mycargenie_2/utils/date_picker.dart';
-import 'package:mycargenie_2/utils/focusable_dropdown.dart';
 import 'package:mycargenie_2/utils/reusable_textfield.dart';
 import 'package:provider/provider.dart';
 import '../utils/lists.dart';
@@ -34,7 +39,8 @@ class _AddMaintenanceState extends State<AddMaintenance> {
   final MenuController menuController = MenuController();
 
   DateTime? _date;
-  String? _maintenanceType;
+  int? _maintenanceType;
+  bool _notifications = false;
 
   String? _bkTitle;
   String? _bkPlace;
@@ -42,7 +48,8 @@ class _AddMaintenanceState extends State<AddMaintenance> {
   String? _bkDescription;
   String? _bkPrice;
   DateTime? _bkDate;
-  String? _bkType;
+  int? _bkType;
+  bool? _bkNotifications;
 
   final now = DateTime.now();
   DateTime get today => DateTime(now.year, now.month, now.day);
@@ -83,8 +90,11 @@ class _AddMaintenanceState extends State<AddMaintenance> {
       _date = eventToEdit['date'] as DateTime;
       _bkDate = _date;
 
-      _maintenanceType = eventToEdit['maintenanceType'] as String?;
+      _maintenanceType = eventToEdit['maintenanceType'] as int?;
       _bkType = _maintenanceType;
+
+      _notifications = eventToEdit['notifications'] ?? false;
+      _bkNotifications = _notifications;
     }
   }
 
@@ -112,12 +122,15 @@ class _AddMaintenanceState extends State<AddMaintenance> {
 
     final maintenanceMap = <String, dynamic>{
       'title': _titleCtrl.text.trim(),
-      'maintenanceType': _maintenanceType ?? maintenanceTypeList.first,
+      'maintenanceType': _maintenanceType ?? 1,
       'place': _placeCtrl.text.trim(),
       'date': _date ?? today,
       'kilometers': int.tryParse(_kilometersCtrl.text),
       'description': _descriptionCtrl.text.trim(),
       'price': priceDoubleValue.toStringAsFixed(2),
+      'notifications': _date != null && _date!.isAfter(today)
+          ? _notifications
+          : false,
       'vehicleKey': vehicleKey,
     };
 
@@ -126,13 +139,52 @@ class _AddMaintenanceState extends State<AddMaintenance> {
       return;
     }
 
+    int? key = widget.editKey;
+
     if (widget.editKey == null) {
-      maintenanceBox.add(maintenanceMap);
+      key = await maintenanceBox.add(maintenanceMap);
     } else {
       maintenanceBox.put(widget.editKey, maintenanceMap);
     }
 
-    Navigator.of(context).pop();
+    // So enable notifications
+    if (_date != null &&
+        _date!.isAfter(today) &&
+        _notifications == true &&
+        key != null &&
+        mounted) {
+      if (_bkDate == null) {
+        scheduleEventNotifications(
+          localizations,
+          vehicleKey,
+          key,
+          _date,
+          getMaintenanceTypeList(context)[_maintenanceType] ??
+              getMaintenanceTypeList(context)[1],
+          _titleCtrl.text.trim(),
+        );
+      } else if (_isSomethingChanged()) {
+        deleteEventNotifications(vehicleKey!, key);
+
+        scheduleEventNotifications(
+          localizations,
+          vehicleKey,
+          key,
+          _date,
+          getMaintenanceTypeList(context)[_maintenanceType] ??
+              getMaintenanceTypeList(context)[1],
+          _titleCtrl.text.trim(),
+        );
+      } else {
+        log('nothing changed, nothing to do');
+      }
+    } else {
+      if (key != null) deleteEventNotifications(vehicleKey!, key);
+    }
+
+    if (mounted) {
+      Navigator.of(context).pop();
+    }
   }
 
   void _openMenu() {
@@ -178,15 +230,30 @@ class _AddMaintenanceState extends State<AddMaintenance> {
             mainAxisSize: MainAxisSize.max,
             children: [
               Expanded(
-                child: FocusableDropdown(
-                  menuController: menuController,
-                  name: localizations.typeUpper,
-                  items: maintenanceTypeList,
-                  selectedItem: _maintenanceType,
+                child: DropdownMenu<int>(
+                  expandedInsets: EdgeInsets.zero,
+                  hintText: localizations.categoryUpper,
+                  initialSelection: _maintenanceType,
+                  dropdownMenuEntries: maintenanceTypeList.entries
+                      .map(
+                        (entry) => DropdownMenuEntry(
+                          value: entry.key,
+                          label: entry.value,
+                        ),
+                      )
+                      .toList(),
+                  trailingIcon: arrowDownIcon(),
+                  selectedTrailingIcon: arrowUpIcon(),
+                  menuStyle: const MenuStyle(
+                    maximumSize: WidgetStatePropertyAll(
+                      Size(double.infinity, 200),
+                    ),
+                  ),
                   onSelected: (value) {
-                    setState(() => _maintenanceType = value);
+                    setState(() {
+                      _maintenanceType = value;
+                    });
                     menuController.close();
-                    FocusScope.of(context).nextFocus();
                   },
                 ),
               ),
@@ -276,6 +343,35 @@ class _AddMaintenanceState extends State<AddMaintenance> {
             ],
           ),
         ),
+
+        if (_date != null && _date!.isAfter(today))
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                CustomSwitch(
+                  text: localizations.notifications,
+                  isSelected: _notifications,
+                  onChanged: (v) async {
+                    bool hasPermissions = await checkAndRequestPermissions(
+                      context,
+                    );
+
+                    if (hasPermissions) {
+                      setState(() {
+                        log('changing notifications state to $v');
+                        _notifications = v;
+                      });
+                    } else {
+                      _notifications = false;
+                    }
+                  },
+                ),
+              ],
+            ),
+          ),
 
         // Save or update button section
         Padding(
@@ -369,6 +465,7 @@ class _AddMaintenanceState extends State<AddMaintenance> {
         _descriptionCtrl.text != _bkDescription ||
         _priceCtrl!.text != _bkPrice ||
         _date != _bkDate ||
-        _maintenanceType != _bkType;
+        _maintenanceType != _bkType ||
+        _notifications != _bkNotifications;
   }
 }

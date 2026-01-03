@@ -884,6 +884,12 @@ abstract class AppLocalizations {
   /// **'To be informed about deadlines and events, you need to allow notifications in the app settings.'**
   String get permissionsRequiredAlertBody;
 
+  /// Reminder: {vehicleName} maintenance. text
+  ///
+  /// In en, this message translates to:
+  /// **'Reminder: {vehicleName} maintenance.'**
+  String maintenanceNotificationsTitle(String vehicleName);
+
   /// Your vehicle insurance is expiring! text
   ///
   /// In en, this message translates to:
@@ -901,6 +907,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Time to renew your vehicle technical inspection!'**
   String get inspectionNotificationsTitle;
+
+  /// {event} on {date} at {type}. text
+  ///
+  /// In en, this message translates to:
+  /// **'{event} on {date} at {type}.'**
+  String maintenanceNotificationsBody(String date, String type, String event);
 
   /// The insurance of your {vehicleName} is expiring  on {date}. text
   ///

@@ -100,7 +100,9 @@ class _EditInspectionState extends State<EditInspection> {
       'startDate': _startDate,
       'endDate': _endDate,
       'note': _noteCtrl.text.trim(),
-      'notifications': _notifications,
+      'notifications': _endDate != null && _endDate!.isAfter(today)
+          ? _notifications
+          : false,
       'vehicleKey': vehicleKey,
     };
 
@@ -115,7 +117,7 @@ class _EditInspectionState extends State<EditInspection> {
           _endDate,
           NotificationType.inspection,
         );
-      } else if (_bkEndDate != _endDate) {
+      } else if (_isSomethingChanged()) {
         log('_bkEndDate and _endDate are different, updating notifications');
 
         deleteAllNotificationsInCategory(

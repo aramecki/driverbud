@@ -718,6 +718,16 @@
     "description": "Per essere informato su scadenze ed eventi, devi consentire le notifiche nelle impostazioni dell'app. text"
   },
 
+  "maintenanceNotificationsTitle": "Promemoria: Manutenzione {vehicleName}.",
+  "@maintenanceNotificationsTitle": {
+      "placeholders": {
+        "vehicleName": {
+          "type": "String"
+        }
+    },
+    "description": "Promemoria: Manutenzione {vehicleName}. text"
+  },
+
   "insuranceNotificationsTitle": "La tua assicurazione sta per scadere!",
   "@insuranceNotificationsTitle": {
     "description": "La tua assicurazione sta per scadere! text"
@@ -731,6 +741,22 @@
   "inspectionNotificationsTitle": "La tua revisione scadrà presto!",
   "@inspectionNotificationsTitle": {
     "description": "La tua revisione scadrà presto! text"
+  },
+
+  "maintenanceNotificationsBody": "{event} il {date} presso {type}.",
+  "@maintenanceNotificationsBody": {
+      "placeholders": {
+        "date": {
+          "type": "String"
+        },
+        "type": {
+          "type": "String"
+        },
+        "event": {
+          "type": "String"
+        }
+    },
+    "description": "{event} il {date} presso {type}. text"
   },
 
   "insuranceNotificationsBody": "L'assicurazione della tua {vehicleName} scadrà il {date}.",

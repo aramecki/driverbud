@@ -25,6 +25,7 @@ void main() async {
 
   await Hive.openBox('vehicle');
   await Hive.openBox('maintenance');
+  await Hive.openBox('maintenanceNotifications');
   await Hive.openBox('refueling');
   await Hive.openBox('insurance');
   await Hive.openBox('insuranceNotifications');
@@ -48,9 +49,9 @@ void main() async {
       'power': 100,
       'horse': 140,
       'plate': 'AF345TG',
-      'type': 'Sport',
-      'energy': 'Benzina',
-      'ecology': 'Euro 4',
+      'type': 3,
+      'energy': 2,
+      'ecology': 4,
       'favorite': false,
       'assetImage': imageOne,
     });
@@ -64,9 +65,9 @@ void main() async {
       'power': 100,
       'horse': 140,
       'plate': 'EF345GH',
-      'type': 'Berlina',
-      'energy': 'Benzina',
-      'ecology': 'Euro 6',
+      'type': 1,
+      'energy': 3,
+      'ecology': 2,
       'favorite': false,
       'assetImage': imageTwo,
     });
@@ -80,9 +81,9 @@ void main() async {
       'power': 100,
       'horse': 190,
       'plate': 'AB123CD',
-      'type': 'Sport',
-      'energy': 'Benzina',
-      'ecology': 'Euro 3',
+      'type': 3,
+      'energy': 1,
+      'ecology': 3,
       'favorite': true,
       'assetImage': imageThree,
     });

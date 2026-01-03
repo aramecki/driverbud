@@ -100,6 +100,8 @@ Future<void> deleteAllEventsForVehicle(int vehicleKey) async {
     }
   });
 
+  deleteAllNotificationsInCategory(maintenanceNotificationsBox, vehicleKey);
+
   refuelingBox.toMap().forEach((eventKey, eventValue) {
     if (eventValue['vehicleKey'] == vehicleKey) {
       refuelingBox.delete(eventKey);
@@ -110,6 +112,7 @@ Future<void> deleteAllEventsForVehicle(int vehicleKey) async {
   });
 }
 
+// TODO: Add tax and inspection to deletion
 Future<void> deleteAllInvoicesForVehicle(int vehicleKey) async {
   insuranceBox.toMap().forEach((key, value) {
     if (value['vehicleKey'] == vehicleKey) {

@@ -18,6 +18,7 @@ class _BackupRestoreScreenState extends State<BackupRestoreScreen> {
   final List<String> _boxNames = [
     'vehicle',
     'maintenance',
+    'maintenanceNotifications',
     'refueling',
     'insurance',
     'insuranceNotifications',
@@ -25,7 +26,6 @@ class _BackupRestoreScreenState extends State<BackupRestoreScreen> {
     'taxNotifications',
     'inspection',
     'inspectionNotifications',
-    // TODO: Add maintenance notifications
   ];
   String _statusBackup = '';
   String _statusRestore = '';
@@ -115,6 +115,7 @@ class _BackupRestoreScreenState extends State<BackupRestoreScreen> {
     });
 
     final bool success = await restoreBoxFromPath(
+      context,
       vehicleProvider,
       localizations,
     );

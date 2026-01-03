@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mycargenie_2/l10n/app_localizations.dart';
 import 'package:mycargenie_2/theme/icons.dart';
-import 'package:mycargenie_2/utils/focusable_dropdown.dart';
 import 'package:mycargenie_2/utils/image_picker.dart';
 import 'package:mycargenie_2/utils/reusable_textfield.dart';
 import 'package:mycargenie_2/utils/support_fun.dart';
@@ -45,9 +44,9 @@ class _AddVehicleState extends State<AddVehicle> {
   int? _category;
   String? _brand;
   int? _year;
-  String? _type;
-  String? _energy;
-  String? _ecology;
+  int? _type;
+  int? _energy;
+  int? _ecology;
   bool _favorite = false;
   String? _assetImage;
 
@@ -61,9 +60,9 @@ class _AddVehicleState extends State<AddVehicle> {
   String? _bkImage;
   String? _bkBrand;
   int? _bkYear;
-  String? _bkType;
-  String? _bkEnergy;
-  String? _bkEcology;
+  int? _bkType;
+  int? _bkEnergy;
+  int? _bkEcology;
   bool? _bkFavorite;
 
   @override
@@ -78,11 +77,24 @@ class _AddVehicleState extends State<AddVehicle> {
       _bkImage = _savedImagePath;
       _assetImage = _savedImagePath;
 
+      _category = eventToEdit['category'] as int?;
+      _bkCategory = _category;
+
+      _brandCtrl.text = eventToEdit['brand'] ?? '';
+      _brand = eventToEdit['brand'] as String?;
+      _bkBrand = _brand;
+
       _modelCtrl.text = eventToEdit['model'] ?? '';
       _bkModel = _modelCtrl.text;
 
       _configCtrl.text = eventToEdit['config'] ?? '';
       _bkConfig = _configCtrl.text;
+
+      _plateCtrl.text = eventToEdit['plate']?.toString() ?? '';
+      _bkPlate = _plateCtrl.text;
+
+      _year = eventToEdit['year'] as int?;
+      _bkYear = _year;
 
       _capacityCtrl.text = eventToEdit['capacity']?.toString() ?? '';
       _bkCapacity = _capacityCtrl.text;
@@ -93,26 +105,13 @@ class _AddVehicleState extends State<AddVehicle> {
       _horseCtrl.text = eventToEdit['horse']?.toString() ?? '';
       _bkHorse = _horseCtrl.text;
 
-      _plateCtrl.text = eventToEdit['plate']?.toString() ?? '';
-      _bkPlate = _plateCtrl.text;
-
-      _category = eventToEdit['category'] as int?;
-      _bkCategory = _category;
-
-      _brandCtrl.text = eventToEdit['brand'] ?? '';
-      _brand = eventToEdit['brand'] as String?;
-      _bkBrand = _brand;
-
-      _year = eventToEdit['year'] as int?;
-      _bkYear = _year;
-
-      _type = eventToEdit['type'] as String?;
+      _type = eventToEdit['type'] as int?;
       _bkType = _type;
 
-      _energy = eventToEdit['energy'] as String?;
+      _energy = eventToEdit['energy'] as int?;
       _bkEnergy = _energy;
 
-      _ecology = eventToEdit['ecology'] as String?;
+      _ecology = eventToEdit['ecology'] as int?;
       _bkEcology = _ecology;
 
       _favorite = eventToEdit['favorite'] ?? false;
@@ -156,7 +155,7 @@ class _AddVehicleState extends State<AddVehicle> {
       'power': int.tryParse(_powerCtrl.text),
       'horse': int.tryParse(_horseCtrl.text),
       'plate': _plateCtrl.text.trim(),
-      'type': _type, // TODO: Change type string to type key for localization
+      'type': _type,
       'energy': _energy,
       'ecology': _ecology,
       'favorite': _favorite,
@@ -228,6 +227,7 @@ class _AddVehicleState extends State<AddVehicle> {
 
     final vehicleTypeList = getVehicleTypeList(context);
     final vehicleEnergyList = getVehicleEnergyList(context);
+    final vehicleEcologyList = getVehicleEcologyList(context);
 
     final isEdit = widget.editKey != null;
 
@@ -401,13 +401,30 @@ class _AddVehicleState extends State<AddVehicle> {
             mainAxisSize: MainAxisSize.max,
             children: [
               Expanded(
-                child: FocusableDropdown(
+                child: DropdownMenu<int>(
+                  expandedInsets: EdgeInsets.zero,
+                  hintText: localizations.typeUpper,
+                  initialSelection: _type,
                   menuController: typeMenuController,
-                  name: localizations.typeUpper,
-                  items: vehicleTypeList,
-                  selectedItem: _type,
+                  dropdownMenuEntries: vehicleTypeList.entries
+                      .map(
+                        (entry) => DropdownMenuEntry(
+                          value: entry.key,
+                          label: entry.value,
+                        ),
+                      )
+                      .toList(),
+                  trailingIcon: arrowDownIcon(),
+                  selectedTrailingIcon: arrowUpIcon(),
+                  menuStyle: const MenuStyle(
+                    maximumSize: WidgetStatePropertyAll(
+                      Size(double.infinity, 200),
+                    ),
+                  ),
                   onSelected: (value) {
-                    setState(() => _type = value);
+                    setState(() {
+                      _type = value;
+                    });
                     typeMenuController.close();
                     _openMenu(energyMenuController);
                   },
@@ -416,14 +433,31 @@ class _AddVehicleState extends State<AddVehicle> {
 
               const SizedBox(width: 8),
               Expanded(
-                child: FocusableDropdown(
+                child: DropdownMenu<int>(
+                  expandedInsets: EdgeInsets.zero,
+                  hintText: localizations.energyUpper,
+                  initialSelection: _energy,
                   menuController: energyMenuController,
-                  name: localizations.energyUpper,
-                  items: vehicleEnergyList,
-                  selectedItem: _energy,
+                  dropdownMenuEntries: vehicleEnergyList.entries
+                      .map(
+                        (entry) => DropdownMenuEntry(
+                          value: entry.key,
+                          label: entry.value,
+                        ),
+                      )
+                      .toList(),
+                  trailingIcon: arrowDownIcon(),
+                  selectedTrailingIcon: arrowUpIcon(),
+                  menuStyle: const MenuStyle(
+                    maximumSize: WidgetStatePropertyAll(
+                      Size(double.infinity, 200),
+                    ),
+                  ),
                   onSelected: (value) {
-                    setState(() => _energy = value);
-                    typeMenuController.close();
+                    setState(() {
+                      _energy = value;
+                    });
+                    energyMenuController.close();
                     _openMenu(ecologyMenuController);
                   },
                 ),
@@ -438,14 +472,31 @@ class _AddVehicleState extends State<AddVehicle> {
             mainAxisSize: MainAxisSize.max,
             children: [
               Expanded(
-                child: FocusableDropdown(
+                child: DropdownMenu<int>(
+                  expandedInsets: EdgeInsets.zero,
+                  hintText: localizations.ecologyUpper,
+                  initialSelection: _ecology,
                   menuController: ecologyMenuController,
-                  name: localizations.ecologyUpper,
-                  items: vehicleEcoList,
-                  selectedItem: _ecology,
+                  dropdownMenuEntries: vehicleEcologyList.entries
+                      .map(
+                        (entry) => DropdownMenuEntry(
+                          value: entry.key,
+                          label: entry.value,
+                        ),
+                      )
+                      .toList(),
+                  trailingIcon: arrowDownIcon(),
+                  selectedTrailingIcon: arrowUpIcon(),
+                  menuStyle: const MenuStyle(
+                    maximumSize: WidgetStatePropertyAll(
+                      Size(double.infinity, 200),
+                    ),
+                  ),
                   onSelected: (value) {
-                    setState(() => _ecology = value);
-                    typeMenuController.close();
+                    setState(() {
+                      _ecology = value;
+                    });
+                    ecologyMenuController.close();
                     FocusScope.of(context).nextFocus();
                   },
                 ),

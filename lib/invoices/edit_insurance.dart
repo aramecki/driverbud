@@ -179,7 +179,9 @@ class _EditInsuranceState extends State<EditInsurance> {
       'totalPrice': totalPriceDoubleValue.toStringAsFixed(2),
       'dues': _duesCtrl.text.trim() == '' ? '1' : _duesCtrl.text.trim(),
       'personalizeDues': _personalizeDues,
-      'notifications': _notifications,
+      'notifications': _endDate != null && _endDate!.isAfter(today)
+          ? _notifications
+          : false,
       ...duesMap,
       ...duesDatesMap,
       'vehicleKey': vehicleKey,
@@ -196,7 +198,7 @@ class _EditInsuranceState extends State<EditInsurance> {
           _endDate,
           NotificationType.insurance,
         );
-      } else if (_bkEndDate != _endDate) {
+      } else if (_isSomethingChanged()) {
         log('_bkEndDate and _endDate are different, updating notifications');
 
         deleteAllNotificationsInCategory(

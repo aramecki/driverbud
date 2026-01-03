@@ -718,6 +718,16 @@
     "description": "To be informed about deadlines and events, you need to allow notifications in the app settings. text"
   },
 
+  "maintenanceNotificationsTitle": "Reminder: {vehicleName} maintenance.",
+  "@maintenanceNotificationsTitle": {
+      "placeholders": {
+        "vehicleName": {
+          "type": "String"
+        }
+    },
+    "description": "Reminder: {vehicleName} maintenance. text"
+  },
+
   "insuranceNotificationsTitle": "Your vehicle insurance is expiring!",
   "@insuranceNotificationsTitle": {
     "description": "Your vehicle insurance is expiring! text"
@@ -731,6 +741,22 @@
   "inspectionNotificationsTitle": "Time to renew your vehicle technical inspection!",
   "@inspectionNotificationsTitle": {
     "description": "Time to renew your vehicle technical inspection! text"
+  },
+
+  "maintenanceNotificationsBody": "{event} on {date} at {type}.",
+  "@maintenanceNotificationsBody": {
+      "placeholders": {
+        "date": {
+          "type": "String"
+        },
+        "type": {
+          "type": "String"
+        },
+        "event": {
+          "type": "String"
+        }
+    },
+    "description": "{event} on {date} at {type}. text"
   },
 
   "insuranceNotificationsBody": "The insurance of your {vehicleName} is expiring on {date}.",

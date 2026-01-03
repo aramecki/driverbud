@@ -447,6 +447,11 @@ class AppLocalizationsEn extends AppLocalizations {
       'To be informed about deadlines and events, you need to allow notifications in the app settings.';
 
   @override
+  String maintenanceNotificationsTitle(String vehicleName) {
+    return 'Reminder: $vehicleName maintenance.';
+  }
+
+  @override
   String get insuranceNotificationsTitle =>
       'Your vehicle insurance is expiring!';
 
@@ -456,6 +461,11 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get inspectionNotificationsTitle =>
       'Time to renew your vehicle technical inspection!';
+
+  @override
+  String maintenanceNotificationsBody(String date, String type, String event) {
+    return '$event on $date at $type.';
+  }
 
   @override
   String insuranceNotificationsBody(String vehicleName, String date) {

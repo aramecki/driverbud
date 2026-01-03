@@ -449,6 +449,11 @@ class AppLocalizationsIt extends AppLocalizations {
       'Per essere informato su scadenze ed eventi, devi consentire le notifiche nelle impostazioni dell\'app.';
 
   @override
+  String maintenanceNotificationsTitle(String vehicleName) {
+    return 'Promemoria: Manutenzione $vehicleName.';
+  }
+
+  @override
   String get insuranceNotificationsTitle =>
       'La tua assicurazione sta per scadere!';
 
@@ -458,6 +463,11 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get inspectionNotificationsTitle => 'La tua revisione scadrà presto!';
+
+  @override
+  String maintenanceNotificationsBody(String date, String type, String event) {
+    return '$event il $date presso $type.';
+  }
 
   @override
   String insuranceNotificationsBody(String vehicleName, String date) {

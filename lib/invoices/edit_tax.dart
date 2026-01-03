@@ -95,7 +95,9 @@ class _EditTaxState extends State<EditTax> {
       'endDate': _endDate,
       'note': _noteCtrl.text.trim(),
       'totalPrice': totalPriceDoubleValue.toStringAsFixed(2),
-      'notifications': _notifications,
+      'notifications': _endDate != null && _endDate!.isAfter(today)
+          ? _notifications
+          : false,
       'vehicleKey': vehicleKey,
     };
 
@@ -110,7 +112,7 @@ class _EditTaxState extends State<EditTax> {
           _endDate,
           NotificationType.tax,
         );
-      } else if (_bkEndDate != _endDate) {
+      } else if (_isSomethingChanged()) {
         log('_bkEndDate and _endDate are different, updating notifications');
 
         deleteAllNotificationsInCategory(taxNotificationsBox, vehicleKey!);

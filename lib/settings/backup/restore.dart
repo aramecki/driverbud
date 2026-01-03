@@ -2,12 +2,14 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:mycargenie_2/home.dart';
 import 'package:mycargenie_2/l10n/app_localizations.dart';
 import 'package:mycargenie_2/notifications/notifications_schedulers.dart';
 import 'package:mycargenie_2/notifications/notifications_utils.dart';
 import 'package:mycargenie_2/utils/boxes.dart';
+import 'package:mycargenie_2/utils/lists.dart';
 
 bool _isIsoString(String value) {
   try {
@@ -43,6 +45,7 @@ Map<dynamic, dynamic> _checkJsonForMap(Map<dynamic, dynamic> jsonMap) {
 }
 
 Future<bool> restoreBoxFromPath(
+  BuildContext context,
   VehicleProvider vehicleProvider,
   AppLocalizations localizations,
 ) async {
@@ -89,6 +92,7 @@ Future<bool> restoreBoxFromPath(
       (insuranceNotificationsBox, NotificationType.insurance),
       (taxNotificationsBox, NotificationType.tax),
       (inspectionNotificationsBox, NotificationType.inspection),
+      (maintenanceNotificationsBox, NotificationType.maintenance),
     ];
 
     // Restoring notifications
@@ -96,14 +100,26 @@ Future<bool> restoreBoxFromPath(
       Map<dynamic, dynamic> notificationsMap = box.toMap();
 
       notificationsMap.forEach((key, value) {
-        scheduleInvoiceNotifications(
-          localizations,
-          value['vehicleKey'],
-          value['date'],
-          type,
-          id: key,
-          isRestoring: true,
-        );
+        if (type != NotificationType.maintenance) {
+          scheduleInvoiceNotifications(
+            localizations,
+            value['vehicleKey'],
+            value['date'],
+            type,
+            id: key,
+            isRestoring: true,
+          );
+        } else {
+          scheduleEventNotifications(
+            localizations,
+            value['vehicleKey'],
+            key,
+            value['date'],
+            value['maintenanceType'],
+            value['eventTitle'],
+            isRestoring: true,
+          );
+        }
       });
     }
 

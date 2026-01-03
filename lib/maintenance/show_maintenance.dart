@@ -6,6 +6,7 @@ import 'package:mycargenie_2/utils/boxes.dart';
 import 'package:mycargenie_2/l10n/app_localizations.dart';
 import 'package:mycargenie_2/maintenance/maintenance_misc.dart';
 import 'package:mycargenie_2/theme/icons.dart';
+import 'package:mycargenie_2/utils/lists.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 import '../utils/puzzle.dart';
@@ -32,6 +33,10 @@ class _ShowMaintenanceState extends State<ShowMaintenance> {
         final e = box.get(widget.editKey);
 
         if (e == null) return SizedBox();
+
+        String? maintenanceType = getMaintenanceTypeList(
+          context,
+        )[e['maintenanceType']];
 
         String parsedPrice = parseShowedPrice(e['price']);
 
@@ -62,10 +67,10 @@ class _ShowMaintenanceState extends State<ShowMaintenance> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 mainAxisSize: MainAxisSize.max,
                 children: [
-                  if (e['maintenanceType'] != '')
-                    Text(e['maintenanceType'], style: TextStyle(fontSize: 18)),
+                  if (maintenanceType != null)
+                    Text(maintenanceType, style: TextStyle(fontSize: 18)),
                   if (e['place'] != null)
-                    Text(e['place'].toString(), style: TextStyle(fontSize: 18)),
+                    Text(e['place'], style: TextStyle(fontSize: 18)),
                 ],
               ),
             ),
@@ -152,7 +157,10 @@ class _ShowMaintenanceState extends State<ShowMaintenance> {
         actions: <Widget>[
           IconButton(
             onPressed: () {
-              deleteEvent(widget.editKey);
+              deleteEvent(
+                maintenanceBox.get(widget.editKey)['vehicleKey'],
+                widget.editKey,
+              );
               Navigator.of(context).pop();
             },
             icon: deleteIcon(iconSize: 30),

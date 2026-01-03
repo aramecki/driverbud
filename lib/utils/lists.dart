@@ -16,11 +16,6 @@ final List<Map<String, String>> currenciesList = [
   {'symbol': 'лв', 'name': 'Български Лев', 'code': 'BGN', 'country': 'BG'},
 ];
 
-// List<String> getVehicleCategoryList(BuildContext context) {
-//   final localizations = AppLocalizations.of(context)!;
-//   return [localizations.cars, localizations.motorcycles, localizations.other];
-// }
-
 Map<int, String> getVehicleCategoryList(BuildContext context) {
   final localizations = AppLocalizations.of(context)!;
   return {
@@ -30,50 +25,53 @@ Map<int, String> getVehicleCategoryList(BuildContext context) {
   };
 }
 
-List<String> getVehicleTypeList(BuildContext context) {
+Map<int, String> getVehicleTypeList(BuildContext context) {
   final localizations = AppLocalizations.of(context)!;
-  return [
-    localizations.sedan,
-    localizations.coupe,
-    localizations.sportsCar,
-    localizations.suv,
-    localizations.stationWagon,
-    localizations.minivan,
-    localizations.supercar,
-    localizations.other,
-  ];
+  return {
+    1: localizations.sedan,
+    2: localizations.coupe,
+    3: localizations.sportsCar,
+    4: localizations.suv,
+    5: localizations.stationWagon,
+    6: localizations.minivan,
+    7: localizations.supercar,
+    8: localizations.other,
+  };
 }
 
-List<String> getVehicleEnergyList(BuildContext context) {
+Map<int, String> getVehicleEnergyList(BuildContext context) {
   final localizations = AppLocalizations.of(context)!;
-  return [
-    localizations.petrol,
-    localizations.diesel,
-    localizations.lpg,
-    localizations.cng,
-    localizations.electric,
-    localizations.other,
-  ];
+  return {
+    1: localizations.petrol,
+    2: localizations.diesel,
+    3: localizations.lpg,
+    4: localizations.cng,
+    5: localizations.electric,
+    6: localizations.other,
+  };
 }
 
-const List<String> vehicleEcoList = <String>[
-  'Euro 1',
-  'Euro 2',
-  'Euro 3',
-  'Euro 4',
-  'Euro 5',
-  'Euro 6 (ABCD)',
-  'Altro',
-];
-
-List<String> getMaintenanceTypeList(BuildContext context) {
+Map<int, String> getVehicleEcologyList(BuildContext context) {
   final localizations = AppLocalizations.of(context)!;
-  return [
-    localizations.mechanic,
-    localizations.electrician,
-    localizations.bodyShop,
-    localizations.other,
-  ];
+  return {
+    1: 'Euro 1',
+    2: 'Euro 2',
+    3: 'Euro 3',
+    4: 'Euro 4',
+    5: 'Euro 5',
+    6: 'Euro 6 (ABCD)',
+    7: localizations.other,
+  };
+}
+
+Map<int, String> getMaintenanceTypeList(BuildContext context) {
+  final localizations = AppLocalizations.of(context)!;
+  return {
+    1: localizations.mechanic,
+    2: localizations.electrician,
+    3: localizations.bodyShop,
+    4: localizations.other,
+  };
 }
 
 const List<String> carBrandList = <String>[

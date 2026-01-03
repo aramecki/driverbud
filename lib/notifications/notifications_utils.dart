@@ -64,17 +64,35 @@ Future<void> showInstantNotification({
 
 Future<void> scheduleNotification({
   required int vehicleKey,
+  int? eventKey,
   required String title,
   String? body,
   required DateTime date,
   required Box notificationsBox,
   int? id,
+  String? eventTitle,
+  String? maintenanceType,
   bool isDue = false,
   bool isRestoring = false,
+  bool isMaintenance = false,
 }) async {
   TZDateTime scheduledDate = tz.TZDateTime.from(date, tz.local);
 
   id ??= createUniqueId(date);
+
+  AndroidNotificationDetails notificationDetails = isMaintenance
+      ? AndroidNotificationDetails(
+          'events',
+          'Events',
+          channelDescription: 'Events notifications.',
+          importance: Importance.max,
+          priority: Priority.high,
+        )
+      : AndroidNotificationDetails(
+          'invoices',
+          'Invoices',
+          channelDescription: 'Invoices notifications.',
+        );
 
   await notificationsPlugin.zonedSchedule(
     id,
@@ -82,15 +100,9 @@ Future<void> scheduleNotification({
     body,
     scheduledDate,
     //payload: id.toString(),
-    const NotificationDetails(
-      android: AndroidNotificationDetails(
-        'invoices',
-        'Invoices',
-        channelDescription: 'Invoices notifications.',
-        importance: Importance.max,
-        priority: Priority.high,
-      ),
-      iOS: DarwinNotificationDetails(),
+    NotificationDetails(
+      android: notificationDetails,
+      iOS: const DarwinNotificationDetails(),
     ),
     androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
     //matchDateTimeComponents: DateTimeComponents
@@ -98,11 +110,19 @@ Future<void> scheduleNotification({
   );
 
   if (!isRestoring) {
-    final notificationsMap = <String, dynamic>{
-      'vehicleKey': vehicleKey,
-      'date': date,
-      'isDue': isDue,
-    };
+    final notificationsMap = isMaintenance
+        ? <String, dynamic>{
+            'vehicleKey': vehicleKey,
+            'eventKey': eventKey,
+            'date': date,
+            'eventTitle': eventTitle,
+            'maintenanceType': maintenanceType,
+          }
+        : <String, dynamic>{
+            'vehicleKey': vehicleKey,
+            'date': date,
+            'isDue': isDue,
+          };
 
     notificationsBox.put(id, notificationsMap);
     log('added to hive box: ${notificationsMap.toString()}');
@@ -139,11 +159,32 @@ Future<void> deleteAllNotificationsInCategory(
   log('now box contains ${notificationsBox.toMap().toString()}');
 }
 
+Future<void> deleteEventNotifications(int vehicleKey, int eventKey) async {
+  log(
+    'starting iterating in ${maintenanceNotificationsBox.toMap().toString()}',
+  );
+
+  for (var entry in maintenanceNotificationsBox.toMap().entries) {
+    final key = entry.key;
+    final value = entry.value;
+    log('value is: $value');
+
+    if (value['vehicleKey'] == vehicleKey && value['eventKey'] == eventKey) {
+      log('found corrisponding key, deleting notification');
+      await notificationsPlugin.cancel(key);
+
+      await maintenanceNotificationsBox.delete(key);
+    }
+  }
+
+  log('now box contains ${maintenanceNotificationsBox.toMap().toString()}');
+}
+
 Future<void> deleteAllNotifications(int vehicleKey) async {
   deleteAllNotificationsInCategory(insuranceNotificationsBox, vehicleKey);
   deleteAllNotificationsInCategory(taxNotificationsBox, vehicleKey);
   deleteAllNotificationsInCategory(inspectionNotificationsBox, vehicleKey);
-  // TODO: Add maintenance notifications
+  deleteAllNotificationsInCategory(maintenanceNotificationsBox, vehicleKey);
 }
 
 Future<void> cleanupDeliveredNotifications(
@@ -174,4 +215,5 @@ Future<void> cleanDeliveredNotificationFromBoxes() async {
   await cleanupDeliveredNotifications(insuranceNotificationsBox);
   await cleanupDeliveredNotifications(taxNotificationsBox);
   await cleanupDeliveredNotifications(inspectionNotificationsBox);
+  await cleanupDeliveredNotifications(maintenanceNotificationsBox);
 }

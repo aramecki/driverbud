@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
+import 'package:mycargenie_2/utils/lists.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
@@ -51,9 +52,9 @@ class _ShowVehicleState extends State<ShowVehicle> {
         String? horse = v['horse'] != null
             ? localizations.numCv(v['horse'])
             : null;
-        String? type = v['type'];
-        String? energy = v['energy'];
-        String? ecology = v['ecology'];
+        String? type = getVehicleTypeList(context)[v['type']];
+        String? energy = getVehicleEnergyList(context)[v['energy']];
+        String? ecology = getVehicleEcologyList(context)[v['ecology']];
 
         return Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -130,8 +131,7 @@ class _ShowVehicleState extends State<ShowVehicle> {
             if (horse != null) ...tileRow(localizations.horsePowerUpper, horse),
 
             // Type row
-            if (type != null) // TODO: Turn to typeExists bool on creation
-              ...tileRow(localizations.typeUpper, type),
+            if (type != null) ...tileRow(localizations.typeUpper, type),
 
             // Energy row
             if (energy != null) ...tileRow(localizations.energyUpper, energy),

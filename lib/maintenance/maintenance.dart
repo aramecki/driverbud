@@ -148,7 +148,10 @@ class _MaintenanceState extends State<Maintenance> {
                                             onPressed: (_) =>
                                                 deletionConfirmAlert(
                                                   context,
-                                                  () => deleteEvent(key),
+                                                  () => deleteEvent(
+                                                    vehicleKey!,
+                                                    key,
+                                                  ),
                                                 ),
                                             icon: deleteIcon(),
                                           ),
