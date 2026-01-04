@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'package:currency_textfield/currency_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:mycargenie_2/home.dart';
+import 'package:mycargenie_2/invoices/tax.dart';
 import 'package:mycargenie_2/l10n/app_localizations.dart';
 import 'package:mycargenie_2/notifications/notifications_schedulers.dart';
 import 'package:mycargenie_2/notifications/notifications_utils.dart';
@@ -129,15 +130,22 @@ class _EditTaxState extends State<EditTax> {
       deleteAllNotificationsInCategory(taxNotificationsBox, vehicleKey!);
     }
 
-    if (widget.editKey == null) {
-      taxBox.add(taxMap);
+    int? key = widget.editKey;
+
+    if (key == null) {
+      key = await taxBox.add(taxMap);
       log('Saved: $taxMap');
     } else {
       taxBox.put(widget.editKey, taxMap);
       log('Updated: $taxMap at ${widget.editKey}');
     }
 
-    Navigator.of(context).pop();
+    if (mounted) {
+      Navigator.of(context).popUntil((route) => route.isFirst);
+      Navigator.of(
+        context,
+      ).push(MaterialPageRoute(builder: (_) => Tax(vehicleKey: vehicleKey!)));
+    }
   }
 
   @override

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mycargenie_2/home.dart';
 import 'package:mycargenie_2/l10n/app_localizations.dart';
+import 'package:mycargenie_2/maintenance/show_maintenance.dart';
 import 'package:mycargenie_2/notifications/notifications_schedulers.dart';
 import 'package:mycargenie_2/notifications/notifications_utils.dart';
 import 'package:mycargenie_2/notifications/permissions.dart';
@@ -141,7 +142,7 @@ class _AddMaintenanceState extends State<AddMaintenance> {
 
     int? key = widget.editKey;
 
-    if (widget.editKey == null) {
+    if (key == null) {
       key = await maintenanceBox.add(maintenanceMap);
     } else {
       maintenanceBox.put(widget.editKey, maintenanceMap);
@@ -151,7 +152,6 @@ class _AddMaintenanceState extends State<AddMaintenance> {
     if (_date != null &&
         _date!.isAfter(today) &&
         _notifications == true &&
-        key != null &&
         mounted) {
       if (_bkDate == null) {
         scheduleEventNotifications(
@@ -179,11 +179,14 @@ class _AddMaintenanceState extends State<AddMaintenance> {
         log('nothing changed, nothing to do');
       }
     } else {
-      if (key != null) deleteEventNotifications(vehicleKey!, key);
+      deleteEventNotifications(vehicleKey!, key);
     }
 
     if (mounted) {
-      Navigator.of(context).pop();
+      Navigator.of(context).popUntil((route) => route.isFirst);
+      Navigator.of(
+        context,
+      ).push(MaterialPageRoute(builder: (_) => ShowMaintenance(editKey: key)));
     }
   }
 
@@ -212,6 +215,7 @@ class _AddMaintenanceState extends State<AddMaintenance> {
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.max,
             children: [
+              // TODO: Increase chars num
               customTextField(
                 context,
                 hintText: localizations.asteriskTitle,
@@ -259,6 +263,7 @@ class _AddMaintenanceState extends State<AddMaintenance> {
               ),
 
               const SizedBox(width: 8),
+              // TODO: Increase chars num
               customTextField(
                 context,
                 hintText: localizations.placeUpper,

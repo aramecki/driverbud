@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:mycargenie_2/home.dart';
+import 'package:mycargenie_2/invoices/insurance.dart';
 import 'package:mycargenie_2/l10n/app_localizations.dart';
 import 'package:mycargenie_2/notifications/notifications_schedulers.dart';
 import 'package:mycargenie_2/notifications/notifications_utils.dart';
@@ -36,8 +37,6 @@ class _EditInsuranceState extends State<EditInsurance> {
   final List<DateTime> _duesPersonalizationDates = [];
 
   CurrencyTextFieldController? _totalPriceCtrl;
-
-  //final MenuController menuController = MenuController();
 
   DateTime? _startDate;
   DateTime? _endDate;
@@ -236,15 +235,22 @@ class _EditInsuranceState extends State<EditInsurance> {
       }
     }
 
-    if (widget.editKey == null) {
-      insuranceBox.add(insuranceMap);
+    int? key = widget.editKey;
+
+    if (key == null) {
+      key = await insuranceBox.add(insuranceMap);
       log('Saved: $insuranceMap');
     } else {
       insuranceBox.put(widget.editKey, insuranceMap);
       log('Updated: $insuranceMap at ${widget.editKey}');
     }
 
-    Navigator.of(context).pop();
+    if (mounted) {
+      Navigator.of(context).popUntil((route) => route.isFirst);
+      Navigator.of(context).push(
+        MaterialPageRoute(builder: (_) => Insurance(vehicleKey: vehicleKey!)),
+      );
+    }
   }
 
   @override

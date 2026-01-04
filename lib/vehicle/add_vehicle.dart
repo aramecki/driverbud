@@ -7,6 +7,8 @@ import 'package:mycargenie_2/utils/image_picker.dart';
 import 'package:mycargenie_2/utils/reusable_textfield.dart';
 import 'package:mycargenie_2/utils/support_fun.dart';
 import 'package:mycargenie_2/utils/year_picker.dart';
+import 'package:mycargenie_2/vehicle/show_vehicle.dart';
+import 'package:mycargenie_2/vehicle/vehicles.dart';
 import 'package:provider/provider.dart';
 import '../utils/lists.dart';
 import '../utils/puzzle.dart';
@@ -192,7 +194,11 @@ class _AddVehicleState extends State<AddVehicle> {
 
     Provider.of<VehicleProvider>(context, listen: false).vehicleToLoad = newKey;
 
-    Navigator.of(context).pop();
+    Navigator.of(context).popUntil((route) => route.isFirst);
+    Navigator.of(context).push(MaterialPageRoute(builder: (_) => Garage()));
+    Navigator.of(
+      context,
+    ).push(MaterialPageRoute(builder: (_) => ShowVehicle(editKey: newKey)));
   }
 
   Future<int> saveEvent(Map<String, dynamic> vehicleMap, int? editKey) async {

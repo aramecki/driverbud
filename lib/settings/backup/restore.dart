@@ -9,7 +9,6 @@ import 'package:mycargenie_2/l10n/app_localizations.dart';
 import 'package:mycargenie_2/notifications/notifications_schedulers.dart';
 import 'package:mycargenie_2/notifications/notifications_utils.dart';
 import 'package:mycargenie_2/utils/boxes.dart';
-import 'package:mycargenie_2/utils/lists.dart';
 
 bool _isIsoString(String value) {
   try {

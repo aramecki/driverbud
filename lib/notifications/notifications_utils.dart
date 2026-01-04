@@ -142,6 +142,8 @@ Future<void> deleteAllNotificationsInCategory(
 }) async {
   log('starting iterating in ${notificationsBox.toMap().toString()}');
 
+  List<int> keysToDel = [];
+
   for (var entry in notificationsBox.toMap().entries) {
     final key = entry.key;
     final value = entry.value;
@@ -149,11 +151,14 @@ Future<void> deleteAllNotificationsInCategory(
 
     if (value['vehicleKey'] == vehicleKey &&
         (!isDue || value['isDue'] == true)) {
-      log('found corrisponding key, deleting notification');
       await notificationsPlugin.cancel(key);
-
-      await notificationsBox.delete(key);
+      log('found corrisponding key, deleting notification');
+      keysToDel.add(key);
     }
+  }
+
+  if (keysToDel.isNotEmpty) {
+    await notificationsBox.deleteAll(keysToDel);
   }
 
   log('now box contains ${notificationsBox.toMap().toString()}');

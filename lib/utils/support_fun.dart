@@ -112,25 +112,26 @@ Future<void> deleteAllEventsForVehicle(int vehicleKey) async {
   });
 }
 
-// TODO: Add tax and inspection to deletion
 Future<void> deleteAllInvoicesForVehicle(int vehicleKey) async {
-  insuranceBox.toMap().forEach((key, value) {
-    if (value['vehicleKey'] == vehicleKey) {
-      insuranceBox.delete(key);
-      log('Deleting the insurance $value at $key for vehicle $vehicleKey');
-    }
-  });
+  final dataBoxes = [insuranceBox, taxBox, inspectionBox];
+  final notificationsBoxes = [
+    insuranceNotificationsBox,
+    taxNotificationsBox,
+    inspectionNotificationsBox,
+  ];
 
-  deleteAllNotificationsInCategory(insuranceNotificationsBox, vehicleKey);
+  for (final box in dataBoxes) {
+    box.toMap().forEach((key, value) {
+      if (value['vehicleKey'] == vehicleKey) {
+        box.delete(key);
+        log('Deleting the invoice $value at $key for vehicle $vehicleKey');
+      }
+    });
+  }
 
-  insuranceNotificationsBox.toMap().forEach((key, value) {
-    if (value['vehicleKey'] == vehicleKey) {
-      insuranceNotificationsBox.delete(key);
-      log(
-        'Deleting the insurance notification $value at $key for vehicle $vehicleKey',
-      );
-    }
-  });
+  for (final box in notificationsBoxes) {
+    deleteAllNotificationsInCategory(box, vehicleKey);
+  }
 }
 
 // Function to open the vehicle editing screen

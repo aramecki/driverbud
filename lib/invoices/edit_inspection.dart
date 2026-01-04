@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:mycargenie_2/home.dart';
+import 'package:mycargenie_2/invoices/inspection.dart';
 import 'package:mycargenie_2/l10n/app_localizations.dart';
 import 'package:mycargenie_2/notifications/notifications_schedulers.dart';
 import 'package:mycargenie_2/notifications/notifications_utils.dart';
@@ -70,8 +71,6 @@ class _EditInspectionState extends State<EditInspection> {
 
       _notifications = details['notifications'] ?? false;
       _bkNotifications = _notifications;
-
-      //log('loading note: ${_noteCtrl.text}');
     } else {
       _startDate = today;
       _endDate = today.add(const Duration(days: 365));
@@ -137,15 +136,22 @@ class _EditInspectionState extends State<EditInspection> {
       deleteAllNotificationsInCategory(inspectionNotificationsBox, vehicleKey!);
     }
 
-    if (widget.editKey == null) {
-      inspectionBox.add(inspectionMap);
+    int? key = widget.editKey;
+
+    if (key == null) {
+      key = await inspectionBox.add(inspectionMap);
       log('Saved: $inspectionMap');
     } else {
       inspectionBox.put(widget.editKey, inspectionMap);
       log('Updated: $inspectionMap at ${widget.editKey}');
     }
 
-    Navigator.of(context).pop();
+    if (mounted) {
+      Navigator.of(context).popUntil((route) => route.isFirst);
+      Navigator.of(context).push(
+        MaterialPageRoute(builder: (_) => Inspection(vehicleKey: vehicleKey!)),
+      );
+    }
   }
 
   @override
