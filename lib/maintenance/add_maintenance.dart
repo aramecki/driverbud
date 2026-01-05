@@ -215,11 +215,10 @@ class _AddMaintenanceState extends State<AddMaintenance> {
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.max,
             children: [
-              // TODO: Increase chars num
               customTextField(
                 context,
                 hintText: localizations.asteriskTitle,
-                maxLength: 35,
+                maxLength: 45,
                 action: TextInputAction.next,
                 onSubmitted: (_) => _openMenu(),
                 controller: _titleCtrl,
@@ -263,13 +262,12 @@ class _AddMaintenanceState extends State<AddMaintenance> {
               ),
 
               const SizedBox(width: 8),
-              // TODO: Increase chars num
+
               customTextField(
                 context,
                 hintText: localizations.placeUpper,
                 action: TextInputAction.next,
-                // TODO: Set focus to open datepicker
-                // onSubmitted: (_) => //apri date picker,
+                maxLength: 20,
                 controller: _placeCtrl,
               ),
             ],
