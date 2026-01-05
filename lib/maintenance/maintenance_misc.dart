@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mycargenie_2/notifications/notifications_utils.dart';
 import 'package:mycargenie_2/settings/currency_settings.dart';
 import 'package:mycargenie_2/settings/settings_logics.dart';
 import 'package:mycargenie_2/utils/boxes.dart';
@@ -43,7 +44,8 @@ Widget maintenanceEventListTile(
   );
 }
 
-Future<void> deleteEvent(dynamic key) {
+Future<void> deleteEvent(int vehicleKey, int key) {
+  deleteEventNotifications(vehicleKey, key);
   return maintenanceBox.delete(key);
 }
 

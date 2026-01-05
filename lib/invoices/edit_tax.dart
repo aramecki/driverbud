@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'package:currency_textfield/currency_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:mycargenie_2/home.dart';
+import 'package:mycargenie_2/invoices/tax.dart';
 import 'package:mycargenie_2/l10n/app_localizations.dart';
 import 'package:mycargenie_2/notifications/notifications_schedulers.dart';
 import 'package:mycargenie_2/notifications/notifications_utils.dart';
@@ -30,7 +31,10 @@ class _EditTaxState extends State<EditTax> {
   DateTime? _endDate;
   bool _notifications = false;
 
+  String? _bkNote;
   DateTime? _bkEndDate;
+  String? _bkTotalPrice;
+  bool? _bkNotifications;
 
   final now = DateTime.now();
   DateTime get today => DateTime(now.year, now.month, now.day);
@@ -53,12 +57,15 @@ class _EditTaxState extends State<EditTax> {
       }
 
       _noteCtrl.text = details['note'] ?? '';
+      _bkNote = _noteCtrl.text;
       log('loading note: ${_noteCtrl.text}');
 
       _totalPriceCtrl!.text = details['totalPrice']?.toString() ?? '';
+      _bkTotalPrice = _totalPriceCtrl!.text;
       log('loading totPrice: ${_totalPriceCtrl!.text.toString()}');
 
       _notifications = details['notifications'] ?? false;
+      _bkNotifications = _notifications;
     } else {
       _endDate = today.add(const Duration(days: 365));
     }
@@ -89,7 +96,9 @@ class _EditTaxState extends State<EditTax> {
       'endDate': _endDate,
       'note': _noteCtrl.text.trim(),
       'totalPrice': totalPriceDoubleValue.toStringAsFixed(2),
-      'notifications': _notifications,
+      'notifications': _endDate != null && _endDate!.isAfter(today)
+          ? _notifications
+          : false,
       'vehicleKey': vehicleKey,
     };
 
@@ -104,7 +113,7 @@ class _EditTaxState extends State<EditTax> {
           _endDate,
           NotificationType.tax,
         );
-      } else if (_bkEndDate != _endDate) {
+      } else if (_isSomethingChanged()) {
         log('_bkEndDate and _endDate are different, updating notifications');
 
         deleteAllNotificationsInCategory(taxNotificationsBox, vehicleKey!);
@@ -121,18 +130,23 @@ class _EditTaxState extends State<EditTax> {
       deleteAllNotificationsInCategory(taxNotificationsBox, vehicleKey!);
     }
 
-    if (widget.editKey == null) {
-      taxBox.add(taxMap);
+    int? key = widget.editKey;
+
+    if (key == null) {
+      key = await taxBox.add(taxMap);
       log('Saved: $taxMap');
     } else {
       taxBox.put(widget.editKey, taxMap);
       log('Updated: $taxMap at ${widget.editKey}');
     }
 
-    Navigator.of(context).pop();
+    if (mounted) {
+      Navigator.of(context).popUntil((route) => route.isFirst);
+      Navigator.of(
+        context,
+      ).push(MaterialPageRoute(builder: (_) => Tax(vehicleKey: vehicleKey!)));
+    }
   }
-
-  //TODO: Manage when there are no vehicles
 
   @override
   Widget build(BuildContext context) {
@@ -251,6 +265,13 @@ class _EditTaxState extends State<EditTax> {
       onPopInvokedWithResult: (didPop, result) async {
         if (didPop) return;
 
+        final hasChanges = _isSomethingChanged();
+
+        if (!hasChanges) {
+          if (context.mounted) Navigator.of(context).pop();
+          return;
+        }
+
         final bool? shouldPop = await discardConfirmOnBack(
           context,
           popScope: true,
@@ -267,12 +288,20 @@ class _EditTaxState extends State<EditTax> {
                 ? localizations.editValue(localizations.taxLower)
                 : localizations.addValue(localizations.taxLower),
           ),
-          leading: customBackButton(context, confirmation: true),
+          leading: customBackButton(
+            context,
+            confirmation: true,
+            checkChanges: _isSomethingChanged,
+          ),
           actions: <Widget>[
             if (widget.editKey != null)
               IconButton(
                 onPressed: () {
                   WidgetsBinding.instance.addPostFrameCallback((_) {
+                    deleteAllNotificationsInCategory(
+                      taxNotificationsBox,
+                      widget.editKey,
+                    );
                     taxBox.delete(widget.editKey);
                     Navigator.of(context).popUntil((route) => route.isFirst);
                   });
@@ -290,5 +319,12 @@ class _EditTaxState extends State<EditTax> {
         ),
       ),
     );
+  }
+
+  bool _isSomethingChanged() {
+    return _endDate != _bkEndDate ||
+        _noteCtrl.text != _bkNote ||
+        _totalPriceCtrl!.text != _bkTotalPrice ||
+        _notifications != _bkNotifications;
   }
 }

@@ -28,7 +28,7 @@ ScaffoldFeatureController<SnackBar, SnackBarClosedReason> showCustomToast(
       elevation: 6.0,
       behavior: SnackBarBehavior.floating,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
-      margin: EdgeInsets.only(left: 30, right: 30, bottom: 10),
+      margin: const EdgeInsets.only(left: 30, right: 30, bottom: 10),
     ),
   );
 }
@@ -43,7 +43,7 @@ Widget buildAddButton(
     onPressed: onPressed,
     style: ElevatedButton.styleFrom(
       minimumSize: const Size.fromHeight(50),
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
     ),
     child: Text(text, style: TextStyle(fontSize: 20)),
   );
@@ -195,12 +195,23 @@ Widget homeRowBox(
 }
 
 // Custom back button for appbar
-Widget customBackButton(BuildContext context, {bool confirmation = false}) {
+Widget customBackButton(
+  BuildContext context, {
+  bool confirmation = false,
+  bool Function()? checkChanges,
+}) {
   return IconButton(
     icon: backIcon,
-    onPressed: () => confirmation
-        ? discardConfirmOnBack(context)
-        : Navigator.of(context).pop(),
+    onPressed: () {
+      bool actuallyChanged = checkChanges?.call() ?? false;
+      log('changed: $actuallyChanged');
+      if (confirmation && actuallyChanged) {
+        discardConfirmOnBack(context);
+        return;
+      } else {
+        Navigator.of(context).pop();
+      }
+    },
   );
 }
 
@@ -367,4 +378,41 @@ Future<void> deletionConfirmAlert(BuildContext context, Function onDelete) {
       );
     },
   );
+}
+
+Widget containerWithTextAndIcon(String text, HugeIcon icon) {
+  return Container(
+    decoration: BoxDecoration(
+      border: Border.all(color: Colors.deepOrange, width: 2),
+      borderRadius: BorderRadius.circular(50),
+    ),
+    padding: EdgeInsets.symmetric(vertical: 8, horizontal: 10),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [icon, SizedBox(width: 10), Text(text)],
+    ),
+  );
+}
+
+// Row simulating a tile
+List<Widget> tileRow(String title, String content) {
+  return [
+    Padding(
+      padding: EdgeInsets.symmetric(horizontal: 18, vertical: 4),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            '$title:',
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+          ),
+          Text(
+            content,
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
+          ),
+        ],
+      ),
+    ),
+    Divider(height: 22),
+  ];
 }

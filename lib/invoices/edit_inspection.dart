@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:mycargenie_2/home.dart';
+import 'package:mycargenie_2/invoices/inspection.dart';
 import 'package:mycargenie_2/l10n/app_localizations.dart';
 import 'package:mycargenie_2/notifications/notifications_schedulers.dart';
 import 'package:mycargenie_2/notifications/notifications_utils.dart';
@@ -31,7 +32,11 @@ class _EditInspectionState extends State<EditInspection> {
   DateTime? _endDate;
   bool _notifications = false;
 
+  String? _bkInspector;
+  String? _bkNote;
+  DateTime? _bkStartDate;
   DateTime? _bkEndDate;
+  bool? _bkNotifications;
 
   final now = DateTime.now();
   DateTime get today => DateTime(now.year, now.month, now.day);
@@ -46,10 +51,12 @@ class _EditInspectionState extends State<EditInspection> {
 
     if (details != null) {
       _inspectorCtrl.text = details['inspector'] ?? '';
+      _bkInspector = _inspectorCtrl.text;
       log('loading inspector: ${_inspectorCtrl.text}');
 
       if (details['startDate'] is DateTime) {
         _startDate = details['startDate'];
+        _bkStartDate = _startDate;
         log('loading startDate: ${_startDate.toString()}');
       }
 
@@ -60,10 +67,10 @@ class _EditInspectionState extends State<EditInspection> {
       }
 
       _noteCtrl.text = details['note'] ?? '';
+      _bkNote = _noteCtrl.text;
 
       _notifications = details['notifications'] ?? false;
-
-      log('loading note: ${_noteCtrl.text}');
+      _bkNotifications = _notifications;
     } else {
       _startDate = today;
       _endDate = today.add(const Duration(days: 365));
@@ -92,7 +99,9 @@ class _EditInspectionState extends State<EditInspection> {
       'startDate': _startDate,
       'endDate': _endDate,
       'note': _noteCtrl.text.trim(),
-      'notifications': _notifications,
+      'notifications': _endDate != null && _endDate!.isAfter(today)
+          ? _notifications
+          : false,
       'vehicleKey': vehicleKey,
     };
 
@@ -107,7 +116,7 @@ class _EditInspectionState extends State<EditInspection> {
           _endDate,
           NotificationType.inspection,
         );
-      } else if (_bkEndDate != _endDate) {
+      } else if (_isSomethingChanged()) {
         log('_bkEndDate and _endDate are different, updating notifications');
 
         deleteAllNotificationsInCategory(
@@ -127,18 +136,23 @@ class _EditInspectionState extends State<EditInspection> {
       deleteAllNotificationsInCategory(inspectionNotificationsBox, vehicleKey!);
     }
 
-    if (widget.editKey == null) {
-      inspectionBox.add(inspectionMap);
+    int? key = widget.editKey;
+
+    if (key == null) {
+      key = await inspectionBox.add(inspectionMap);
       log('Saved: $inspectionMap');
     } else {
       inspectionBox.put(widget.editKey, inspectionMap);
       log('Updated: $inspectionMap at ${widget.editKey}');
     }
 
-    Navigator.of(context).pop();
+    if (mounted) {
+      Navigator.of(context).popUntil((route) => route.isFirst);
+      Navigator.of(context).push(
+        MaterialPageRoute(builder: (_) => Inspection(vehicleKey: vehicleKey!)),
+      );
+    }
   }
-
-  //TODO: Manage when there are no vehicles
 
   @override
   Widget build(BuildContext context) {
@@ -269,6 +283,13 @@ class _EditInspectionState extends State<EditInspection> {
       onPopInvokedWithResult: (didPop, result) async {
         if (didPop) return;
 
+        final hasChanges = _isSomethingChanged();
+
+        if (!hasChanges) {
+          if (context.mounted) Navigator.of(context).pop();
+          return;
+        }
+
         final bool? shouldPop = await discardConfirmOnBack(
           context,
           popScope: true,
@@ -285,15 +306,21 @@ class _EditInspectionState extends State<EditInspection> {
                 ? localizations.editValue(localizations.inspectionLower)
                 : localizations.addValue(localizations.inspectionLower),
           ),
-          leading: customBackButton(context, confirmation: true),
+          leading: customBackButton(
+            context,
+            confirmation: true,
+            checkChanges: _isSomethingChanged,
+          ),
           actions: <Widget>[
             if (widget.editKey != null)
               IconButton(
                 onPressed: () {
                   WidgetsBinding.instance.addPostFrameCallback((_) {
+                    deleteAllNotificationsInCategory(
+                      inspectionNotificationsBox,
+                      widget.editKey,
+                    );
                     inspectionBox.delete(widget.editKey);
-                    // TODO: Add notifications box deletion
-                    // TODO: Add notification disable
                     Navigator.of(context).popUntil((route) => route.isFirst);
                   });
                 },
@@ -310,5 +337,13 @@ class _EditInspectionState extends State<EditInspection> {
         ),
       ),
     );
+  }
+
+  bool _isSomethingChanged() {
+    return _inspectorCtrl.text != _bkInspector ||
+        _startDate != _bkStartDate ||
+        _endDate != _bkEndDate ||
+        _noteCtrl.text != _bkNote ||
+        _notifications != _bkNotifications;
   }
 }

@@ -1,14 +1,14 @@
 import 'dart:developer';
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mycargenie_2/l10n/app_localizations.dart';
 import 'package:mycargenie_2/theme/icons.dart';
-import 'package:mycargenie_2/utils/focusable_dropdown.dart';
 import 'package:mycargenie_2/utils/image_picker.dart';
 import 'package:mycargenie_2/utils/reusable_textfield.dart';
 import 'package:mycargenie_2/utils/support_fun.dart';
 import 'package:mycargenie_2/utils/year_picker.dart';
+import 'package:mycargenie_2/vehicle/show_vehicle.dart';
+import 'package:mycargenie_2/vehicle/vehicles.dart';
 import 'package:provider/provider.dart';
 import '../utils/lists.dart';
 import '../utils/puzzle.dart';
@@ -26,27 +26,46 @@ class AddVehicle extends StatefulWidget {
 }
 
 class _AddVehicleState extends State<AddVehicle> {
+  final TextEditingController _brandCtrl = TextEditingController();
   final TextEditingController _modelCtrl = TextEditingController();
   final TextEditingController _configCtrl = TextEditingController();
   final TextEditingController _capacityCtrl = TextEditingController();
   final TextEditingController _powerCtrl = TextEditingController();
   final TextEditingController _horseCtrl = TextEditingController();
+  final TextEditingController _plateCtrl = TextEditingController();
 
-  final MenuController brandMenuController = MenuController();
   final MenuController categoryMenuController = MenuController();
+  final MenuController brandMenuController = MenuController();
+  final MenuController typeMenuController = MenuController();
   final MenuController energyMenuController = MenuController();
   final MenuController ecologyMenuController = MenuController();
 
   String? _savedImagePath;
   String? _previewImagePath;
 
+  int? _category;
   String? _brand;
   int? _year;
-  String? _category;
-  String? _energy;
-  String? _ecology;
+  int? _type;
+  int? _energy;
+  int? _ecology;
   bool _favorite = false;
   String? _assetImage;
+
+  int? _bkCategory;
+  String? _bkModel;
+  String? _bkConfig;
+  String? _bkCapacity;
+  String? _bkPower;
+  String? _bkHorse;
+  String? _bkPlate;
+  String? _bkImage;
+  String? _bkBrand;
+  int? _bkYear;
+  int? _bkType;
+  int? _bkEnergy;
+  int? _bkEcology;
+  bool? _bkFavorite;
 
   @override
   void initState() {
@@ -56,45 +75,69 @@ class _AddVehicleState extends State<AddVehicle> {
 
     if (eventToEdit != null) {
       _savedImagePath = eventToEdit['assetImage'] as String?;
+      _previewImagePath = _savedImagePath;
+      _bkImage = _savedImagePath;
       _assetImage = _savedImagePath;
 
-      _modelCtrl.text = eventToEdit['model'] ?? '';
-      _configCtrl.text = eventToEdit['config'] ?? '';
-      _capacityCtrl.text = eventToEdit['capacity']?.toString() ?? '';
-      _powerCtrl.text = eventToEdit['power']?.toString() ?? '';
-      _horseCtrl.text = eventToEdit['horse']?.toString() ?? '';
+      _category = eventToEdit['category'] as int?;
+      _bkCategory = _category;
 
+      _brandCtrl.text = eventToEdit['brand'] ?? '';
       _brand = eventToEdit['brand'] as String?;
+      _bkBrand = _brand;
+
+      _modelCtrl.text = eventToEdit['model'] ?? '';
+      _bkModel = _modelCtrl.text;
+
+      _configCtrl.text = eventToEdit['config'] ?? '';
+      _bkConfig = _configCtrl.text;
+
+      _plateCtrl.text = eventToEdit['plate']?.toString() ?? '';
+      _bkPlate = _plateCtrl.text;
+
       _year = eventToEdit['year'] as int?;
-      _category = eventToEdit['category'] as String?;
-      _energy = eventToEdit['energy'] as String?;
-      _ecology = eventToEdit['ecology'] as String?;
+      _bkYear = _year;
+
+      _capacityCtrl.text = eventToEdit['capacity']?.toString() ?? '';
+      _bkCapacity = _capacityCtrl.text;
+
+      _powerCtrl.text = eventToEdit['power']?.toString() ?? '';
+      _bkPower = _powerCtrl.text;
+
+      _horseCtrl.text = eventToEdit['horse']?.toString() ?? '';
+      _bkHorse = _horseCtrl.text;
+
+      _type = eventToEdit['type'] as int?;
+      _bkType = _type;
+
+      _energy = eventToEdit['energy'] as int?;
+      _bkEnergy = _energy;
+
+      _ecology = eventToEdit['ecology'] as int?;
+      _bkEcology = _ecology;
+
       _favorite = eventToEdit['favorite'] ?? false;
+      _bkFavorite = _favorite;
     }
   }
 
   @override
   void dispose() {
+    _brandCtrl.dispose();
     _modelCtrl.dispose();
     _configCtrl.dispose();
     _capacityCtrl.dispose();
     _powerCtrl.dispose();
     _horseCtrl.dispose();
+    _plateCtrl.dispose();
     super.dispose();
   }
 
   Future<void> _onSavePressed() async {
     final localizations = AppLocalizations.of(context)!;
 
-    if (_previewImagePath != null) {
-      if (_savedImagePath != null) {
-        try {
-          File(_savedImagePath!).delete;
-          log('Old image deleted: $_savedImagePath');
-        } catch (error) {
-          log("Can't delete $_savedImagePath: $error");
-        }
-      }
+    if (_previewImagePath != _bkImage && _previewImagePath != null) {
+      deleteImageFromMmry(_savedImagePath);
       _assetImage = await saveImageToMmry(_previewImagePath!);
     }
 
@@ -105,6 +148,7 @@ class _AddVehicleState extends State<AddVehicle> {
     }
 
     final vehicleMap = <String, dynamic>{
+      'category': _category,
       'brand': _brand,
       'model': _modelCtrl.text.trim(),
       'config': _configCtrl.text.trim(),
@@ -112,7 +156,8 @@ class _AddVehicleState extends State<AddVehicle> {
       'capacity': int.tryParse(_capacityCtrl.text),
       'power': int.tryParse(_powerCtrl.text),
       'horse': int.tryParse(_horseCtrl.text),
-      'category': _category,
+      'plate': _plateCtrl.text.trim(),
+      'type': _type,
       'energy': _energy,
       'ecology': _ecology,
       'favorite': _favorite,
@@ -121,7 +166,8 @@ class _AddVehicleState extends State<AddVehicle> {
 
     if (!mounted) return;
 
-    if (vehicleMap['brand'] == null ||
+    if (vehicleMap['category'] == null ||
+        vehicleMap['brand'] == null ||
         vehicleMap['model'] == null ||
         vehicleMap['model'] == '') {
       showCustomToast(context, message: localizations.brandModelRequiredField);
@@ -148,7 +194,11 @@ class _AddVehicleState extends State<AddVehicle> {
 
     Provider.of<VehicleProvider>(context, listen: false).vehicleToLoad = newKey;
 
-    Navigator.of(context).pop();
+    Navigator.of(context).popUntil((route) => route.isFirst);
+    Navigator.of(context).push(MaterialPageRoute(builder: (_) => Garage()));
+    Navigator.of(
+      context,
+    ).push(MaterialPageRoute(builder: (_) => ShowVehicle(editKey: newKey)));
   }
 
   Future<int> saveEvent(Map<String, dynamic> vehicleMap, int? editKey) async {
@@ -173,7 +223,17 @@ class _AddVehicleState extends State<AddVehicle> {
     final localizations = AppLocalizations.of(context)!;
 
     final vehicleCategoryList = getVehicleCategoryList(context);
+
+    List<String> vehicleBrandList = switch (_category) {
+      _ when _category == 1 => carBrandList,
+      _ when _category == 2 => motorcycleBrandList,
+      _ when _category == 3 => otherBrandList,
+      _ => [],
+    };
+
+    final vehicleTypeList = getVehicleTypeList(context);
     final vehicleEnergyList = getVehicleEnergyList(context);
+    final vehicleEcologyList = getVehicleEcologyList(context);
 
     final isEdit = widget.editKey != null;
 
@@ -186,13 +246,49 @@ class _AddVehicleState extends State<AddVehicle> {
           onImagePicked: (value) => _previewImagePath = value,
         ),
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.max,
             children: [
               Expanded(
+                child: DropdownMenu<int>(
+                  expandedInsets: EdgeInsets.zero,
+                  hintText: localizations.categoryUpper,
+                  initialSelection: _category,
+                  dropdownMenuEntries: vehicleCategoryList.entries
+                      .map(
+                        (entry) => DropdownMenuEntry(
+                          value: entry.key,
+                          label: entry.value,
+                        ),
+                      )
+                      .toList(),
+                  trailingIcon: arrowDownIcon(),
+                  selectedTrailingIcon: arrowUpIcon(),
+                  menuStyle: const MenuStyle(
+                    maximumSize: WidgetStatePropertyAll(
+                      Size(double.infinity, 200),
+                    ),
+                  ),
+                  onSelected: (value) {
+                    setState(() {
+                      _category = value;
+                      _brand = null;
+                      _brandCtrl.clear();
+                    });
+                    categoryMenuController.close();
+                  },
+                ),
+              ),
+
+              const SizedBox(width: 8),
+
+              Expanded(
                 child: DropdownMenu<String>(
+                  expandedInsets: EdgeInsets.zero,
+                  enabled: vehicleBrandList.isNotEmpty,
+                  controller: _brandCtrl,
                   hintText: localizations.brandUpper,
                   initialSelection: _brand,
                   dropdownMenuEntries: vehicleBrandList
@@ -200,7 +296,11 @@ class _AddVehicleState extends State<AddVehicle> {
                         (item) => DropdownMenuEntry(value: item, label: item),
                       )
                       .toList(),
-                  trailingIcon: arrowDownIcon(),
+                  trailingIcon: arrowDownIcon(
+                    color: vehicleBrandList.isNotEmpty
+                        ? null
+                        : Colors.transparent,
+                  ),
                   selectedTrailingIcon: arrowUpIcon(),
                   menuStyle: const MenuStyle(
                     maximumSize: WidgetStatePropertyAll(
@@ -213,22 +313,24 @@ class _AddVehicleState extends State<AddVehicle> {
                   },
                 ),
               ),
-              const SizedBox(width: 8),
+            ],
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.max,
+            children: [
               customTextField(
                 context,
                 hintText: localizations.modelUpper,
                 controller: _modelCtrl,
                 action: TextInputAction.next,
               ),
-            ],
-          ),
-        ),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.max,
-            children: [
+
+              const SizedBox(width: 8),
+
               customTextField(
                 context,
                 hintText: localizations.configurationUpper,
@@ -240,7 +342,7 @@ class _AddVehicleState extends State<AddVehicle> {
           ),
         ),
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.max,
@@ -254,60 +356,82 @@ class _AddVehicleState extends State<AddVehicle> {
               const SizedBox(width: 8),
               customTextField(
                 context,
-                hintText: localizations.capacityCcUpper,
+                hintText: '${localizations.capacityUpper} cc',
                 type: TextInputType.number,
                 maxLength: 4,
                 formatter: [FilteringTextInputFormatter.digitsOnly],
                 controller: _capacityCtrl,
+                suffixText: 'cc',
+
                 action: TextInputAction.next,
               ),
             ],
           ),
         ),
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.max,
             children: [
               customTextField(
                 context,
-                hintText: localizations.powerKwUpper,
+                hintText: '${localizations.powerUpper} kW',
                 type: TextInputType.number,
                 maxLength: 4,
                 formatter: [FilteringTextInputFormatter.digitsOnly],
                 controller: _powerCtrl,
+                suffixText: 'kW',
+
                 action: TextInputAction.next,
               ),
               const SizedBox(width: 8),
               customTextField(
                 context,
-                hintText: localizations.horsePowerCvUpper,
+                hintText: '${localizations.horsePowerUpper} CV',
                 type: TextInputType.number,
                 maxLength: 4,
                 formatter: [FilteringTextInputFormatter.digitsOnly],
                 controller: _horseCtrl,
-                onSubmitted: (_) => _openMenu(categoryMenuController),
+                onSubmitted: (_) => _openMenu(typeMenuController),
+                suffixText: 'CV',
                 action: TextInputAction.next,
               ),
             ],
           ),
         ),
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.max,
             children: [
               Expanded(
-                child: FocusableDropdown(
-                  menuController: categoryMenuController,
-                  name: localizations.categoryUpper,
-                  items: vehicleCategoryList,
-                  selectedItem: _category,
+                child: DropdownMenu<int>(
+                  expandedInsets: EdgeInsets.zero,
+                  hintText: localizations.typeUpper,
+                  initialSelection: _type,
+                  menuController: typeMenuController,
+                  dropdownMenuEntries: vehicleTypeList.entries
+                      .map(
+                        (entry) => DropdownMenuEntry(
+                          value: entry.key,
+                          label: entry.value,
+                        ),
+                      )
+                      .toList(),
+                  trailingIcon: arrowDownIcon(),
+                  selectedTrailingIcon: arrowUpIcon(),
+                  menuStyle: const MenuStyle(
+                    maximumSize: WidgetStatePropertyAll(
+                      Size(double.infinity, 200),
+                    ),
+                  ),
                   onSelected: (value) {
-                    setState(() => _category = value);
-                    categoryMenuController.close();
+                    setState(() {
+                      _type = value;
+                    });
+                    typeMenuController.close();
                     _openMenu(energyMenuController);
                   },
                 ),
@@ -315,14 +439,31 @@ class _AddVehicleState extends State<AddVehicle> {
 
               const SizedBox(width: 8),
               Expanded(
-                child: FocusableDropdown(
+                child: DropdownMenu<int>(
+                  expandedInsets: EdgeInsets.zero,
+                  hintText: localizations.energyUpper,
+                  initialSelection: _energy,
                   menuController: energyMenuController,
-                  name: localizations.energyUpper,
-                  items: vehicleEnergyList,
-                  selectedItem: _energy,
+                  dropdownMenuEntries: vehicleEnergyList.entries
+                      .map(
+                        (entry) => DropdownMenuEntry(
+                          value: entry.key,
+                          label: entry.value,
+                        ),
+                      )
+                      .toList(),
+                  trailingIcon: arrowDownIcon(),
+                  selectedTrailingIcon: arrowUpIcon(),
+                  menuStyle: const MenuStyle(
+                    maximumSize: WidgetStatePropertyAll(
+                      Size(double.infinity, 200),
+                    ),
+                  ),
                   onSelected: (value) {
-                    setState(() => _energy = value);
-                    categoryMenuController.close();
+                    setState(() {
+                      _energy = value;
+                    });
+                    energyMenuController.close();
                     _openMenu(ecologyMenuController);
                   },
                 ),
@@ -331,27 +472,64 @@ class _AddVehicleState extends State<AddVehicle> {
           ),
         ),
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             mainAxisSize: MainAxisSize.max,
             children: [
               Expanded(
-                child: FocusableDropdown(
+                child: DropdownMenu<int>(
+                  expandedInsets: EdgeInsets.zero,
+                  hintText: localizations.ecologyUpper,
+                  initialSelection: _ecology,
                   menuController: ecologyMenuController,
-                  name: localizations.ecologyUpper,
-                  items: vehicleEcoList,
-                  selectedItem: _ecology,
+                  dropdownMenuEntries: vehicleEcologyList.entries
+                      .map(
+                        (entry) => DropdownMenuEntry(
+                          value: entry.key,
+                          label: entry.value,
+                        ),
+                      )
+                      .toList(),
+                  trailingIcon: arrowDownIcon(),
+                  selectedTrailingIcon: arrowUpIcon(),
+                  menuStyle: const MenuStyle(
+                    maximumSize: WidgetStatePropertyAll(
+                      Size(double.infinity, 200),
+                    ),
+                  ),
                   onSelected: (value) {
-                    setState(() => _ecology = value);
-                    categoryMenuController.close();
+                    setState(() {
+                      _ecology = value;
+                    });
+                    ecologyMenuController.close();
                     FocusScope.of(context).nextFocus();
                   },
                 ),
               ),
 
               const SizedBox(width: 8),
-              if (!isEdit)
+
+              customTextField(
+                context,
+                hintText: localizations.plateUpper,
+                maxLength: 9,
+                controller: _plateCtrl,
+                action: TextInputAction.send,
+              ),
+            ],
+          ),
+        ),
+
+        if (!isEdit)
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                const Expanded(child: SizedBox()),
+
                 Expanded(
                   child: CustomSwitch(
                     isSelected: _favorite,
@@ -362,11 +540,12 @@ class _AddVehicleState extends State<AddVehicle> {
                     },
                   ),
                 ),
-            ],
+              ],
+            ),
           ),
-        ),
+
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          padding: EdgeInsets.only(left: 16, right: 16, top: 8),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.max,
@@ -383,12 +562,12 @@ class _AddVehicleState extends State<AddVehicle> {
             ],
           ),
         ),
-        TextButton(
-          onPressed: () => showCustomToast(
-            context,
-            message: 'Brand opened',
-          ), // TODO: Remove, for debugging
-          child: Text(localizations.cantFindYourVehicleBrand),
+        Padding(
+          padding: EdgeInsets.only(bottom: 8),
+          child: TextButton(
+            onPressed: () => mailContact(localizations.cantFindBrandSub),
+            child: Text(localizations.cantFindYourVehicleBrand),
+          ),
         ),
       ],
     );
@@ -397,6 +576,13 @@ class _AddVehicleState extends State<AddVehicle> {
       canPop: false,
       onPopInvokedWithResult: (didPop, result) async {
         if (didPop) return;
+
+        final hasChanges = _isSomethingChanged();
+
+        if (!hasChanges) {
+          if (context.mounted) Navigator.of(context).pop();
+          return;
+        }
 
         final bool? shouldPop = await discardConfirmOnBack(
           context,
@@ -411,10 +597,14 @@ class _AddVehicleState extends State<AddVehicle> {
         appBar: AppBar(
           title: Text(
             isEdit
-                ? localizations.editValue(localizations.vehicleUpper)
-                : localizations.addValue(localizations.vehicleUpper),
+                ? localizations.editValue(localizations.vehicleLower)
+                : localizations.addValue(localizations.vehicleLower),
           ),
-          leading: customBackButton(context, confirmation: true),
+          leading: customBackButton(
+            context,
+            confirmation: true,
+            checkChanges: _isSomethingChanged,
+          ),
         ),
         body: GestureDetector(
           behavior: HitTestBehavior.opaque,
@@ -425,5 +615,22 @@ class _AddVehicleState extends State<AddVehicle> {
         ),
       ),
     );
+  }
+
+  bool _isSomethingChanged() {
+    return _previewImagePath != _bkImage ||
+        _category != _bkCategory ||
+        _modelCtrl.text != _bkModel ||
+        _configCtrl.text != _bkConfig ||
+        _capacityCtrl.text != _bkCapacity ||
+        _powerCtrl.text != _bkPower ||
+        _horseCtrl.text != _bkHorse ||
+        _plateCtrl.text != _bkPlate ||
+        _brand != _bkBrand ||
+        _year != _bkYear ||
+        _type != _bkType ||
+        _energy != _bkEnergy ||
+        _ecology != _bkEcology ||
+        _favorite != _bkFavorite;
   }
 }

@@ -25,6 +25,7 @@ void main() async {
 
   await Hive.openBox('vehicle');
   await Hive.openBox('maintenance');
+  await Hive.openBox('maintenanceNotifications');
   await Hive.openBox('refueling');
   await Hive.openBox('insurance');
   await Hive.openBox('insuranceNotifications');
@@ -33,12 +34,13 @@ void main() async {
   await Hive.openBox('inspection');
   await Hive.openBox('inspectionNotifications');
 
-  await cleanupDeliveredNotifications(insuranceNotificationsBox);
+  await cleanDeliveredNotificationFromBoxes();
 
   if (vehicleBox.isEmpty) {
     await startupImageLoader();
 
     await vehicleBox.add({
+      'category': 1,
       'brand': 'Toyota',
       'model': 'Corolla',
       'config': 'B-Turbo',
@@ -46,13 +48,15 @@ void main() async {
       'capacity': 1400,
       'power': 100,
       'horse': 140,
-      'category': 'Sport',
-      'energy': 'Benzina',
-      'ecology': 'Euro 4',
+      'plate': 'AF345TG',
+      'type': 3,
+      'energy': 2,
+      'ecology': 4,
       'favorite': false,
       'assetImage': imageOne,
     });
     await vehicleBox.add({
+      'category': 1,
       'brand': 'Ford',
       'model': 'Focus',
       'config': null,
@@ -60,13 +64,15 @@ void main() async {
       'capacity': 1400,
       'power': 100,
       'horse': 140,
-      'category': 'Berlina',
-      'energy': 'Benzina',
-      'ecology': 'Euro 6',
+      'plate': 'EF345GH',
+      'type': 1,
+      'energy': 3,
+      'ecology': 2,
       'favorite': false,
       'assetImage': imageTwo,
     });
     await vehicleBox.add({
+      'category': 1,
       'brand': 'Audi',
       'model': 'TT',
       'config': 'Quattro',
@@ -74,9 +80,10 @@ void main() async {
       'capacity': 2000,
       'power': 100,
       'horse': 190,
-      'category': 'Sport',
-      'energy': 'Benzina',
-      'ecology': 'Euro 3',
+      'plate': 'AB123CD',
+      'type': 3,
+      'energy': 1,
+      'ecology': 3,
       'favorite': true,
       'assetImage': imageThree,
     });
@@ -88,13 +95,13 @@ void main() async {
         ChangeNotifierProvider(create: (_) => VehicleProvider()),
         ChangeNotifierProvider(create: (_) => SettingsProvider(systemLocale)),
       ],
-      child: MyCarGenie(),
+      child: DriverBud(),
     ),
   );
 }
 
-class MyCarGenie extends StatelessWidget {
-  const MyCarGenie({super.key});
+class DriverBud extends StatelessWidget {
+  const DriverBud({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -107,11 +114,11 @@ class MyCarGenie extends StatelessWidget {
     }
 
     return MaterialApp(
-      //title: 'MyCarGenie2',
+      //title: 'DriverBud',
       themeMode: settingsProvider.themeMode,
       theme: lightTheme,
       darkTheme: darkTheme,
-      home: const MyCarGenieMain(),
+      home: const DriverBudMain(),
       locale: settingsProvider.locale,
       localizationsDelegates: const [
         AppLocalizations.delegate,
@@ -123,14 +130,14 @@ class MyCarGenie extends StatelessWidget {
 }
 
 // MainMaterialPage
-class MyCarGenieMain extends StatefulWidget {
-  const MyCarGenieMain({super.key});
+class DriverBudMain extends StatefulWidget {
+  const DriverBudMain({super.key});
 
   @override
-  State<MyCarGenieMain> createState() => _MyCarGenieMainState();
+  State<DriverBudMain> createState() => _DriverBudMainState();
 }
 
-class _MyCarGenieMainState extends State<MyCarGenieMain> {
+class _DriverBudMainState extends State<DriverBudMain> {
   // Variables to track navigation
   int _currentIndex = 0;
   int _latestIndex = 0;
@@ -143,6 +150,7 @@ class _MyCarGenieMainState extends State<MyCarGenieMain> {
     Garage(key: ValueKey<int>(4)),
   ];
 
+  // TODO: Add double back to close on main pages
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;

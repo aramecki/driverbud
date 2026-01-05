@@ -31,11 +31,11 @@ HugeIcon invoicesIcon = HugeIcon(
 );
 
 // Circle arrow down for dropdowns
-HugeIcon arrowDownIcon({double iconSize = 25}) {
+HugeIcon arrowDownIcon({double iconSize = 25, Color? color}) {
   return HugeIcon(
     icon: HugeIcons.strokeRoundedCircleArrowDown01,
     size: iconSize,
-    //color: Colors.white,
+    color: color,
   );
 }
 

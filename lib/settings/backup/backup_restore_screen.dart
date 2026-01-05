@@ -18,6 +18,7 @@ class _BackupRestoreScreenState extends State<BackupRestoreScreen> {
   final List<String> _boxNames = [
     'vehicle',
     'maintenance',
+    'maintenanceNotifications',
     'refueling',
     'insurance',
     'insuranceNotifications',
@@ -48,7 +49,7 @@ class _BackupRestoreScreenState extends State<BackupRestoreScreen> {
           trailing: _isBackingUp ? sizedProgressIndicator() : null,
           onTap: () => _performBackup(localizations),
         ),
-        Divider(height: 20),
+        const Divider(height: 20),
         ListTile(
           title: Text(
             localizations.restoreBackup,
@@ -113,7 +114,11 @@ class _BackupRestoreScreenState extends State<BackupRestoreScreen> {
       _isRestoring = true;
     });
 
-    final bool success = await restoreBoxFromPath(vehicleProvider);
+    final bool success = await restoreBoxFromPath(
+      context,
+      vehicleProvider,
+      localizations,
+    );
 
     setState(() {
       if (success) {

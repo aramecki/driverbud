@@ -9,9 +9,9 @@
 
 
     <application
-        android:label="MyCarGenie2"
+        android:label="DriverBud"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/launcher_icon">
         <activity
             android:name=".MainActivity"
             android:exported="true"

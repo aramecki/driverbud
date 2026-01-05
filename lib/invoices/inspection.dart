@@ -1,7 +1,6 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:hugeicons/hugeicons.dart';
 import 'package:mycargenie_2/invoices/edit_inspection.dart';
 import 'package:mycargenie_2/l10n/app_localizations.dart';
 import 'package:mycargenie_2/settings/settings.dart';
@@ -208,18 +207,4 @@ class _InspectionState extends State<Inspection> {
       ),
     );
   }
-}
-
-Widget containerWithTextAndIcon(String text, HugeIcon icon) {
-  return Container(
-    decoration: BoxDecoration(
-      border: Border.all(color: Colors.deepOrange, width: 2),
-      borderRadius: BorderRadius.circular(50),
-    ),
-    padding: EdgeInsets.symmetric(vertical: 8, horizontal: 10),
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [icon, SizedBox(width: 10), Text(text)],
-    ),
-  );
 }

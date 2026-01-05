@@ -6,6 +6,7 @@ import 'package:mycargenie_2/utils/boxes.dart';
 import 'package:mycargenie_2/l10n/app_localizations.dart';
 import 'package:mycargenie_2/maintenance/maintenance_misc.dart';
 import 'package:mycargenie_2/theme/icons.dart';
+import 'package:mycargenie_2/utils/lists.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 import '../utils/puzzle.dart';
@@ -35,12 +36,29 @@ class _ShowMaintenanceState extends State<ShowMaintenance> {
 
         String parsedPrice = parseShowedPrice(e['price']);
 
+        String? maintenanceType = getMaintenanceTypeList(
+          context,
+        )[e['maintenanceType']];
+        String? place = e['place'];
+        String? description = e['description'];
+        String? date = localizations.ggMmAaaa(
+          e['date'].day,
+          e['date'].month,
+          e['date'].year,
+        );
+        String? kilometers = e['kilometers'] != null
+            ? localizations.numKm(e['kilometers'])
+            : null;
+        String? amount = parsedPrice != '0,00'
+            ? localizations.numCurrency(parsedPrice, settingsProvider.currency!)
+            : null;
+
         return Column(
           mainAxisAlignment: MainAxisAlignment.start,
           mainAxisSize: MainAxisSize.max,
           children: [
             Padding(
-              padding: EdgeInsets.only(left: 16, right: 16),
+              padding: EdgeInsets.only(left: 16, right: 16, bottom: 16),
               child: Text(
                 '${e['title']}',
                 style: TextStyle(
@@ -51,79 +69,136 @@ class _ShowMaintenanceState extends State<ShowMaintenance> {
               ),
             ),
 
-            Padding(
-              padding: EdgeInsets.only(
-                left: 16,
-                right: 16,
-                top: 12,
-                bottom: 26,
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  if (e['maintenanceType'] != '')
-                    Text(e['maintenanceType'], style: TextStyle(fontSize: 18)),
-                  if (e['place'] != null)
-                    Text(e['place'].toString(), style: TextStyle(fontSize: 18)),
-                ],
-              ),
-            ),
-
-            if (e['description'] != '')
+            // Description row
+            if (description != null && description != '')
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16),
-                child: Text(
-                  '${e['description']}',
-                  style: TextStyle(fontSize: 17),
+                padding: EdgeInsets.symmetric(horizontal: 18, vertical: 4),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          '${localizations.descriptionUpper}:',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Expanded(
+                          child: Text(
+                            description,
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w400,
+                            ),
+                            textAlign: TextAlign.end,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ),
+            Divider(height: 22),
 
-            if (e['description'] != '') SizedBox(height: 44),
+            // Type row
+            if (maintenanceType != null && maintenanceType != '')
+              ...tileRow(localizations.typeUpper, maintenanceType),
 
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  if (e['date'] != null)
-                    Text(
-                      localizations.ggMmAaaa(
-                        e['date'].day,
-                        e['date'].month,
-                        e['date'].year,
-                      ),
-                      style: TextStyle(fontSize: 18),
-                    ),
-                  if (e['kilometers'] != null)
-                    Text(
-                      localizations.numKm(e['kilometers']),
-                      style: TextStyle(fontSize: 18),
-                    ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  if (e['price'] != '0.00')
-                    Text(
-                      localizations.numCurrency(
-                        parsedPrice,
-                        settingsProvider.currency!,
-                      ),
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                ],
-              ),
-            ),
+            // Plate row
+            if (place != null && place != '')
+              ...tileRow(localizations.placeUpper, place),
+
+            // Padding(
+            //   padding: EdgeInsets.only(
+            //     left: 16,
+            //     right: 16,
+            //     top: 12,
+            //     bottom: 26,
+            //   ),
+            //   child: Row(
+            //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //     mainAxisSize: MainAxisSize.max,
+            //     children: [
+            //       if (maintenanceType != null)
+            //         Text(maintenanceType, style: TextStyle(fontSize: 18)),
+            //       if (e['place'] != null)
+            //         Text(e['place'], style: TextStyle(fontSize: 18)),
+            //     ],
+            //   ),
+            // ),
+
+            // if (e['description'] != '')
+            //   Padding(
+            //     padding: EdgeInsets.symmetric(horizontal: 16),
+            //     child: Text(
+            //       '${e['description']}',
+            //       style: TextStyle(fontSize: 17),
+            //     ),
+            //   ),
+
+            // if (e['description'] != '') SizedBox(height: 44),
+
+            // Date row
+            if (date != '') ...tileRow(localizations.date, date),
+
+            // Kilometers row
+            if (kilometers != null && kilometers != '')
+              ...tileRow(localizations.kilometersUpper, kilometers),
+
+            // Padding(
+            //   padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            //   child: Row(
+            //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //     mainAxisSize: MainAxisSize.max,
+            //     children: [
+            //       if (e['date'] != null)
+            //         Text(
+            //           localizations.ggMmAaaa(
+            //             e['date'].day,
+            //             e['date'].month,
+            //             e['date'].year,
+            //           ),
+            //           style: TextStyle(fontSize: 18),
+            //         ),
+            //       if (e['kilometers'] != null)
+            //         Text(
+            //           localizations.numKm(e['kilometers']),
+            //           style: TextStyle(fontSize: 18),
+            //         ),
+            //     ],
+            //   ),
+            // ),
+
+            // Amount row
+            if (amount != null) ...tileRow(localizations.totalAmount, amount),
+
+            // Padding(
+            //   padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            //   child: Row(
+            //     mainAxisAlignment: MainAxisAlignment.end,
+            //     mainAxisSize: MainAxisSize.max,
+            //     children: [
+            //       if (e['price'] != '0.00')
+            //         Text(
+            //           localizations.numCurrency(
+            //             parsedPrice,
+            //             settingsProvider.currency!,
+            //           ),
+            //           style: TextStyle(
+            //             fontSize: 20,
+            //             fontWeight: FontWeight.w500,
+            //           ),
+            //         ),
+            //     ],
+            //   ),
+            // ),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               child: Row(
@@ -152,7 +227,10 @@ class _ShowMaintenanceState extends State<ShowMaintenance> {
         actions: <Widget>[
           IconButton(
             onPressed: () {
-              deleteEvent(widget.editKey);
+              deleteEvent(
+                maintenanceBox.get(widget.editKey)['vehicleKey'],
+                widget.editKey,
+              );
               Navigator.of(context).pop();
             },
             icon: deleteIcon(iconSize: 30),
@@ -180,6 +258,7 @@ class _ShowMaintenanceState extends State<ShowMaintenance> {
   }
 }
 
+// TODO: Edit to pass directly values without box get
 void _shareMaintenance(
   BuildContext context,
   AppLocalizations localizations,
@@ -198,7 +277,7 @@ void _shareMaintenance(
     text += '${localizations.withKm}${localizations.numKm(v['kilometers'])} ';
   }
 
-  if (v['place'] != null) {
+  if (v['place'] != null && v['place'] != '') {
     text += '${localizations.at}${v['place']} ';
   }
 

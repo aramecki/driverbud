@@ -9,6 +9,9 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
+  String get appName => 'DriverBud';
+
+  @override
   String get cancel => 'Cancel';
 
   @override
@@ -33,13 +36,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get configurationUpper => 'Configuration';
 
   @override
-  String get capacityCcUpper => 'Capacity cc';
+  String get capacityUpper => 'Capacity';
 
   @override
-  String get powerKwUpper => 'Power kw';
+  String get powerUpper => 'Power';
 
   @override
-  String get horsePowerCvUpper => 'HorsePower cv';
+  String get horsePowerUpper => 'HorsePower';
 
   @override
   String get maintenanceUpper => 'Maintenance';
@@ -72,7 +75,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get titleRequiredField => 'Title is a required field.';
 
   @override
-  String get brandModelRequiredField => 'Brand and model are required fields.';
+  String get brandModelRequiredField =>
+      'Category, brand and model are required fields.';
 
   @override
   String youWillFindEvents(String eventType) {
@@ -80,7 +84,15 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get youWillFindInvoices =>
+      'On this page you will find all the invoices.';
+
+  @override
   String get createYourFirstVehicle => 'Create your first vehicle to add one.';
+
+  @override
+  String get createYourFirstVehicleToVisualize =>
+      'Add your first vehicle to see details.';
 
   @override
   String get youWillFindVehicles =>
@@ -121,6 +133,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get ecologyUpper => 'Ecology';
+
+  @override
+  String get plateUpper => 'Plate';
 
   @override
   String get updateUpper => 'Update';
@@ -200,6 +215,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get other => 'Other';
 
   @override
+  String get cars => 'Cars';
+
+  @override
+  String get motorcycles => 'Motorcycles';
+
+  @override
   String get sedan => 'Sedan';
 
   @override
@@ -263,7 +284,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get creatingBackupFile => 'Creating backup file...';
 
   @override
-  String get restoringFile => 'Restoring file...';
+  String get restoringFile => 'Waiting for file...';
 
   @override
   String get backupCompleted => 'Backup completed.';
@@ -426,6 +447,11 @@ class AppLocalizationsEn extends AppLocalizations {
       'To be informed about deadlines and events, you need to allow notifications in the app settings.';
 
   @override
+  String maintenanceNotificationsTitle(String vehicleName) {
+    return 'Reminder: $vehicleName maintenance.';
+  }
+
+  @override
   String get insuranceNotificationsTitle =>
       'Your vehicle insurance is expiring!';
 
@@ -435,6 +461,11 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get inspectionNotificationsTitle =>
       'Time to renew your vehicle technical inspection!';
+
+  @override
+  String maintenanceNotificationsBody(String date, String type, String event) {
+    return '$event on $date at $type.';
+  }
 
   @override
   String insuranceNotificationsBody(String vehicleName, String date) {
@@ -466,4 +497,16 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get reachedMaxEntry =>
       'You\'ve reached the vehicle limit in your garage.';
+
+  @override
+  String get aSoloProject => 'A solo project by aramecki';
+
+  @override
+  String get getMoreInfoOn => 'Get more info on:';
+
+  @override
+  String get cantFindBrandSub => 'DriverBud - Report: Unable to find a brand.';
+
+  @override
+  String get feedbackSub => 'DriverBud - Feedback';
 }

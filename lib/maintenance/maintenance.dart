@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:mycargenie_2/utils/boxes.dart';
@@ -32,7 +31,6 @@ class _MaintenanceState extends State<Maintenance> {
 
     log(maintenanceBox.toMap().toString());
 
-    // TODO: Configure loading limit logics
     return ValueListenableBuilder(
       valueListenable: maintenanceBox.listenable(),
       builder: (context, Box box, _) {
@@ -150,7 +148,10 @@ class _MaintenanceState extends State<Maintenance> {
                                             onPressed: (_) =>
                                                 deletionConfirmAlert(
                                                   context,
-                                                  () => deleteEvent(key),
+                                                  () => deleteEvent(
+                                                    vehicleKey!,
+                                                    key,
+                                                  ),
                                                 ),
                                             icon: deleteIcon(),
                                           ),

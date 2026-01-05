@@ -82,12 +82,17 @@ ThemeData getTheme(bool isLight) {
       ),
     ),
 
-    // Dropdown menu theme(not button)
+    // Dropdown menu theme
     dropdownMenuTheme: DropdownMenuThemeData(
       inputDecorationTheme: InputDecorationTheme(
         floatingLabelStyle: TextStyle(color: textColor),
         labelStyle: TextStyle(color: textColor),
-        hintStyle: TextStyle(color: textColor),
+        hintStyle: WidgetStateTextStyle.resolveWith((Set<WidgetState> states) {
+          if (states.contains(WidgetState.disabled)) {
+            return TextStyle(color: darkGrey);
+          }
+          return TextStyle(color: textColor);
+        }),
         suffixIconColor: textColor,
       ),
       menuStyle: MenuStyle(
@@ -131,6 +136,10 @@ ThemeData getTheme(bool isLight) {
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(30.0),
         borderSide: BorderSide(color: foregroundColor, width: 2.0),
+      ),
+      disabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(30.0),
+        borderSide: BorderSide(color: darkGrey, width: 2.0),
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(30.0),

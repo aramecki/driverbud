@@ -6,6 +6,7 @@ import 'package:mycargenie_2/utils/boxes.dart';
 import 'package:mycargenie_2/home.dart';
 import 'package:mycargenie_2/vehicle/add_vehicle.dart';
 import 'package:mycargenie_2/vehicle/show_vehicle.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 // Function to get the favorite vehicle key
 int? getFavoriteKey() {
@@ -99,6 +100,8 @@ Future<void> deleteAllEventsForVehicle(int vehicleKey) async {
     }
   });
 
+  deleteAllNotificationsInCategory(maintenanceNotificationsBox, vehicleKey);
+
   refuelingBox.toMap().forEach((eventKey, eventValue) {
     if (eventValue['vehicleKey'] == vehicleKey) {
       refuelingBox.delete(eventKey);
@@ -110,23 +113,25 @@ Future<void> deleteAllEventsForVehicle(int vehicleKey) async {
 }
 
 Future<void> deleteAllInvoicesForVehicle(int vehicleKey) async {
-  insuranceBox.toMap().forEach((key, value) {
-    if (value['vehicleKey'] == vehicleKey) {
-      insuranceBox.delete(key);
-      log('Deleting the insurance $value at $key for vehicle $vehicleKey');
-    }
-  });
+  final dataBoxes = [insuranceBox, taxBox, inspectionBox];
+  final notificationsBoxes = [
+    insuranceNotificationsBox,
+    taxNotificationsBox,
+    inspectionNotificationsBox,
+  ];
 
-  deleteAllNotificationsInCategory(insuranceNotificationsBox, vehicleKey);
+  for (final box in dataBoxes) {
+    box.toMap().forEach((key, value) {
+      if (value['vehicleKey'] == vehicleKey) {
+        box.delete(key);
+        log('Deleting the invoice $value at $key for vehicle $vehicleKey');
+      }
+    });
+  }
 
-  insuranceNotificationsBox.toMap().forEach((key, value) {
-    if (value['vehicleKey'] == vehicleKey) {
-      insuranceNotificationsBox.delete(key);
-      log(
-        'Deleting the insurance notification $value at $key for vehicle $vehicleKey',
-      );
-    }
-  });
+  for (final box in notificationsBoxes) {
+    deleteAllNotificationsInCategory(box, vehicleKey);
+  }
 }
 
 // Function to open the vehicle editing screen
@@ -140,4 +145,12 @@ void openVehicleEditScreen(BuildContext context, dynamic key) {
       builder: (_) => AddVehicle(vehicle: vehicleMap, editKey: key),
     ),
   );
+}
+
+Future<void> mailContact(String subject) async {
+  final address = 'test@test.test'; // TODO: Implement real mail
+  final Uri url = Uri.parse('mailto:$address?subject=$subject');
+  if (!await launchUrl(url)) {
+    throw Exception('Could not launch $url');
+  }
 }

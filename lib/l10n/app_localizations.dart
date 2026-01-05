@@ -98,6 +98,12 @@ abstract class AppLocalizations {
     Locale('it'),
   ];
 
+  /// DriverBud text
+  ///
+  /// In en, this message translates to:
+  /// **'DriverBud'**
+  String get appName;
+
   /// Cancel text
   ///
   /// In en, this message translates to:
@@ -146,23 +152,23 @@ abstract class AppLocalizations {
   /// **'Configuration'**
   String get configurationUpper;
 
-  /// Capacity cc text
+  /// Capacity text
   ///
   /// In en, this message translates to:
-  /// **'Capacity cc'**
-  String get capacityCcUpper;
+  /// **'Capacity'**
+  String get capacityUpper;
 
-  /// Power kw text
+  /// Power text
   ///
   /// In en, this message translates to:
-  /// **'Power kw'**
-  String get powerKwUpper;
+  /// **'Power'**
+  String get powerUpper;
 
-  /// HorsePower cv text
+  /// HorsePower text
   ///
   /// In en, this message translates to:
-  /// **'HorsePower cv'**
-  String get horsePowerCvUpper;
+  /// **'HorsePower'**
+  String get horsePowerUpper;
 
   /// Main Maintenance uppercase text shown in navigation bar and in maintenance section
   ///
@@ -224,10 +230,10 @@ abstract class AppLocalizations {
   /// **'Title is a required field.'**
   String get titleRequiredField;
 
-  /// Brand and model are required fields. text shown when saving a vehicle without the brand or model required fields
+  /// Category, brand and model are required fields. text shown when saving a vehicle without the brand or model required fields
   ///
   /// In en, this message translates to:
-  /// **'Brand and model are required fields.'**
+  /// **'Category, brand and model are required fields.'**
   String get brandModelRequiredField;
 
   /// On this page you will find all the added maintenance/refueling events. text shown when user has not maintenance event saved for the selected vehicle
@@ -236,11 +242,23 @@ abstract class AppLocalizations {
   /// **'On this page you will find all the {eventType} events.'**
   String youWillFindEvents(String eventType);
 
-  /// Create your first vehicle to add one. text shown when saving a vehicle without the brand or model required fields
+  /// On this page you will find all the invoices. text shown when user has no invoices saved for the selected vehicle
+  ///
+  /// In en, this message translates to:
+  /// **'On this page you will find all the invoices.'**
+  String get youWillFindInvoices;
+
+  /// Create your first vehicle to add one. text
   ///
   /// In en, this message translates to:
   /// **'Create your first vehicle to add one.'**
   String get createYourFirstVehicle;
+
+  /// Add your first vehicle to see details. text
+  ///
+  /// In en, this message translates to:
+  /// **'Add your first vehicle to see details.'**
+  String get createYourFirstVehicleToVisualize;
 
   /// On this page you will find all the saved vehicles. text shown when user has not vehicles saved
   ///
@@ -319,6 +337,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Ecology'**
   String get ecologyUpper;
+
+  /// Plate text
+  ///
+  /// In en, this message translates to:
+  /// **'Plate'**
+  String get plateUpper;
 
   /// Update text shown as save button when editing an event
   ///
@@ -433,6 +457,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Other'**
   String get other;
+
+  /// Cars text
+  ///
+  /// In en, this message translates to:
+  /// **'Cars'**
+  String get cars;
+
+  /// Motorcycles text
+  ///
+  /// In en, this message translates to:
+  /// **'Motorcycles'**
+  String get motorcycles;
 
   /// Sedan vehicle text
   ///
@@ -560,10 +596,10 @@ abstract class AppLocalizations {
   /// **'Creating backup file...'**
   String get creatingBackupFile;
 
-  /// Restoring file... text
+  /// Waiting for file... text
   ///
   /// In en, this message translates to:
-  /// **'Restoring file...'**
+  /// **'Waiting for file...'**
   String get restoringFile;
 
   /// Backup completed. text
@@ -848,6 +884,12 @@ abstract class AppLocalizations {
   /// **'To be informed about deadlines and events, you need to allow notifications in the app settings.'**
   String get permissionsRequiredAlertBody;
 
+  /// Reminder: {vehicleName} maintenance. text
+  ///
+  /// In en, this message translates to:
+  /// **'Reminder: {vehicleName} maintenance.'**
+  String maintenanceNotificationsTitle(String vehicleName);
+
   /// Your vehicle insurance is expiring! text
   ///
   /// In en, this message translates to:
@@ -865,6 +907,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Time to renew your vehicle technical inspection!'**
   String get inspectionNotificationsTitle;
+
+  /// {event} on {date} at {type}. text
+  ///
+  /// In en, this message translates to:
+  /// **'{event} on {date} at {type}.'**
+  String maintenanceNotificationsBody(String date, String type, String event);
 
   /// The insurance of your {vehicleName} is expiring  on {date}. text
   ///
@@ -913,6 +961,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'You\'ve reached the vehicle limit in your garage.'**
   String get reachedMaxEntry;
+
+  /// A solo project by aramecki text
+  ///
+  /// In en, this message translates to:
+  /// **'A solo project by aramecki'**
+  String get aSoloProject;
+
+  /// Get more info on: text
+  ///
+  /// In en, this message translates to:
+  /// **'Get more info on:'**
+  String get getMoreInfoOn;
+
+  /// DriverBud - Report: Unable to find a brand. text
+  ///
+  /// In en, this message translates to:
+  /// **'DriverBud - Report: Unable to find a brand.'**
+  String get cantFindBrandSub;
+
+  /// DriverBud - Feedback text
+  ///
+  /// In en, this message translates to:
+  /// **'DriverBud - Feedback'**
+  String get feedbackSub;
 }
 
 class _AppLocalizationsDelegate

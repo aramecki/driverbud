@@ -1,6 +1,11 @@
 {
   "@@locale": "en",
 
+  "appName": "DriverBud",
+  "@appName": {
+    "description": "DriverBud text"
+  },
+
   "cancel": "Cancel",
   "@cancel": {
   "description": "Cancel text"
@@ -41,19 +46,19 @@
     "description": "Configuration text"
   },
 
-  "capacityCcUpper": "Capacity cc",
-  "@capacityCcUpper": {
-    "description": "Capacity cc text"
+  "capacityUpper": "Capacity",
+  "@capacityUpper": {
+    "description": "Capacity text"
   },
 
-  "powerKwUpper": "Power kw",
-  "@powerKwUpper": {
-    "description": "Power kw text"
+  "powerUpper": "Power",
+  "@powerUpper": {
+    "description": "Power text"
   },
 
-  "horsePowerCvUpper": "HorsePower cv",
-  "@horsePowerCvUpper": {
-    "description": "HorsePower cv text"
+  "horsePowerUpper": "HorsePower",
+  "@horsePowerUpper": {
+    "description": "HorsePower text"
   },
 
   "maintenanceUpper": "Maintenance",
@@ -106,9 +111,9 @@
     "description": "Title is a required field. text shown when saving an event without the title required field"
   },
 
-  "brandModelRequiredField": "Brand and model are required fields.",
+  "brandModelRequiredField": "Category, brand and model are required fields.",
   "@brandModelRequiredField": {
-    "description": "Brand and model are required fields. text shown when saving a vehicle without the brand or model required fields"
+    "description": "Category, brand and model are required fields. text shown when saving a vehicle without the brand or model required fields"
   },
 
   "youWillFindEvents": "On this page you will find all the {eventType} events.",
@@ -119,9 +124,19 @@
     "description": "On this page you will find all the added maintenance/refueling events. text shown when user has not maintenance event saved for the selected vehicle"
   },
 
+  "youWillFindInvoices": "On this page you will find all the invoices.",
+  "@youWillFindInvoices": {
+    "description": "On this page you will find all the invoices. text shown when user has no invoices saved for the selected vehicle"
+  },
+
   "createYourFirstVehicle": "Create your first vehicle to add one.",
   "@createYourFirstVehicle": {
-    "description": "Create your first vehicle to add one. text shown when saving a vehicle without the brand or model required fields"
+    "description": "Create your first vehicle to add one. text"
+  },
+
+  "createYourFirstVehicleToVisualize": "Add your first vehicle to see details.",
+  "@createYourFirstVehicleToVisualize": {
+    "description": "Add your first vehicle to see details. text"
   },
 
   "youWillFindVehicles": "On this page you will find all the saved vehicles.",
@@ -187,6 +202,11 @@
   "ecologyUpper": "Ecology",
   "@ecologyUpper": {
     "description": "Ecology text"
+  },
+
+  "plateUpper": "Plate",
+  "@plateUpper": {
+    "description": "Plate text"
   },
 
   "updateUpper": "Update",
@@ -319,6 +339,16 @@
     "description": "Other text"
   },
 
+  "cars": "Cars",
+  "@cars": {
+    "description": "Cars text"
+  },
+
+  "motorcycles": "Motorcycles",
+  "@motorcycles": {
+    "description": "Motorcycles text"
+  },
+
   "sedan": "Sedan",
   "@sedan": {
     "description": "Sedan vehicle text"
@@ -424,9 +454,9 @@
     "description": "Creating backup file... text"
   },
 
-  "restoringFile": "Restoring file...",
+  "restoringFile": "Waiting for file...",
   "@restoringFile": {
-    "description": "Restoring file... text"
+    "description": "Waiting for file... text"
   },
 
   "backupCompleted": "Backup completed.",
@@ -688,6 +718,16 @@
     "description": "To be informed about deadlines and events, you need to allow notifications in the app settings. text"
   },
 
+  "maintenanceNotificationsTitle": "Reminder: {vehicleName} maintenance.",
+  "@maintenanceNotificationsTitle": {
+      "placeholders": {
+        "vehicleName": {
+          "type": "String"
+        }
+    },
+    "description": "Reminder: {vehicleName} maintenance. text"
+  },
+
   "insuranceNotificationsTitle": "Your vehicle insurance is expiring!",
   "@insuranceNotificationsTitle": {
     "description": "Your vehicle insurance is expiring! text"
@@ -701,6 +741,22 @@
   "inspectionNotificationsTitle": "Time to renew your vehicle technical inspection!",
   "@inspectionNotificationsTitle": {
     "description": "Time to renew your vehicle technical inspection! text"
+  },
+
+  "maintenanceNotificationsBody": "{event} on {date} at {type}.",
+  "@maintenanceNotificationsBody": {
+      "placeholders": {
+        "date": {
+          "type": "String"
+        },
+        "type": {
+          "type": "String"
+        },
+        "event": {
+          "type": "String"
+        }
+    },
+    "description": "{event} on {date} at {type}. text"
   },
 
   "insuranceNotificationsBody": "The insurance of your {vehicleName} is expiring on {date}.",
@@ -765,6 +821,26 @@
   "reachedMaxEntry": "You've reached the vehicle limit in your garage.",
   "@reachedMaxEntry": {
     "description": "You've reached the vehicle limit in your garage. text"
+  },
+
+  "aSoloProject": "A solo project by aramecki",
+  "@aSoloProject": {
+    "description": "A solo project by aramecki text"
+  },
+
+  "getMoreInfoOn": "Get more info on:",
+  "@getMoreInfoOn": {
+    "description": "Get more info on: text"
+  },
+
+  "cantFindBrandSub": "DriverBud - Report: Unable to find a brand.",
+  "@cantFindBrandSub": {
+    "description": "DriverBud - Report: Unable to find a brand. text"
+  },
+
+  "feedbackSub": "DriverBud - Feedback",
+  "@feedbackSub": {
+    "description": "DriverBud - Feedback text"
   }
 
 }

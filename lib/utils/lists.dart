@@ -6,66 +6,77 @@ final List<Map<String, String>> currenciesList = [
   {'symbol': 'zł', 'name': 'Złoty', 'code': 'PLN', 'country': 'PL'},
   {'symbol': 'Ft', 'name': 'Forint', 'code': 'HUF', 'country': 'HU'},
   {'symbol': 'Kč', 'name': 'Česká Koruna', 'code': 'CZK', 'country': 'CZ'},
-  {'symbol': 'kr', 'name': 'Svensk Krona', 'code': 'SEK', 'country': 'SE'},
-  {'symbol': 'kr', 'name': 'Dansk Krone', 'code': 'DKK', 'country': 'DK'},
+  {
+    'symbol': 'kr',
+    'name': 'Svensk Krona/Dansk Krone',
+    'code': 'SEK/DKK',
+    'country': 'SE/DK',
+  },
   {'symbol': 'lei', 'name': 'Leu Românesc', 'code': 'RON', 'country': 'RO'},
   {'symbol': 'лв', 'name': 'Български Лев', 'code': 'BGN', 'country': 'BG'},
 ];
 
-List<String> getVehicleCategoryList(BuildContext context) {
+Map<int, String> getVehicleCategoryList(BuildContext context) {
   final localizations = AppLocalizations.of(context)!;
-  return [
-    localizations.sedan,
-    localizations.coupe,
-    localizations.sportsCar,
-    localizations.suv,
-    localizations.stationWagon,
-    localizations.minivan,
-    localizations.supercar,
-    localizations.other,
-  ];
+  return {
+    1: localizations.cars,
+    2: localizations.motorcycles,
+    3: localizations.other,
+  };
 }
 
-List<String> getVehicleEnergyList(BuildContext context) {
+Map<int, String> getVehicleTypeList(BuildContext context) {
   final localizations = AppLocalizations.of(context)!;
-  return [
-    localizations.petrol,
-    localizations.diesel,
-    localizations.lpg,
-    localizations.cng,
-    localizations.electric,
-    localizations.other,
-  ];
+  return {
+    1: localizations.sedan,
+    2: localizations.coupe,
+    3: localizations.sportsCar,
+    4: localizations.suv,
+    5: localizations.stationWagon,
+    6: localizations.minivan,
+    7: localizations.supercar,
+    8: localizations.other,
+  };
 }
 
-const List<String> vehicleEcoList = <String>[
-  'Euro 1',
-  'Euro 2',
-  'Euro 3',
-  'Euro 4',
-  'Euro 5',
-  'Euro 6 (ABCD)',
-  'Altro',
-];
-
-List<String> getMaintenanceTypeList(BuildContext context) {
+Map<int, String> getVehicleEnergyList(BuildContext context) {
   final localizations = AppLocalizations.of(context)!;
-  return [
-    localizations.mechanic,
-    localizations.electrician,
-    localizations.bodyShop,
-    localizations.other,
-  ];
+  return {
+    1: localizations.petrol,
+    2: localizations.diesel,
+    3: localizations.lpg,
+    4: localizations.cng,
+    5: localizations.electric,
+    6: localizations.other,
+  };
 }
 
-// TODO: Valuate if changing the ui to make the user select the vehicle category first
-// TODO: Valuate if divide the list in cars and motorbikes brand
-// TODO: Valuate if inserting truck brands too
+Map<int, String> getVehicleEcologyList(BuildContext context) {
+  final localizations = AppLocalizations.of(context)!;
+  return {
+    1: 'Euro 1',
+    2: 'Euro 2',
+    3: 'Euro 3',
+    4: 'Euro 4',
+    5: 'Euro 5',
+    6: 'Euro 6 (ABCD)',
+    7: localizations.other,
+  };
+}
 
-const List<String> vehicleBrandList = <String>[
+Map<int, String> getMaintenanceTypeList(BuildContext context) {
+  final localizations = AppLocalizations.of(context)!;
+  return {
+    1: localizations.mechanic,
+    2: localizations.electrician,
+    3: localizations.bodyShop,
+    4: localizations.other,
+  };
+}
+
+const List<String> carBrandList = <String>[
   'Abarth',
   'Alfa Romeo',
-  'Aprilia',
   'Aston Martin',
   'Audi',
   'Bentley',
@@ -76,23 +87,19 @@ const List<String> vehicleBrandList = <String>[
   'Citroën',
   'Cupra',
   'Dacia',
-  'Daihatsu', // Remove? (Retired from European market, but plenty of used vehicles)
+  'Daihatsu',
   'Dodge',
-  'Ducati',
   'DS',
   'Ferrari',
   'Fiat',
   'Ford',
   'Genesis',
-  'Harley-Davidson',
   'Honda',
   'Hyundai',
-  'Infiniti', // Remove? (Retired from European market, evaluate how spread in used market)
+  'Infiniti',
   'Jaguar',
   'Jeep',
-  'Kawasaki',
   'Kia',
-  'KTM',
   'Lamborghini',
   'Lancia',
   'Land Rover',
@@ -102,27 +109,53 @@ const List<String> vehicleBrandList = <String>[
   'Mercedes-Benz',
   'Mini',
   'Mitsubishi',
-  'Moto Guzzi',
-  'MV Agusta',
   'Nissan',
   'Opel',
   'Peugeot',
-  'Piaggio',
   'Porsche',
   'Renault',
   'Rolls-Royce',
   'SEAT',
   'Škoda',
   'Smart',
-  'Ssangyong/KGM', // Chose? If the choise is 'KGM' only move it under 'Kawasaki'
+  'Ssangyong/KGM',
   'Subaru',
   'Suzuki',
-  'Sym',
   'Tesla',
   'Toyota',
-  'Triumph',
   'Volkswagen',
   'Volvo',
+];
+
+const List<String> motorcycleBrandList = <String>[
+  'Aprilia',
+  'BMW',
+  'Ducati',
+  'Harley-Davidson',
+  'Honda',
+  'Kawasaki',
+  'KTM',
+  'Moto Guzzi',
+  'MV Agusta',
+  'Piaggio',
+  'Suzuki',
+  'Sym',
+  'Triumph',
   'Yamaha',
   'Zero Motorcycles',
+];
+
+const List<String> otherBrandList = <String>[
+  'DAF',
+  'Hymer',
+  'Iveco',
+  'MAN',
+  'MANS',
+  'Scania',
+  'Renault Trucks',
+  'Fuso',
+  'Adria',
+  'Bürstner',
+  'Chausson',
+  'Isuzu',
 ];

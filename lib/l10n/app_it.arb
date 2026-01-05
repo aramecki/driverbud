@@ -1,6 +1,11 @@
 {
   "@@locale": "it",
 
+  "appName": "DriverBud",
+  "@appName": {
+    "description": "DriverBud text"
+  },
+
   "cancel": "Annulla",
   "@cancel": {
   "description": "Annulla text"
@@ -41,19 +46,19 @@
     "description": "Configuration text"
   },
 
-  "capacityCcUpper": "Cilindrata cc",
-  "@capacityCcUpper": {
-    "description": "Capacity cc text"
+  "capacityUpper": "Cilindrata",
+  "@capacityUpper": {
+    "description": "Capacity text"
   },
 
-  "powerKwUpper": "Potenza kw",
-  "@powerKwUpper": {
-    "description": "Power kw text"
+  "powerUpper": "Potenza",
+  "@powerUpper": {
+    "description": "Power text"
   },
 
-  "horsePowerCvUpper": "Cavalli cv",
-  "@horsePowerCvUpper": {
-    "description": "HorsePower cv text"
+  "horsePowerUpper": "Cavalli",
+  "@horsePowerUpper": {
+    "description": "HorsePower text"
   },
 
   "maintenanceUpper": "Manutenzione",
@@ -106,9 +111,9 @@
     "description": "Title is a required field. text shown when saving an event without the title required field"
   },
 
-  "brandModelRequiredField": "Marchio è modello sono campi obbligatori.",
+  "brandModelRequiredField": "Categoria, marchio e modello sono campi obbligatori.",
   "@brandModelRequiredField": {
-    "description": "Brand and model are required fields. text shown when saving a vehicle without the brand or model required fields"
+    "description": "Categoria, marchio e modello sono campi obbligatori. text shown when saving a vehicle without the brand or model required fields"
   },
 
   "youWillFindEvents": "In questa pagina troverai tutti gli eventi di {eventType}.",
@@ -119,9 +124,19 @@
     "description": "On this page you will find all the added maintenance/refueling events. text shown when user has not maintenance event saved for the selected vehicle"
   },
 
+  "youWillFindInvoices": "In questa pagina troverai tutte le scadenze.",
+  "@youWillFindInvoices": {
+    "description": "In questa pagina troverai tutte le scadenze. text shown when user has no invoices saved for the selected vehicle"
+  },
+
   "createYourFirstVehicle": "Crea il tuo primo veicolo per aggiungerne uno.",
   "@createYourFirstVehicle": {
-    "description": "Crea il tuo primo veicolo per aggiungerne uno. text shown when saving a vehicle without the brand or model required fields"
+    "description": "Crea il tuo primo veicolo per aggiungerne uno. text."
+  },
+
+  "createYourFirstVehicleToVisualize": "Crea il tuo primo veicolo per visualizzarle.",
+  "@createYourFirstVehicleToVisualize": {
+    "description": "Crea il tuo primo veicolo per visualizzarle. text"
   },
 
   "youWillFindVehicles": "In questa pagina troverai tutti i veicoli aggiunti.",
@@ -187,6 +202,11 @@
   "ecologyUpper": "Ecologia",
   "@ecologyUpper": {
     "description": "Ecology text"
+  },
+
+  "plateUpper": "Targa",
+  "@plateUpper": {
+    "description": "Targa text"
   },
 
   "updateUpper": "Aggiorna",
@@ -319,6 +339,16 @@
     "description": "Other text"
   },
 
+  "cars": "Auto",
+  "@cars": {
+    "description": "Auto text"
+  },
+
+  "motorcycles": "Moto",
+  "@motorcycles": {
+    "description": "Moto text"
+  },
+
   "sedan": "Berlina",
   "@sedan": {
     "description": "Sedan vehicle text"
@@ -424,9 +454,9 @@
     "description": "Creating backup file... text"
   },
 
-  "restoringFile": "Ripristino file...",
+  "restoringFile": "Attendo il file...",
   "@restoringFile": {
-    "description": "Restoring file... text"
+    "description": "Attendo il file... text"
   },
 
   "backupCompleted": "Backup completato.",
@@ -688,6 +718,16 @@
     "description": "Per essere informato su scadenze ed eventi, devi consentire le notifiche nelle impostazioni dell'app. text"
   },
 
+  "maintenanceNotificationsTitle": "Promemoria: Manutenzione {vehicleName}.",
+  "@maintenanceNotificationsTitle": {
+      "placeholders": {
+        "vehicleName": {
+          "type": "String"
+        }
+    },
+    "description": "Promemoria: Manutenzione {vehicleName}. text"
+  },
+
   "insuranceNotificationsTitle": "La tua assicurazione sta per scadere!",
   "@insuranceNotificationsTitle": {
     "description": "La tua assicurazione sta per scadere! text"
@@ -701,6 +741,22 @@
   "inspectionNotificationsTitle": "La tua revisione scadrà presto!",
   "@inspectionNotificationsTitle": {
     "description": "La tua revisione scadrà presto! text"
+  },
+
+  "maintenanceNotificationsBody": "{event} il {date} presso {type}.",
+  "@maintenanceNotificationsBody": {
+      "placeholders": {
+        "date": {
+          "type": "String"
+        },
+        "type": {
+          "type": "String"
+        },
+        "event": {
+          "type": "String"
+        }
+    },
+    "description": "{event} il {date} presso {type}. text"
   },
 
   "insuranceNotificationsBody": "L'assicurazione della tua {vehicleName} scadrà il {date}.",
@@ -765,6 +821,26 @@
   "reachedMaxEntry": "Hai raggiunto il numero massimo di veicoli nel garage.",
   "@reachedMaxEntry": {
     "description": "Hai raggiunto il numero massimo di veicoli nel garage. text"
+  },
+
+  "aSoloProject": "Creato interamente da aramecki",
+  "@aSoloProject": {
+    "description": "Creato interamente da aramecki text"
+  },
+
+  "getMoreInfoOn": "Più info su:",
+  "@getMoreInfoOn": {
+    "description": "Più info su: text"
+  },
+
+  "cantFindBrandSub": "DriverBud - Segnalazione: Non riesco a trovare un brand.",
+  "@cantFindBrandSub": {
+    "description": "DriverBud - Segnalazione: Non riesco a trovare un brand. text"
+  },
+
+  "feedbackSub": "DriverBud - Feedback",
+  "@feedbackSub": {
+    "description": "DriverBud - Feedback text"
   }
 
 }

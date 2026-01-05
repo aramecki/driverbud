@@ -1,5 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
+import 'package:mycargenie_2/utils/lists.dart';
+import 'package:path/path.dart' as p;
+import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:mycargenie_2/utils/boxes.dart';
 import 'package:mycargenie_2/home.dart';
@@ -19,7 +24,6 @@ class ShowVehicle extends StatefulWidget {
 }
 
 class _ShowVehicleState extends State<ShowVehicle> {
-  // TODO: Stylize because it's very very very ugly
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
@@ -33,12 +37,31 @@ class _ShowVehicleState extends State<ShowVehicle> {
 
         if (v == null) return SizedBox();
 
+        String? brandModel = v['brand'] != null && v['model'] != null
+            ? '${v['brand']} ${v['model']}'
+            : null;
+        String? config = v['config'];
+        String? plate = v['plate'];
+        String? year = v['year']?.toString();
+        String? capacity = v['capacity'] != null
+            ? localizations.numCc(v['capacity'])
+            : null;
+        String? power = v['power'] != null
+            ? localizations.numKw(v['power'])
+            : null;
+        String? horse = v['horse'] != null
+            ? localizations.numCv(v['horse'])
+            : null;
+        String? type = getVehicleTypeList(context)[v['type']];
+        String? energy = getVehicleEnergyList(context)[v['energy']];
+        String? ecology = getVehicleEcologyList(context)[v['ecology']];
+
         return Column(
           mainAxisAlignment: MainAxisAlignment.start,
           mainAxisSize: MainAxisSize.max,
           children: [
             Padding(
-              padding: EdgeInsets.only(top: 10, bottom: 4),
+              padding: EdgeInsets.only(bottom: 4),
               child:
                   // Vehicle image container
                   FutureBuilder<ImageProvider<Object>?>(
@@ -52,7 +75,7 @@ class _ShowVehicleState extends State<ShowVehicle> {
                       }
 
                       return CircleAvatar(
-                        radius: 120,
+                        radius: 100,
                         foregroundImage: imageProvider,
                         child: (imageProvider == null) ? carIcon : null,
                       );
@@ -60,90 +83,65 @@ class _ShowVehicleState extends State<ShowVehicle> {
                   ),
             ),
 
-            Padding(
-              padding: EdgeInsets.only(left: 16, right: 16, top: 2),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  Text(
-                    '${v['brand']} ${v['model']}',
-                    style: TextStyle(
-                      color: Colors.deepOrange,
-                      fontSize: 24,
-                      fontWeight: FontWeight.w600,
+            if (brandModel != null)
+              Padding(
+                padding: EdgeInsets.only(left: 16, right: 16, top: 2),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Text(
+                      brandModel,
+                      style: TextStyle(
+                        color: Colors.deepOrange,
+                        fontSize: 24,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: 16, right: 16),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  if (v['config'] != null)
-                    Text(v['config'], style: TextStyle(fontSize: 19)),
-                ],
+
+            // Config
+            if (config != null && config != '')
+              Padding(
+                padding: EdgeInsets.only(left: 16, right: 16),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [Text(config, style: TextStyle(fontSize: 19))],
+                ),
               ),
-            ),
+
+            // Plate row
+            if (plate != null && plate != '')
+              ...tileRow(localizations.plateUpper, plate),
+
+            // Year row
+            if (year != null) ...tileRow(localizations.yearUpper, year),
+
+            // Capacity row
+            if (capacity != null)
+              ...tileRow(localizations.capacityUpper, capacity),
+
+            // Power row
+            if (power != null) ...tileRow(localizations.powerUpper, power),
+
+            // Horse row
+            if (horse != null) ...tileRow(localizations.horsePowerUpper, horse),
+
+            // Type row
+            if (type != null) ...tileRow(localizations.typeUpper, type),
+
+            // Energy row
+            if (energy != null) ...tileRow(localizations.energyUpper, energy),
+
+            // Ecology row
+            if (ecology != null)
+              ...tileRow(localizations.ecologyUpper, ecology),
+
             Padding(
-              padding: EdgeInsets.only(left: 16, right: 16, bottom: 8),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  if (v['year'] != null)
-                    Text(v['year'].toString(), style: TextStyle(fontSize: 17)),
-                ],
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  if (v['capacity'] != null)
-                    Text(localizations.numCc(v['capacity'])),
-                ],
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 2),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  if (v['power'] != null) Text(localizations.numKw(v['power'])),
-                  const SizedBox(width: 8),
-                  if (v['horse'] != null) Text(localizations.numCv(v['horse'])),
-                ],
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 2),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.max,
-                children: [if (v['category'] != null) Text(v['category'])],
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 2),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  if (v['energy'] != null) Text(v['energy']),
-                  const SizedBox(width: 8),
-                  if (v['ecology'] != null) Text(v['ecology']),
-                ],
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              padding: EdgeInsets.only(left: 16, right: 16, top: 8),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.max,
@@ -166,7 +164,6 @@ class _ShowVehicleState extends State<ShowVehicle> {
 
     return Scaffold(
       appBar: AppBar(
-        // title: Text('$_brand $_model'),
         leading: customBackButton(context),
         actions: <Widget>[
           IconButton(
@@ -182,10 +179,6 @@ class _ShowVehicleState extends State<ShowVehicle> {
         backgroundColor: Colors.deepOrange,
         child: shareIcon,
         onPressed: () => _shareVehicle(context, localizations, widget.editKey),
-        // showCustomToast(
-        //   context,
-        //   message: 'Share opened',
-        // ), // TODO: Remove, for debugging
       ),
       body: GestureDetector(
         behavior: HitTestBehavior.opaque,
@@ -205,7 +198,11 @@ void _shareVehicle(
 ) async {
   final v = vehicleBox.get(vehicleKey);
 
-  final List<XFile> files = [XFile(v['assetImage'])];
+  final Directory docsDir = await getApplicationDocumentsDirectory();
+
+  final String fullPath = p.join(docsDir.path, 'images', v['assetImage']);
+
+  final List<XFile> files = [XFile(fullPath)];
 
   String text = localizations.checkoutMy;
 

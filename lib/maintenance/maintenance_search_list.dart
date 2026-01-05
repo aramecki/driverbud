@@ -129,7 +129,7 @@ class _MaintenanceSearchListState extends State<MaintenanceSearchList> {
                             slideableIcon(
                               context,
                               onPressed: (_) async {
-                                await deleteEvent(key);
+                                await deleteEvent(vehicleKey!, key);
                                 searchResult.value = searchByText(
                                   maintenanceBox,
                                   searchText,
