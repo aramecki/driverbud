@@ -6,6 +6,11 @@
     "description": "DriverBud text"
   },
 
+  "backAgainToExit": "Back again to exit",
+  "@backAgainToExit": {
+  "description": "Back again to exit text"
+  },
+
   "cancel": "Cancel",
   "@cancel": {
   "description": "Cancel text"

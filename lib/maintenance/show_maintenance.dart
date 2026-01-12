@@ -11,6 +11,16 @@ import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 import '../utils/puzzle.dart';
 
+Map<String, dynamic> maintenanceInfo = {
+  'vehicleKey': null,
+  'title': null,
+  'date': null,
+  'place': null,
+  'price': null,
+  'kilometers': null,
+  'description': null,
+};
+
 class ShowMaintenance extends StatefulWidget {
   final dynamic editKey;
 
@@ -21,7 +31,6 @@ class ShowMaintenance extends StatefulWidget {
 }
 
 class _ShowMaintenanceState extends State<ShowMaintenance> {
-  // TODO: Stylize
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
@@ -52,6 +61,14 @@ class _ShowMaintenanceState extends State<ShowMaintenance> {
         String? amount = parsedPrice != '0,00'
             ? localizations.numCurrency(parsedPrice, settingsProvider.currency!)
             : null;
+
+        maintenanceInfo['vehicleKey'] = e['vehicleKey'];
+        maintenanceInfo['title'] = e['title'];
+        maintenanceInfo['date'] = date;
+        maintenanceInfo['place'] = place;
+        maintenanceInfo['price'] = amount;
+        maintenanceInfo['kilometers'] = kilometers;
+        maintenanceInfo['description'] = description;
 
         return Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -115,36 +132,6 @@ class _ShowMaintenanceState extends State<ShowMaintenance> {
             if (place != null && place != '')
               ...tileRow(localizations.placeUpper, place),
 
-            // Padding(
-            //   padding: EdgeInsets.only(
-            //     left: 16,
-            //     right: 16,
-            //     top: 12,
-            //     bottom: 26,
-            //   ),
-            //   child: Row(
-            //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //     mainAxisSize: MainAxisSize.max,
-            //     children: [
-            //       if (maintenanceType != null)
-            //         Text(maintenanceType, style: TextStyle(fontSize: 18)),
-            //       if (e['place'] != null)
-            //         Text(e['place'], style: TextStyle(fontSize: 18)),
-            //     ],
-            //   ),
-            // ),
-
-            // if (e['description'] != '')
-            //   Padding(
-            //     padding: EdgeInsets.symmetric(horizontal: 16),
-            //     child: Text(
-            //       '${e['description']}',
-            //       style: TextStyle(fontSize: 17),
-            //     ),
-            //   ),
-
-            // if (e['description'] != '') SizedBox(height: 44),
-
             // Date row
             if (date != '') ...tileRow(localizations.date, date),
 
@@ -152,53 +139,9 @@ class _ShowMaintenanceState extends State<ShowMaintenance> {
             if (kilometers != null && kilometers != '')
               ...tileRow(localizations.kilometersUpper, kilometers),
 
-            // Padding(
-            //   padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-            //   child: Row(
-            //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //     mainAxisSize: MainAxisSize.max,
-            //     children: [
-            //       if (e['date'] != null)
-            //         Text(
-            //           localizations.ggMmAaaa(
-            //             e['date'].day,
-            //             e['date'].month,
-            //             e['date'].year,
-            //           ),
-            //           style: TextStyle(fontSize: 18),
-            //         ),
-            //       if (e['kilometers'] != null)
-            //         Text(
-            //           localizations.numKm(e['kilometers']),
-            //           style: TextStyle(fontSize: 18),
-            //         ),
-            //     ],
-            //   ),
-            // ),
-
             // Amount row
             if (amount != null) ...tileRow(localizations.totalAmount, amount),
 
-            // Padding(
-            //   padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-            //   child: Row(
-            //     mainAxisAlignment: MainAxisAlignment.end,
-            //     mainAxisSize: MainAxisSize.max,
-            //     children: [
-            //       if (e['price'] != '0.00')
-            //         Text(
-            //           localizations.numCurrency(
-            //             parsedPrice,
-            //             settingsProvider.currency!,
-            //           ),
-            //           style: TextStyle(
-            //             fontSize: 20,
-            //             fontWeight: FontWeight.w500,
-            //           ),
-            //         ),
-            //     ],
-            //   ),
-            // ),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               child: Row(
@@ -243,8 +186,8 @@ class _ShowMaintenanceState extends State<ShowMaintenance> {
         onPressed: () => _shareMaintenance(
           context,
           localizations,
+          maintenanceInfo,
           widget.editKey,
-          settingsProvider.currency!,
         ),
       ),
       body: GestureDetector(
@@ -258,36 +201,33 @@ class _ShowMaintenanceState extends State<ShowMaintenance> {
   }
 }
 
-// TODO: Edit to pass directly values without box get
 void _shareMaintenance(
   BuildContext context,
   AppLocalizations localizations,
+  Map<String, dynamic> maintenanceInfo,
   maintenanceKey,
-  String currency,
 ) async {
-  final v = maintenanceBox.get(maintenanceKey);
-  final vehicle = vehicleBox.get(v['vehicleKey']);
+  final vehicle = await vehicleBox.get(maintenanceInfo['vehicleKey']);
   final vehicleBrand = vehicle['brand'];
   final vehicleModel = vehicle['model'];
 
   String text =
-      '${localizations.onDate}${localizations.ggMmAaaa(v['date'].day, v['date'].month, v['date'].year)} ${localizations.iPerformed}"${v['title']}" ${localizations.onMy}$vehicleBrand $vehicleModel ';
+      '${localizations.onDate}${maintenanceInfo['date']} ${localizations.iPerformed}"${maintenanceInfo['title']}" ${localizations.onMy}$vehicleBrand $vehicleModel ';
 
-  if (v['kilometers'] != null) {
-    text += '${localizations.withKm}${localizations.numKm(v['kilometers'])} ';
+  if (maintenanceInfo['kilometers'] != null) {
+    text += '${localizations.withKm}${maintenanceInfo['kilometers']} ';
   }
 
-  if (v['place'] != null && v['place'] != '') {
-    text += '${localizations.at}${v['place']} ';
+  if (maintenanceInfo['place'] != null && maintenanceInfo['place'] != '') {
+    text += '${localizations.at}${maintenanceInfo['place']} ';
   }
 
-  if (v['price'] != null) {
-    text +=
-        '${localizations.paying}${localizations.numCurrency(v['price'], currency)} ';
+  if (maintenanceInfo['price'] != null) {
+    text += '${localizations.paying}${maintenanceInfo['price']} ';
   }
 
-  if (v['description'] != '') {
-    text += '"${v['description']}"';
+  if (maintenanceInfo['description'] != '') {
+    text += '"${maintenanceInfo['description']}"';
   }
 
   await SharePlus.instance.share(ShareParams(text: text));

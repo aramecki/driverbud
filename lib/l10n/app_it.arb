@@ -6,6 +6,11 @@
     "description": "DriverBud text"
   },
 
+  "backAgainToExit": "Ripeti per uscire",
+  "@backAgainToExit": {
+  "description": "Ripeti per uscire text"
+  },
+
   "cancel": "Annulla",
   "@cancel": {
   "description": "Annulla text"

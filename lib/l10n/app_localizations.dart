@@ -104,6 +104,12 @@ abstract class AppLocalizations {
   /// **'DriverBud'**
   String get appName;
 
+  /// Back again to exit text
+  ///
+  /// In en, this message translates to:
+  /// **'Back again to exit'**
+  String get backAgainToExit;
+
   /// Cancel text
   ///
   /// In en, this message translates to:

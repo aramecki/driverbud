@@ -12,6 +12,9 @@ class AppLocalizationsIt extends AppLocalizations {
   String get appName => 'DriverBud';
 
   @override
+  String get backAgainToExit => 'Ripeti per uscire';
+
+  @override
   String get cancel => 'Annulla';
 
   @override

@@ -230,5 +230,11 @@ ThemeData getTheme(bool isLight) {
       iconColor: foregroundColor,
       titleTextStyle: TextStyle(fontSize: 18, color: textColor),
     ),
+
+    snackBarTheme: SnackBarThemeData(
+      backgroundColor: foregroundColor,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
+      behavior: SnackBarBehavior.floating,
+    ),
   );
 }
