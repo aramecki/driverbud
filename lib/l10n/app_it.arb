@@ -111,9 +111,14 @@
     "description": "My garage text"
   },
 
-  "titleRequiredField": "Dai un titolo all'evento.",
+  "titleRequiredField": "Aggiungi un titolo all'evento.",
   "@titleRequiredField": {
     "description": "Title is a required field. text shown when saving an event without the title required field"
+  },
+
+  "priceRequiredField": "Aggiungi l'importo totale pagato.",
+  "@priceRequiredField": {
+    "description": "Aggiungi l'importo totale pagato. text shown when saving an event without the total price required field"
   },
 
   "brandModelRequiredField": "Categoria, marchio e modello sono campi obbligatori.",
@@ -308,6 +313,15 @@
       "num": {"type": "int"}
     },
     "description": "num CV Ex. 10CV"
+  },
+
+  "numUnit": "{numAsString}{unit}",
+  "@numUnit": {
+    "placeholders": {
+      "numAsString": {"type": "String"},
+      "unit": {"type": "String"}
+    },
+  "description": "num unit Ex. 5L"
   },
 
   "numCurrency": "{num}{currency}",
@@ -846,6 +860,26 @@
   "feedbackSub": "DriverBud - Feedback",
   "@feedbackSub": {
     "description": "DriverBud - Feedback text"
+  },
+
+  "fuelUppercase": "Carburante",
+  "@fuelUppercase": {
+    "description": "Carburante text"
+  },
+
+  "fuelAmount": "Carburante totale",
+  "@fuelAmount": {
+    "description": "Carburante totale text"
+  },
+
+  "totalPrice": "Prezzo totale",
+  "@totalPrice": {
+    "description": "Prezzo totale text"
+  },
+
+  "pricePerUnit": "Prezzo per unità",
+  "@pricePerUnit": {
+    "description": "Prezzo per unità text"
   }
 
 }

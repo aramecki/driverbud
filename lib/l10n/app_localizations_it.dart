@@ -75,7 +75,10 @@ class AppLocalizationsIt extends AppLocalizations {
   String get myGarage => 'Il mio garage';
 
   @override
-  String get titleRequiredField => 'Dai un titolo all\'evento.';
+  String get titleRequiredField => 'Aggiungi un titolo all\'evento.';
+
+  @override
+  String get priceRequiredField => 'Aggiungi l\'importo totale pagato.';
 
   @override
   String get brandModelRequiredField =>
@@ -198,6 +201,11 @@ class AppLocalizationsIt extends AppLocalizations {
   @override
   String numCv(int num) {
     return '${num}CV';
+  }
+
+  @override
+  String numUnit(String numAsString, String unit) {
+    return '$numAsString$unit';
   }
 
   @override
@@ -515,4 +523,16 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get feedbackSub => 'DriverBud - Feedback';
+
+  @override
+  String get fuelUppercase => 'Carburante';
+
+  @override
+  String get fuelAmount => 'Carburante totale';
+
+  @override
+  String get totalPrice => 'Prezzo totale';
+
+  @override
+  String get pricePerUnit => 'Prezzo per unità';
 }

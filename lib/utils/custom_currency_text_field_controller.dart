@@ -4,8 +4,9 @@ import 'package:mycargenie_2/settings/settings_logics.dart';
 import 'package:provider/provider.dart';
 
 CurrencyTextFieldController customCurrencyTextFieldController(
-  BuildContext context,
-) {
+  BuildContext context, {
+  int maxDigits = 8,
+}) {
   final settingsProvider = context.read<SettingsProvider>();
   final currencySymbol = settingsProvider.currency;
 
@@ -13,7 +14,7 @@ CurrencyTextFieldController customCurrencyTextFieldController(
     currencySymbol: currencySymbol!,
     decimalSymbol: ',',
     thousandSymbol: ' ',
-    maxDigits: 8,
+    maxDigits: maxDigits,
     enableNegative: false,
   );
 }

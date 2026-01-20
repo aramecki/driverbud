@@ -218,8 +218,9 @@ Widget customBackButton(
 Widget customSortingPanel(
   BuildContext context,
   void Function(String sortType) onSort,
-  bool isDecrementing,
-) {
+  bool isDecrementing, {
+  bool isMaintenance = false,
+}) {
   final localizations = AppLocalizations.of(context)!;
 
   return Row(
@@ -231,12 +232,22 @@ Widget customSortingPanel(
             ? HugeIcons.strokeRoundedSorting01
             : HugeIcons.strokeRoundedSorting02,
       ),
-      OutlinedButton(
-        onPressed: () {
-          onSort('name');
-        },
-        child: Text(textAlign: TextAlign.center, localizations.titleUpper),
-      ),
+      if (isMaintenance)
+        OutlinedButton(
+          onPressed: () {
+            onSort('name');
+          },
+          child: Text(textAlign: TextAlign.center, localizations.titleUpper),
+        ),
+
+      if (!isMaintenance)
+        OutlinedButton(
+          onPressed: () {
+            onSort('fuelAmount');
+          },
+          child: Text(textAlign: TextAlign.center, localizations.fuelUppercase),
+        ),
+
       OutlinedButton(
         onPressed: () {
           onSort('price');

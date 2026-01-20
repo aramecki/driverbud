@@ -4,52 +4,58 @@ import 'package:mycargenie_2/settings/currency_settings.dart';
 import 'package:mycargenie_2/settings/settings_logics.dart';
 import 'package:mycargenie_2/utils/boxes.dart';
 import 'package:mycargenie_2/l10n/app_localizations.dart';
-import 'package:mycargenie_2/maintenance/maintenance_misc.dart';
+import 'package:mycargenie_2/refueling/refueling_misc.dart';
 import 'package:mycargenie_2/theme/icons.dart';
 import 'package:mycargenie_2/utils/lists.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 import '../utils/puzzle.dart';
 
-Map<String, dynamic> maintenanceInfo = {
+// Used for sharing
+//TODO: Edit for refueling
+Map<String, dynamic> refuelingInfo = {
   'vehicleKey': null,
-  'title': null,
   'date': null,
   'place': null,
   'price': null,
   'kilometers': null,
-  'description': null,
+  'notes': null,
 };
 
-class ShowMaintenance extends StatefulWidget {
+class ShowRefueling extends StatefulWidget {
   final dynamic editKey;
 
-  const ShowMaintenance({super.key, this.editKey});
+  const ShowRefueling({super.key, this.editKey});
 
   @override
-  State<ShowMaintenance> createState() => _ShowMaintenanceState();
+  State<ShowRefueling> createState() => _ShowRefuelingState();
 }
 
-class _ShowMaintenanceState extends State<ShowMaintenance> {
+class _ShowRefuelingState extends State<ShowRefueling> {
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
     final settingsProvider = context.read<SettingsProvider>();
 
     final content = ValueListenableBuilder(
-      valueListenable: maintenanceBox.listenable(keys: [widget.editKey]),
+      valueListenable: refuelingBox.listenable(keys: [widget.editKey]),
       builder: (context, box, _) {
         final e = box.get(widget.editKey);
 
         if (e == null) return SizedBox();
 
-        String parsedPrice = parseShowedPrice(e['price']);
+        String parsedTotalPrice = parseShowedPrice(e['price']);
+        String parsedPricePerUnit = parseShowedPrice(e['pricePerUnit']);
+        String parsedFuelAmount = parseShowedPrice(e['fuelAmount']);
 
-        String? maintenanceType = getMaintenanceTypeList(
+        String? refuelingType = getVehicleEnergyList(
           context,
-        )[e['maintenanceType']];
+        )[e['refuelingType']];
+
+        String? fuelUnit = getFuelUnit(e['refuelingType']);
+
         String? place = e['place'];
-        String? description = e['description'];
+        String? notes = e['notes'];
         String? date = localizations.ggMmAaaa(
           e['date'].day,
           e['date'].month,
@@ -58,36 +64,39 @@ class _ShowMaintenanceState extends State<ShowMaintenance> {
         String? kilometers = e['kilometers'] != null
             ? localizations.numKm(e['kilometers'])
             : null;
-        String? amount = parsedPrice != '0,00'
-            ? localizations.numCurrency(parsedPrice, settingsProvider.currency!)
+
+        String? fuelAmount = parsedFuelAmount != '0,00'
+            ? localizations.numUnit(parsedFuelAmount, fuelUnit)
             : null;
 
-        maintenanceInfo['vehicleKey'] = e['vehicleKey'];
-        maintenanceInfo['title'] = e['title'];
-        maintenanceInfo['date'] = date;
-        maintenanceInfo['place'] = place;
-        maintenanceInfo['price'] = amount;
-        maintenanceInfo['kilometers'] = kilometers;
-        maintenanceInfo['description'] = description;
+        String? pricePerUnit = parsedPricePerUnit != '0,00'
+            ? localizations.numCurrencyOnUnits(
+                parsedPricePerUnit,
+                settingsProvider.currency!,
+                fuelUnit,
+              )
+            : null;
+
+        String? totalPrice = parsedTotalPrice != '0,00'
+            ? localizations.numCurrency(
+                parsedTotalPrice,
+                settingsProvider.currency!,
+              )
+            : null;
+
+        refuelingInfo['vehicleKey'] = e['vehicleKey'];
+        refuelingInfo['date'] = date;
+        refuelingInfo['place'] = place;
+        refuelingInfo['price'] = totalPrice;
+        refuelingInfo['kilometers'] = kilometers;
+        refuelingInfo['notes'] = notes;
 
         return Column(
           mainAxisAlignment: MainAxisAlignment.start,
           mainAxisSize: MainAxisSize.max,
           children: [
-            Padding(
-              padding: EdgeInsets.only(left: 16, right: 16, bottom: 16),
-              child: Text(
-                '${e['title']}',
-                style: TextStyle(
-                  color: Colors.deepOrange,
-                  fontSize: 24,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ),
-
-            // Description row
-            if (description != null && description != '')
+            // Notes row
+            if (notes != null && notes != '')
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 18, vertical: 4),
                 child: Column(
@@ -96,7 +105,7 @@ class _ShowMaintenanceState extends State<ShowMaintenance> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          localizations.descriptionUpper,
+                          localizations.notes,
                           style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w400,
@@ -110,7 +119,7 @@ class _ShowMaintenanceState extends State<ShowMaintenance> {
                       children: [
                         Expanded(
                           child: Text(
-                            description,
+                            notes,
                             style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.w400,
@@ -126,8 +135,8 @@ class _ShowMaintenanceState extends State<ShowMaintenance> {
             Divider(height: 22),
 
             // Type row
-            if (maintenanceType != null && maintenanceType != '')
-              ...tileRow(localizations.typeUpper, maintenanceType),
+            if (refuelingType != null && refuelingType != '')
+              ...tileRow(localizations.typeUpper, refuelingType),
 
             // Plate row
             if (place != null && place != '')
@@ -140,8 +149,17 @@ class _ShowMaintenanceState extends State<ShowMaintenance> {
             if (kilometers != null && kilometers != '')
               ...tileRow(localizations.kilometersUpper, kilometers),
 
-            // Amount row
-            if (amount != null) ...tileRow(localizations.totalAmount, amount),
+            // Price per unit row
+            if (pricePerUnit != null)
+              ...tileRow(localizations.pricePerUnit, pricePerUnit),
+
+            // Total units row
+            if (fuelAmount != null && fuelAmount != '')
+              ...tileRow(localizations.fuelAmount, fuelAmount),
+
+            // Total price row
+            if (totalPrice != null)
+              ...tileRow(localizations.totalPrice, totalPrice),
 
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
@@ -153,7 +171,7 @@ class _ShowMaintenanceState extends State<ShowMaintenance> {
                     child: buildAddButton(
                       context,
                       onPressed: () =>
-                          openEventEditScreen(context, widget.editKey),
+                          openRefuelingEditScreen(context, widget.editKey),
                       text: localizations.editUpper,
                     ),
                   ),
@@ -171,10 +189,7 @@ class _ShowMaintenanceState extends State<ShowMaintenance> {
         actions: <Widget>[
           IconButton(
             onPressed: () {
-              deleteEvent(
-                maintenanceBox.get(widget.editKey)['vehicleKey'],
-                widget.editKey,
-              );
+              deleteEvent(widget.editKey);
               Navigator.of(context).pop();
             },
             icon: deleteIcon(iconSize: 30),
@@ -184,10 +199,10 @@ class _ShowMaintenanceState extends State<ShowMaintenance> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.deepOrange,
         child: shareIcon,
-        onPressed: () => _shareMaintenance(
+        onPressed: () => _shareRefueling(
           context,
           localizations,
-          maintenanceInfo,
+          refuelingInfo,
           widget.editKey,
         ),
       ),
@@ -202,33 +217,33 @@ class _ShowMaintenanceState extends State<ShowMaintenance> {
   }
 }
 
-void _shareMaintenance(
+void _shareRefueling(
   BuildContext context,
   AppLocalizations localizations,
-  Map<String, dynamic> maintenanceInfo,
-  maintenanceKey,
+  Map<String, dynamic> refuelingInfo,
+  refuelingKey,
 ) async {
-  final vehicle = await vehicleBox.get(maintenanceInfo['vehicleKey']);
+  final vehicle = await vehicleBox.get(refuelingInfo['vehicleKey']);
   final vehicleBrand = vehicle['brand'];
   final vehicleModel = vehicle['model'];
 
   String text =
-      '${localizations.onDate}${maintenanceInfo['date']} ${localizations.iPerformed}"${maintenanceInfo['title']}" ${localizations.onMy}$vehicleBrand $vehicleModel ';
+      '${localizations.onDate}${refuelingInfo['date']} ${localizations.iPerformed}"${refuelingInfo['title']}" ${localizations.onMy}$vehicleBrand $vehicleModel ';
 
-  if (maintenanceInfo['kilometers'] != null) {
-    text += '${localizations.withKm}${maintenanceInfo['kilometers']} ';
+  if (refuelingInfo['kilometers'] != null) {
+    text += '${localizations.withKm}${refuelingInfo['kilometers']} ';
   }
 
-  if (maintenanceInfo['place'] != null && maintenanceInfo['place'] != '') {
-    text += '${localizations.at}${maintenanceInfo['place']} ';
+  if (refuelingInfo['place'] != null && refuelingInfo['place'] != '') {
+    text += '${localizations.at}${refuelingInfo['place']} ';
   }
 
-  if (maintenanceInfo['price'] != null) {
-    text += '${localizations.paying}${maintenanceInfo['price']} ';
+  if (refuelingInfo['price'] != null) {
+    text += '${localizations.paying}${refuelingInfo['price']} ';
   }
 
-  if (maintenanceInfo['description'] != '') {
-    text += '"${maintenanceInfo['description']}"';
+  if (refuelingInfo['description'] != '') {
+    text += '"${refuelingInfo['description']}"';
   }
 
   await SharePlus.instance.share(ShareParams(text: text));

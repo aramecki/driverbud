@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:mycargenie_2/utils/boxes.dart';
@@ -10,14 +9,15 @@ import 'package:mycargenie_2/utils/puzzle.dart';
 import 'package:mycargenie_2/utils/sorting_funs.dart';
 import 'package:provider/provider.dart';
 
-class MaintenanceSearchList extends StatefulWidget {
-  const MaintenanceSearchList({super.key});
+// TODO: Fix for refueling
+class RefuelingSearchList extends StatefulWidget {
+  const RefuelingSearchList({super.key});
 
   @override
-  State<MaintenanceSearchList> createState() => _MaintenanceSearchListState();
+  State<RefuelingSearchList> createState() => _RefuelingSearchListState();
 }
 
-class _MaintenanceSearchListState extends State<MaintenanceSearchList> {
+class _RefuelingSearchListState extends State<RefuelingSearchList> {
   String currentSort = 'date';
   bool isDecrementing = true;
   bool isSorting = false;
@@ -42,20 +42,14 @@ class _MaintenanceSearchListState extends State<MaintenanceSearchList> {
           true,
         );
 
-        log('items = $items');
-
-        // final isEmpty = items.isEmpty;
-
-        // log('searchResult= $searchResult');
+        log('refueling items = $items');
 
         switch (currentSort) {
-          case 'name':
-            items = sortByName(items, isDecrementing);
-            // log('items sorted by name: $items');
+          case 'fuelAmount':
+            items = sortByDouble(items, isDecrementing, isPrice: false);
             break;
           case 'price':
             items = sortByDouble(items, isDecrementing);
-            // log('items sorted by price: $items');
             break;
           default:
             items = sortByDate(items, isDecrementing);

@@ -59,7 +59,7 @@ class _MaintenanceState extends State<Maintenance> {
             items = sortByName(items, isDecrementing);
             break;
           case 'price':
-            items = sortByPrice(items, isDecrementing);
+            items = sortByDouble(items, isDecrementing);
             break;
           default:
             items = sortByDate(items, isDecrementing);

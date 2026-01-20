@@ -116,6 +116,11 @@
     "description": "Title is a required field. text shown when saving an event without the title required field"
   },
 
+  "priceRequiredField": "Total price is a required field.",
+  "@priceRequiredField": {
+    "description": "Total price is a required field. text shown when saving an event without the total price required field"
+  },
+
   "brandModelRequiredField": "Category, brand and model are required fields.",
   "@brandModelRequiredField": {
     "description": "Category, brand and model are required fields. text shown when saving a vehicle without the brand or model required fields"
@@ -308,6 +313,15 @@
       "num": {"type": "int"}
     },
     "description": "num CV Ex. 10CV"
+  },
+
+  "numUnit": "{numAsString}{unit}",
+  "@numUnit": {
+    "placeholders": {
+      "numAsString": {"type": "String"},
+      "unit": {"type": "String"}
+    },
+  "description": "num unit Ex. 5L"
   },
 
   "numCurrency": "{num}{currency}",
@@ -846,6 +860,27 @@
   "feedbackSub": "DriverBud - Feedback",
   "@feedbackSub": {
     "description": "DriverBud - Feedback text"
+  },
+
+  "fuelUppercase": "Fuel",
+  "@fuelUppercase": {
+    "description": "Fuel text"
+  },
+
+
+  "fuelAmount": "Fuel amount",
+  "@fuelAmount": {
+    "description": "Fuel amount text"
+  },
+
+  "totalPrice": "Total price",
+  "@totalPrice": {
+    "description": "Total price text"
+  },
+
+  "pricePerUnit": "Price per unit",
+  "@pricePerUnit": {
+    "description": "Price per unit text"
   }
 
 }

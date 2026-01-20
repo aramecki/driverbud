@@ -236,6 +236,12 @@ abstract class AppLocalizations {
   /// **'Title is a required field.'**
   String get titleRequiredField;
 
+  /// Total price is a required field. text shown when saving an event without the total price required field
+  ///
+  /// In en, this message translates to:
+  /// **'Total price is a required field.'**
+  String get priceRequiredField;
+
   /// Category, brand and model are required fields. text shown when saving a vehicle without the brand or model required fields
   ///
   /// In en, this message translates to:
@@ -433,6 +439,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{num}CV'**
   String numCv(int num);
+
+  /// num unit Ex. 5L
+  ///
+  /// In en, this message translates to:
+  /// **'{numAsString}{unit}'**
+  String numUnit(String numAsString, String unit);
 
   /// num currency Ex. 5€
   ///
@@ -991,6 +1003,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'DriverBud - Feedback'**
   String get feedbackSub;
+
+  /// Fuel text
+  ///
+  /// In en, this message translates to:
+  /// **'Fuel'**
+  String get fuelUppercase;
+
+  /// Fuel amount text
+  ///
+  /// In en, this message translates to:
+  /// **'Fuel amount'**
+  String get fuelAmount;
+
+  /// Total price text
+  ///
+  /// In en, this message translates to:
+  /// **'Total price'**
+  String get totalPrice;
+
+  /// Price per unit text
+  ///
+  /// In en, this message translates to:
+  /// **'Price per unit'**
+  String get pricePerUnit;
 }
 
 class _AppLocalizationsDelegate

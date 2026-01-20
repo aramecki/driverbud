@@ -21,11 +21,17 @@ List<dynamic> sortByName(List<dynamic> items, bool isDecrementing) {
   return items;
 }
 
-// Fun to order list by 'price' double
-List<dynamic> sortByPrice(List<dynamic> items, bool isDecrementing) {
+// Fun to order list by double
+List<dynamic> sortByDouble(
+  List<dynamic> items,
+  bool isDecrementing, {
+  bool isPrice = true,
+}) {
+  String name = isPrice ? 'price' : 'fuelAmount';
+
   items.sort((a, b) {
-    final priceA = (double.parse(a['value']['price']));
-    final priceB = (double.parse(b['value']['price']));
+    final priceA = (double.parse(a['value'][name]));
+    final priceB = (double.parse(b['value'][name]));
     return isDecrementing ? priceB.compareTo(priceA) : priceA.compareTo(priceB);
   });
   return items;

@@ -78,6 +78,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get titleRequiredField => 'Title is a required field.';
 
   @override
+  String get priceRequiredField => 'Total price is a required field.';
+
+  @override
   String get brandModelRequiredField =>
       'Category, brand and model are required fields.';
 
@@ -196,6 +199,11 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String numCv(int num) {
     return '${num}CV';
+  }
+
+  @override
+  String numUnit(String numAsString, String unit) {
+    return '$numAsString$unit';
   }
 
   @override
@@ -512,4 +520,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get feedbackSub => 'DriverBud - Feedback';
+
+  @override
+  String get fuelUppercase => 'Fuel';
+
+  @override
+  String get fuelAmount => 'Fuel amount';
+
+  @override
+  String get totalPrice => 'Total price';
+
+  @override
+  String get pricePerUnit => 'Price per unit';
 }
