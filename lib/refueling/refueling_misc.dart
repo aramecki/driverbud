@@ -24,12 +24,6 @@ Widget refuelingEventListTile(
   String fuelUnit;
   String eventTotalUnits = '';
 
-  // int? fuelAmount = item['totalUnits'];
-  // if (fuelAmount != null) {
-  //   fuelUnit = getFuelUnit(refuelingType);
-  //   eventTotalUnits = localizations.numUnit(fuelAmount, fuelUnit);
-  // }
-
   String fuelAmount = parseShowedPrice(item['fuelAmount']);
   if (fuelAmount != '0,00') {
     fuelUnit = getFuelUnit(refuelingType);

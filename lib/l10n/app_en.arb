@@ -159,6 +159,11 @@
   "description": "Title text"
   },
 
+  "titleLower": "title",
+  "@titleLower": {
+  "description": "title text"
+  },
+
   "asteriskTitle": "Title*",
   "@asteriskTitle": {
   "description": "Title* text shown in title field"
@@ -172,6 +177,11 @@
   "placeUpper": "Place",
   "@placeUpper": {
   "description": "Place text shown in place field"
+  },
+
+  "placeLower": "place",
+  "@placeLower": {
+  "description": "place text shown in place field"
   },
 
   "kilometersUpper": "Kilometers",
@@ -260,12 +270,13 @@
     "description": "Edit Maintenance/Refueling/Vehicle text shown as title when editing"
   },
 
-  "searchInEvents": "Search in {eventType} events",
+  "searchInEvents": "Search {eventType} by {field}",
   "@searchInEvents": {
     "placeholders": {
-      "eventType": {"type": "String"}
+      "eventType": {"type": "String"},
+      "field": {"type": "String"}
     },
-  "description": "Search Maintenance/refueling events text"
+  "description": "Search maintenance/refueling by title/place text"
   },
 
    "date": "Date",

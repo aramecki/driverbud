@@ -37,7 +37,13 @@ List<dynamic> sortByDouble(
   return items;
 }
 
-List<Map<String, dynamic>> searchByText(Box<dynamic> items, String text) {
+List<Map<String, dynamic>> searchByText(
+  Box<dynamic> items,
+  String text, {
+  bool isMaintenance = true,
+}) {
+  String field = isMaintenance ? 'title' : 'place';
+
   final lowerText = text.toLowerCase();
 
   return items.keys
@@ -47,7 +53,7 @@ List<Map<String, dynamic>> searchByText(Box<dynamic> items, String text) {
       })
       .where(
         (item) =>
-            item['value']['title'].toString().toLowerCase().contains(lowerText),
+            item['value'][field].toString().toLowerCase().contains(lowerText),
       )
       .toList();
 }

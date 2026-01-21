@@ -109,6 +109,9 @@ class AppLocalizationsIt extends AppLocalizations {
   String get titleUpper => 'Titolo';
 
   @override
+  String get titleLower => 'titolo';
+
+  @override
   String get asteriskTitle => 'Titolo*';
 
   @override
@@ -116,6 +119,9 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get placeUpper => 'Luogo';
+
+  @override
+  String get placeLower => 'luogo';
 
   @override
   String get kilometersUpper => 'Kilometri';
@@ -171,8 +177,8 @@ class AppLocalizationsIt extends AppLocalizations {
   }
 
   @override
-  String searchInEvents(String eventType) {
-    return 'Cerca tra gli eventi di $eventType';
+  String searchInEvents(String eventType, String field) {
+    return 'Cerca $eventType per $field';
   }
 
   @override

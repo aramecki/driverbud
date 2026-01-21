@@ -284,6 +284,12 @@ abstract class AppLocalizations {
   /// **'Title'**
   String get titleUpper;
 
+  /// title text
+  ///
+  /// In en, this message translates to:
+  /// **'title'**
+  String get titleLower;
+
   /// Title* text shown in title field
   ///
   /// In en, this message translates to:
@@ -301,6 +307,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Place'**
   String get placeUpper;
+
+  /// place text shown in place field
+  ///
+  /// In en, this message translates to:
+  /// **'place'**
+  String get placeLower;
 
   /// Kilometers text shown in kilometers field
   ///
@@ -398,11 +410,11 @@ abstract class AppLocalizations {
   /// **'Edit {value}'**
   String editValue(String value);
 
-  /// Search Maintenance/refueling events text
+  /// Search maintenance/refueling by title/place text
   ///
   /// In en, this message translates to:
-  /// **'Search in {eventType} events'**
-  String searchInEvents(String eventType);
+  /// **'Search {eventType} by {field}'**
+  String searchInEvents(String eventType, String field);
 
   /// Date text
   ///

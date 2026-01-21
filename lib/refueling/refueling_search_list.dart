@@ -1,9 +1,9 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:mycargenie_2/refueling/refueling_misc.dart';
 import 'package:mycargenie_2/utils/boxes.dart';
 import 'package:mycargenie_2/home.dart';
-import 'package:mycargenie_2/maintenance/maintenance_misc.dart';
 import 'package:mycargenie_2/theme/icons.dart';
 import 'package:mycargenie_2/utils/puzzle.dart';
 import 'package:mycargenie_2/utils/sorting_funs.dart';
@@ -66,7 +66,7 @@ class _RefuelingSearchListState extends State<RefuelingSearchList> {
                     child: customSearchingPanel(context, (value, result) {
                       searchText = value;
                       searchResult.value = result;
-                    }),
+                    }, isMaintenance: false),
                   ),
 
                   IconButton(
@@ -123,10 +123,11 @@ class _RefuelingSearchListState extends State<RefuelingSearchList> {
                             slideableIcon(
                               context,
                               onPressed: (_) async {
-                                await deleteEvent(vehicleKey!, key);
+                                await deleteEvent(key);
                                 searchResult.value = searchByText(
-                                  maintenanceBox,
+                                  refuelingBox,
                                   searchText,
+                                  isMaintenance: false,
                                 );
                               },
                               icon: deleteIcon(),
@@ -134,10 +135,11 @@ class _RefuelingSearchListState extends State<RefuelingSearchList> {
                             slideableIcon(
                               context,
                               onPressed: (_) async {
-                                await openEventEditScreen(context, key);
+                                await openRefuelingEditScreen(context, key);
                                 searchResult.value = searchByText(
                                   maintenanceBox,
                                   searchText,
+                                  isMaintenance: false,
                                 );
                                 // log('ho aggiornato');
                               },
@@ -146,13 +148,14 @@ class _RefuelingSearchListState extends State<RefuelingSearchList> {
                             ),
                           ],
                         ),
-                        child: maintenanceEventListTile(
+                        child: refuelingEventListTile(
                           context,
                           item,
                           key,
                           () => searchResult.value = searchByText(
-                            maintenanceBox,
+                            refuelingBox,
                             searchText,
+                            isMaintenance: false,
                           ),
                         ),
                       ),

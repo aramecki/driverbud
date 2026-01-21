@@ -333,17 +333,6 @@ class _AddRefuelingState extends State<AddRefueling> {
                   ),
                 ),
               ),
-
-              // customTextField(
-              //   context,
-              //   hintText: localizations.fuelAmount,
-              //   maxLength: 7,
-              //   type: TextInputType.numberWithOptions(decimal: true),
-              //   formatter: [FilteringTextInputFormatter.digitsOnly],
-              //   action: TextInputAction.next,
-              //   controller: _fuelAmountCtrl,
-              //   suffixText: _fuelUnit ?? '',
-              // ),
             ],
           ),
         ),
