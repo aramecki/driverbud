@@ -12,6 +12,9 @@ class AppLocalizationsIt extends AppLocalizations {
   String get appName => 'DriverBud';
 
   @override
+  String get backAgainToExit => 'Ripeti per uscire';
+
+  @override
   String get cancel => 'Annulla';
 
   @override
@@ -72,7 +75,10 @@ class AppLocalizationsIt extends AppLocalizations {
   String get myGarage => 'Il mio garage';
 
   @override
-  String get titleRequiredField => 'Dai un titolo all\'evento.';
+  String get titleRequiredField => 'Aggiungi un titolo all\'evento.';
+
+  @override
+  String get priceRequiredField => 'Aggiungi l\'importo totale pagato.';
 
   @override
   String get brandModelRequiredField =>
@@ -103,6 +109,9 @@ class AppLocalizationsIt extends AppLocalizations {
   String get titleUpper => 'Titolo';
 
   @override
+  String get titleLower => 'titolo';
+
+  @override
   String get asteriskTitle => 'Titolo*';
 
   @override
@@ -110,6 +119,9 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get placeUpper => 'Luogo';
+
+  @override
+  String get placeLower => 'luogo';
 
   @override
   String get kilometersUpper => 'Kilometri';
@@ -165,8 +177,8 @@ class AppLocalizationsIt extends AppLocalizations {
   }
 
   @override
-  String searchInEvents(String eventType) {
-    return 'Cerca tra gli eventi di $eventType';
+  String searchInEvents(String eventType, String field) {
+    return 'Cerca $eventType per $field';
   }
 
   @override
@@ -195,6 +207,11 @@ class AppLocalizationsIt extends AppLocalizations {
   @override
   String numCv(int num) {
     return '${num}CV';
+  }
+
+  @override
+  String numUnit(String numAsString, String unit) {
+    return '$numAsString$unit';
   }
 
   @override
@@ -323,22 +340,37 @@ class AppLocalizationsIt extends AppLocalizations {
   }
 
   @override
-  String get onDate => 'In data ';
+  String get onDateUpper => 'In data ';
+
+  @override
+  String get onDateArticleLower => 'il ';
 
   @override
   String get iPerformed => 'ho effettuato ';
 
   @override
+  String get iRefueled => 'Ho Rifornito ';
+
+  @override
   String get onMy => 'sulla mia ';
+
+  @override
+  String get forMy => 'alla mia ';
 
   @override
   String get withKm => 'con ';
 
   @override
-  String get at => 'presso ';
+  String get at => 'a ';
+
+  @override
+  String get atPlace => 'presso ';
 
   @override
   String get paying => 'pagando ';
+
+  @override
+  String get forATotalOf => 'per un totale di ';
 
   @override
   String get language => 'Lingua';
@@ -512,4 +544,23 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get feedbackSub => 'DriverBud - Feedback';
+
+  @override
+  String get fuelUppercase => 'Carburante';
+
+  @override
+  String get fuelAmount => 'Carburante totale';
+
+  @override
+  String get totalPrice => 'Prezzo totale';
+
+  @override
+  String get pricePerUnit => 'Prezzo per unità';
+
+  @override
+  String get automatic => 'Automatico';
+
+  @override
+  String get autoFuelCalculationMessage =>
+      'Inserisci i valori di prezzo totale ed unitario per il calcolo automatico.';
 }

@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:mycargenie_2/maintenance/maintenance_misc.dart';
 import 'package:mycargenie_2/settings/settings_logics.dart';
@@ -218,8 +219,9 @@ Widget customBackButton(
 Widget customSortingPanel(
   BuildContext context,
   void Function(String sortType) onSort,
-  bool isDecrementing,
-) {
+  bool isDecrementing, {
+  bool isMaintenance = false,
+}) {
   final localizations = AppLocalizations.of(context)!;
 
   return Row(
@@ -231,12 +233,22 @@ Widget customSortingPanel(
             ? HugeIcons.strokeRoundedSorting01
             : HugeIcons.strokeRoundedSorting02,
       ),
-      OutlinedButton(
-        onPressed: () {
-          onSort('name');
-        },
-        child: Text(textAlign: TextAlign.center, localizations.titleUpper),
-      ),
+      if (isMaintenance)
+        OutlinedButton(
+          onPressed: () {
+            onSort('name');
+          },
+          child: Text(textAlign: TextAlign.center, localizations.titleUpper),
+        ),
+
+      if (!isMaintenance)
+        OutlinedButton(
+          onPressed: () {
+            onSort('fuelAmount');
+          },
+          child: Text(textAlign: TextAlign.center, localizations.fuelUppercase),
+        ),
+
       OutlinedButton(
         onPressed: () {
           onSort('price');
@@ -255,9 +267,21 @@ Widget customSortingPanel(
 
 Widget customSearchingPanel(
   BuildContext context,
-  void Function(String, List<Map<String, dynamic>>) onChange,
-) {
+  void Function(String, List<Map<String, dynamic>>) onChange, {
+  bool isMaintenance = true,
+}) {
   final localizations = AppLocalizations.of(context)!;
+
+  String eventTypeString = localizations.maintenanceLower;
+  String searchFieldString = localizations.titleLower;
+  Box box = maintenanceBox;
+
+  if (!isMaintenance) {
+    eventTypeString = localizations.refuelingLower;
+    searchFieldString = localizations.placeLower;
+    box = refuelingBox;
+  }
+
   return Row(
     mainAxisAlignment: MainAxisAlignment.end,
     spacing: 12,
@@ -267,7 +291,8 @@ Widget customSearchingPanel(
           autofocus: true,
           decoration: InputDecoration(
             hintText: localizations.searchInEvents(
-              localizations.maintenanceLower,
+              eventTypeString,
+              searchFieldString,
             ),
             floatingLabelBehavior: FloatingLabelBehavior.never,
             counterText: '',
@@ -283,8 +308,9 @@ Widget customSearchingPanel(
             }
 
             List<Map<String, dynamic>> result = searchByText(
-              maintenanceBox,
+              box, // Make dynamic
               value,
+              isMaintenance: isMaintenance,
             );
             log(result.toString());
             onChange(value, result);

@@ -51,6 +51,8 @@ Map<int, String> getVehicleEnergyList(BuildContext context) {
   };
 }
 
+Map<int, String> fuelUnitsList = {1: 'L', 2: 'kg', 3: 'kWh'};
+
 Map<int, String> getVehicleEcologyList(BuildContext context) {
   final localizations = AppLocalizations.of(context)!;
   return {

@@ -1,23 +1,22 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:mycargenie_2/refueling/refueling_misc.dart';
 import 'package:mycargenie_2/utils/boxes.dart';
 import 'package:mycargenie_2/home.dart';
-import 'package:mycargenie_2/maintenance/maintenance_misc.dart';
 import 'package:mycargenie_2/theme/icons.dart';
 import 'package:mycargenie_2/utils/puzzle.dart';
 import 'package:mycargenie_2/utils/sorting_funs.dart';
 import 'package:provider/provider.dart';
 
-class MaintenanceSearchList extends StatefulWidget {
-  const MaintenanceSearchList({super.key});
+class RefuelingSearchList extends StatefulWidget {
+  const RefuelingSearchList({super.key});
 
   @override
-  State<MaintenanceSearchList> createState() => _MaintenanceSearchListState();
+  State<RefuelingSearchList> createState() => _RefuelingSearchListState();
 }
 
-class _MaintenanceSearchListState extends State<MaintenanceSearchList> {
+class _RefuelingSearchListState extends State<RefuelingSearchList> {
   String currentSort = 'date';
   bool isDecrementing = true;
   bool isSorting = false;
@@ -42,20 +41,14 @@ class _MaintenanceSearchListState extends State<MaintenanceSearchList> {
           true,
         );
 
-        log('items = $items');
-
-        // final isEmpty = items.isEmpty;
-
-        // log('searchResult= $searchResult');
+        log('refueling items = $items');
 
         switch (currentSort) {
-          case 'name':
-            items = sortByName(items, isDecrementing);
-            // log('items sorted by name: $items');
+          case 'fuelAmount':
+            items = sortByDouble(items, isDecrementing, isPrice: false);
             break;
           case 'price':
             items = sortByDouble(items, isDecrementing);
-            // log('items sorted by price: $items');
             break;
           default:
             items = sortByDate(items, isDecrementing);
@@ -72,7 +65,7 @@ class _MaintenanceSearchListState extends State<MaintenanceSearchList> {
                     child: customSearchingPanel(context, (value, result) {
                       searchText = value;
                       searchResult.value = result;
-                    }),
+                    }, isMaintenance: false),
                   ),
 
                   IconButton(
@@ -129,10 +122,11 @@ class _MaintenanceSearchListState extends State<MaintenanceSearchList> {
                             slideableIcon(
                               context,
                               onPressed: (_) async {
-                                await deleteEvent(vehicleKey!, key);
+                                await deleteEvent(key);
                                 searchResult.value = searchByText(
-                                  maintenanceBox,
+                                  refuelingBox,
                                   searchText,
+                                  isMaintenance: false,
                                 );
                               },
                               icon: deleteIcon(),
@@ -140,10 +134,11 @@ class _MaintenanceSearchListState extends State<MaintenanceSearchList> {
                             slideableIcon(
                               context,
                               onPressed: (_) async {
-                                await openEventEditScreen(context, key);
+                                await openRefuelingEditScreen(context, key);
                                 searchResult.value = searchByText(
                                   maintenanceBox,
                                   searchText,
+                                  isMaintenance: false,
                                 );
                                 // log('ho aggiornato');
                               },
@@ -152,13 +147,14 @@ class _MaintenanceSearchListState extends State<MaintenanceSearchList> {
                             ),
                           ],
                         ),
-                        child: maintenanceEventListTile(
+                        child: refuelingEventListTile(
                           context,
                           item,
                           key,
                           () => searchResult.value = searchByText(
-                            maintenanceBox,
+                            refuelingBox,
                             searchText,
+                            isMaintenance: false,
                           ),
                         ),
                       ),

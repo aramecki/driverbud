@@ -14,6 +14,7 @@ import 'refueling/refueling.dart';
 import 'invoices/invoices.dart';
 import 'utils/boxes.dart';
 import 'startup_image_loader_debug.dart';
+import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -114,7 +115,7 @@ class DriverBud extends StatelessWidget {
     }
 
     return MaterialApp(
-      //title: 'DriverBud',
+      title: 'DriverBud',
       themeMode: settingsProvider.themeMode,
       theme: lightTheme,
       darkTheme: darkTheme,
@@ -150,34 +151,36 @@ class _DriverBudMainState extends State<DriverBudMain> {
     Garage(key: ValueKey<int>(4)),
   ];
 
-  // TODO: Add double back to close on main pages
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
 
     return Scaffold(
       //extendBody: true,
-      body: AnimatedSwitcher(
-        duration: const Duration(milliseconds: 350),
-        switchInCurve: Curves.easeOut,
-        switchOutCurve: Curves.easeIn,
-        transitionBuilder: (Widget child, Animation<double> animation) {
-          final bool incoming =
-              (child.key as ValueKey<int>).value == _currentIndex;
-          final Offset begin = incoming
-              ? _latestIndex < _currentIndex
-                    ? const Offset(0.2, 0)
-                    : const Offset(-0.2, 0)
-              : _latestIndex < _currentIndex
-              ? const Offset(-0.2, 0)
-              : const Offset(0.2, 0);
-          final Tween<Offset> tween = Tween(begin: begin, end: Offset.zero);
-          final Animation<Offset> offset = tween.animate(
-            CurvedAnimation(parent: animation, curve: Curves.easeOut),
-          );
-          return SlideTransition(position: offset, child: child);
-        },
-        child: pages[_currentIndex],
+      body: DoubleBackToCloseApp(
+        snackBar: SnackBar(content: Text(localizations.backAgainToExit)),
+        child: AnimatedSwitcher(
+          duration: const Duration(milliseconds: 350),
+          switchInCurve: Curves.easeOut,
+          switchOutCurve: Curves.easeIn,
+          transitionBuilder: (Widget child, Animation<double> animation) {
+            final bool incoming =
+                (child.key as ValueKey<int>).value == _currentIndex;
+            final Offset begin = incoming
+                ? _latestIndex < _currentIndex
+                      ? const Offset(0.2, 0)
+                      : const Offset(-0.2, 0)
+                : _latestIndex < _currentIndex
+                ? const Offset(-0.2, 0)
+                : const Offset(0.2, 0);
+            final Tween<Offset> tween = Tween(begin: begin, end: Offset.zero);
+            final Animation<Offset> offset = tween.animate(
+              CurvedAnimation(parent: animation, curve: Curves.easeOut),
+            );
+            return SlideTransition(position: offset, child: child);
+          },
+          child: pages[_currentIndex],
+        ),
       ),
       bottomNavigationBar: SafeArea(
         child: Padding(

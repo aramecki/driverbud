@@ -9,9 +9,9 @@ import 'package:mycargenie_2/maintenance/show_maintenance.dart';
 import 'package:mycargenie_2/notifications/notifications_schedulers.dart';
 import 'package:mycargenie_2/notifications/notifications_utils.dart';
 import 'package:mycargenie_2/notifications/permissions.dart';
-import 'package:mycargenie_2/settings/settings_logics.dart';
 import 'package:mycargenie_2/theme/icons.dart';
 import 'package:mycargenie_2/theme/text_styles.dart';
+import 'package:mycargenie_2/utils/custom_currency_text_field_controller.dart';
 import 'package:mycargenie_2/utils/date_picker.dart';
 import 'package:mycargenie_2/utils/reusable_textfield.dart';
 import 'package:provider/provider.dart';
@@ -59,16 +59,7 @@ class _AddMaintenanceState extends State<AddMaintenance> {
   void initState() {
     super.initState();
 
-    final settingsProvider = context.read<SettingsProvider>();
-    final currencySymbol = settingsProvider.currency;
-
-    _priceCtrl = CurrencyTextFieldController(
-      currencySymbol: currencySymbol!,
-      decimalSymbol: ',',
-      thousandSymbol: ' ',
-      maxDigits: 8,
-      enableNegative: false,
-    );
+    _priceCtrl = customCurrencyTextFieldController(context);
 
     final eventToEdit = widget.maintenanceEvent;
 
@@ -297,6 +288,7 @@ class _AddMaintenanceState extends State<AddMaintenance> {
                 formatter: [FilteringTextInputFormatter.digitsOnly],
                 action: TextInputAction.next,
                 controller: _kilometersCtrl,
+                suffixText: 'km',
               ),
             ],
           ),
@@ -441,8 +433,8 @@ class _AddMaintenanceState extends State<AddMaintenance> {
         appBar: AppBar(
           title: Text(
             isEdit
-                ? localizations.editValue(localizations.maintenanceUpper)
-                : localizations.addValue(localizations.maintenanceUpper),
+                ? localizations.editValue(localizations.maintenanceLower)
+                : localizations.addValue(localizations.maintenanceLower),
           ),
           leading: customBackButton(
             context,

@@ -8,6 +8,8 @@ import 'package:mycargenie_2/theme/icons.dart';
 import '../utils/puzzle.dart';
 import '../utils/boxes.dart';
 
+// TODO: Add kilometers field
+
 class Inspection extends StatefulWidget {
   final int vehicleKey;
 

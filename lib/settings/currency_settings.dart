@@ -60,31 +60,3 @@ class CurrencySettingsPage extends StatelessWidget {
 String parseShowedPrice(String price) {
   return price.replaceAll('.', ',');
 }
-
-// String getCurrencyDecimalDivider(String currencySymbol) {
-//   for (var currency in currenciesList) {
-//     if (currency['symbol'] == currencySymbol) {
-//       return currency['decimalDivider']!;
-//     }
-//   }
-//   return '.';
-// }
-
-// String getCurrencyThousandDivider(String decimalDivider) {
-//   if (decimalDivider == ',') {
-//     return '.';
-//   } else {
-//     return ',';
-//   }
-// }
-
-// String parseShowedPrice(String price, String currencySymbol) {
-//   for (var currency in currenciesList) {
-//     if (currencySymbol == currency['symbol']) {
-//       if (currency['decimalDivider'] == ',') {
-//         return price.replaceAll('.', ',');
-//       }
-//     }
-//   }
-//   return price;
-// }

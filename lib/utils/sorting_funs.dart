@@ -21,17 +21,29 @@ List<dynamic> sortByName(List<dynamic> items, bool isDecrementing) {
   return items;
 }
 
-// Fun to order list by 'price' double
-List<dynamic> sortByPrice(List<dynamic> items, bool isDecrementing) {
+// Fun to order list by double
+List<dynamic> sortByDouble(
+  List<dynamic> items,
+  bool isDecrementing, {
+  bool isPrice = true,
+}) {
+  String name = isPrice ? 'price' : 'fuelAmount';
+
   items.sort((a, b) {
-    final priceA = (double.parse(a['value']['price']));
-    final priceB = (double.parse(b['value']['price']));
+    final priceA = (double.parse(a['value'][name]));
+    final priceB = (double.parse(b['value'][name]));
     return isDecrementing ? priceB.compareTo(priceA) : priceA.compareTo(priceB);
   });
   return items;
 }
 
-List<Map<String, dynamic>> searchByText(Box<dynamic> items, String text) {
+List<Map<String, dynamic>> searchByText(
+  Box<dynamic> items,
+  String text, {
+  bool isMaintenance = true,
+}) {
+  String field = isMaintenance ? 'title' : 'place';
+
   final lowerText = text.toLowerCase();
 
   return items.keys
@@ -41,7 +53,7 @@ List<Map<String, dynamic>> searchByText(Box<dynamic> items, String text) {
       })
       .where(
         (item) =>
-            item['value']['title'].toString().toLowerCase().contains(lowerText),
+            item['value'][field].toString().toLowerCase().contains(lowerText),
       )
       .toList();
 }

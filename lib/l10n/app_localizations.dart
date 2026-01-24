@@ -104,6 +104,12 @@ abstract class AppLocalizations {
   /// **'DriverBud'**
   String get appName;
 
+  /// Back again to exit text
+  ///
+  /// In en, this message translates to:
+  /// **'Back again to exit'**
+  String get backAgainToExit;
+
   /// Cancel text
   ///
   /// In en, this message translates to:
@@ -230,6 +236,12 @@ abstract class AppLocalizations {
   /// **'Title is a required field.'**
   String get titleRequiredField;
 
+  /// Total price is a required field. text shown when saving an event without the total price required field
+  ///
+  /// In en, this message translates to:
+  /// **'Total price is a required field.'**
+  String get priceRequiredField;
+
   /// Category, brand and model are required fields. text shown when saving a vehicle without the brand or model required fields
   ///
   /// In en, this message translates to:
@@ -272,6 +284,12 @@ abstract class AppLocalizations {
   /// **'Title'**
   String get titleUpper;
 
+  /// title text
+  ///
+  /// In en, this message translates to:
+  /// **'title'**
+  String get titleLower;
+
   /// Title* text shown in title field
   ///
   /// In en, this message translates to:
@@ -289,6 +307,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Place'**
   String get placeUpper;
+
+  /// place text shown in place field
+  ///
+  /// In en, this message translates to:
+  /// **'place'**
+  String get placeLower;
 
   /// Kilometers text shown in kilometers field
   ///
@@ -386,11 +410,11 @@ abstract class AppLocalizations {
   /// **'Edit {value}'**
   String editValue(String value);
 
-  /// Search Maintenance/refueling events text
+  /// Search maintenance/refueling by title/place text
   ///
   /// In en, this message translates to:
-  /// **'Search in {eventType} events'**
-  String searchInEvents(String eventType);
+  /// **'Search {eventType} by {field}'**
+  String searchInEvents(String eventType, String field);
 
   /// Date text
   ///
@@ -427,6 +451,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{num}CV'**
   String numCv(int num);
+
+  /// num unit Ex. 5L
+  ///
+  /// In en, this message translates to:
+  /// **'{numAsString}{unit}'**
+  String numUnit(String numAsString, String unit);
 
   /// num currency Ex. 5€
   ///
@@ -660,7 +690,13 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'On '**
-  String get onDate;
+  String get onDateUpper;
+
+  /// on  text
+  ///
+  /// In en, this message translates to:
+  /// **'on '**
+  String get onDateArticleLower;
 
   /// I performed  text
   ///
@@ -668,11 +704,23 @@ abstract class AppLocalizations {
   /// **'I performed '**
   String get iPerformed;
 
+  /// I refueled  text
+  ///
+  /// In en, this message translates to:
+  /// **'I refueled '**
+  String get iRefueled;
+
   /// on my  text
   ///
   /// In en, this message translates to:
   /// **'on my '**
   String get onMy;
+
+  /// for my  text
+  ///
+  /// In en, this message translates to:
+  /// **'for my '**
+  String get forMy;
 
   /// with  text
   ///
@@ -686,11 +734,23 @@ abstract class AppLocalizations {
   /// **'at '**
   String get at;
 
+  /// at  text
+  ///
+  /// In en, this message translates to:
+  /// **'at '**
+  String get atPlace;
+
   /// paying  text
   ///
   /// In en, this message translates to:
   /// **'paying '**
   String get paying;
+
+  /// for a total of  text
+  ///
+  /// In en, this message translates to:
+  /// **'for a total of '**
+  String get forATotalOf;
 
   /// Language text
   ///
@@ -985,6 +1045,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'DriverBud - Feedback'**
   String get feedbackSub;
+
+  /// Fuel text
+  ///
+  /// In en, this message translates to:
+  /// **'Fuel'**
+  String get fuelUppercase;
+
+  /// Fuel amount text
+  ///
+  /// In en, this message translates to:
+  /// **'Fuel amount'**
+  String get fuelAmount;
+
+  /// Total price text
+  ///
+  /// In en, this message translates to:
+  /// **'Total price'**
+  String get totalPrice;
+
+  /// Price per unit text
+  ///
+  /// In en, this message translates to:
+  /// **'Price per unit'**
+  String get pricePerUnit;
+
+  /// Automatic text
+  ///
+  /// In en, this message translates to:
+  /// **'Automatic'**
+  String get automatic;
+
+  /// Enter the total and unit price values for automatic calculation. text
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the total and unit price values for automatic calculation.'**
+  String get autoFuelCalculationMessage;
 }
 
 class _AppLocalizationsDelegate

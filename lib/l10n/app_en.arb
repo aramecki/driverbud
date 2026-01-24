@@ -6,6 +6,11 @@
     "description": "DriverBud text"
   },
 
+  "backAgainToExit": "Back again to exit",
+  "@backAgainToExit": {
+  "description": "Back again to exit text"
+  },
+
   "cancel": "Cancel",
   "@cancel": {
   "description": "Cancel text"
@@ -111,6 +116,11 @@
     "description": "Title is a required field. text shown when saving an event without the title required field"
   },
 
+  "priceRequiredField": "Total price is a required field.",
+  "@priceRequiredField": {
+    "description": "Total price is a required field. text shown when saving an event without the total price required field"
+  },
+
   "brandModelRequiredField": "Category, brand and model are required fields.",
   "@brandModelRequiredField": {
     "description": "Category, brand and model are required fields. text shown when saving a vehicle without the brand or model required fields"
@@ -149,6 +159,11 @@
   "description": "Title text"
   },
 
+  "titleLower": "title",
+  "@titleLower": {
+  "description": "title text"
+  },
+
   "asteriskTitle": "Title*",
   "@asteriskTitle": {
   "description": "Title* text shown in title field"
@@ -162,6 +177,11 @@
   "placeUpper": "Place",
   "@placeUpper": {
   "description": "Place text shown in place field"
+  },
+
+  "placeLower": "place",
+  "@placeLower": {
+  "description": "place text shown in place field"
   },
 
   "kilometersUpper": "Kilometers",
@@ -250,12 +270,13 @@
     "description": "Edit Maintenance/Refueling/Vehicle text shown as title when editing"
   },
 
-  "searchInEvents": "Search in {eventType} events",
+  "searchInEvents": "Search {eventType} by {field}",
   "@searchInEvents": {
     "placeholders": {
-      "eventType": {"type": "String"}
+      "eventType": {"type": "String"},
+      "field": {"type": "String"}
     },
-  "description": "Search Maintenance/refueling events text"
+  "description": "Search maintenance/refueling by title/place text"
   },
 
    "date": "Date",
@@ -303,6 +324,15 @@
       "num": {"type": "int"}
     },
     "description": "num CV Ex. 10CV"
+  },
+
+  "numUnit": "{numAsString}{unit}",
+  "@numUnit": {
+    "placeholders": {
+      "numAsString": {"type": "String"},
+      "unit": {"type": "String"}
+    },
+  "description": "num unit Ex. 5L"
   },
 
   "numCurrency": "{num}{currency}",
@@ -519,9 +549,14 @@
     "description": "with standard  text"
   },
 
-  "onDate": "On ",
-  "@onDate": {
+  "onDateUpper": "On ",
+  "@onDateUpper": {
     "description": "On  text"
+  },
+
+  "onDateArticleLower": "on ",
+  "@onDateArticleLower": {
+    "description": "on  text"
   },
 
   "iPerformed": "I performed ",
@@ -529,9 +564,19 @@
     "description": "I performed  text"
   },
 
+  "iRefueled": "I refueled ",
+  "@iRefueled": {
+    "description": "I refueled  text"
+  },
+
   "onMy": "on my ",
   "@onMy": {
     "description": "on my  text"
+  },
+
+  "forMy": "for my ",
+  "@forMy": {
+    "description": "for my  text"
   },
 
   "withKm": "with ",
@@ -544,11 +589,21 @@
     "description": "at  text"
   },
 
+  "atPlace": "at ",
+  "@atPlace": {
+    "description": "at  text"
+  },
+
   "paying": "paying ",
   "@paying": {
     "description": "paying  text"
   },
 
+  "forATotalOf": "for a total of ",
+  "@forATotalOf": {
+    "description": "for a total of  text"
+  },
+  
   "language": "Language",
   "@language": {
     "description": "Language text"
@@ -841,6 +896,37 @@
   "feedbackSub": "DriverBud - Feedback",
   "@feedbackSub": {
     "description": "DriverBud - Feedback text"
+  },
+
+  "fuelUppercase": "Fuel",
+  "@fuelUppercase": {
+    "description": "Fuel text"
+  },
+
+
+  "fuelAmount": "Fuel amount",
+  "@fuelAmount": {
+    "description": "Fuel amount text"
+  },
+
+  "totalPrice": "Total price",
+  "@totalPrice": {
+    "description": "Total price text"
+  },
+
+  "pricePerUnit": "Price per unit",
+  "@pricePerUnit": {
+    "description": "Price per unit text"
+  },
+
+  "automatic": "Automatic",
+  "@automatic": {
+    "description": "Automatic text"
+  },
+
+  "autoFuelCalculationMessage": "Enter the total and unit price values for automatic calculation.",
+  "@autoFuelCalculationMessage": {
+    "description": "Enter the total and unit price values for automatic calculation. text"
   }
 
 }
