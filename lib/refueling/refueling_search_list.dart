@@ -9,7 +9,6 @@ import 'package:mycargenie_2/utils/puzzle.dart';
 import 'package:mycargenie_2/utils/sorting_funs.dart';
 import 'package:provider/provider.dart';
 
-// TODO: Fix for refueling
 class RefuelingSearchList extends StatefulWidget {
   const RefuelingSearchList({super.key});
 

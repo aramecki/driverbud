@@ -39,6 +39,7 @@ class _AddRefuelingState extends State<AddRefueling> {
   DateTime? _date;
   int? _refuelingType;
   String? _fuelUnit;
+  bool _automatic = false;
 
   String? _bkPlace;
   String? _bkKilometers;
@@ -48,6 +49,9 @@ class _AddRefuelingState extends State<AddRefueling> {
   String? _bkFuelAmount;
   DateTime? _bkDate;
   int? _bkType;
+  bool? _bkAutomatic;
+
+  bool _showAutoErrorMessage = false;
 
   final now = DateTime.now();
   DateTime get today => DateTime(now.year, now.month, now.day);
@@ -93,6 +97,9 @@ class _AddRefuelingState extends State<AddRefueling> {
       _refuelingType = eventToEdit['refuelingType'] as int?;
       _bkType = _refuelingType;
       _fuelUnit = getFuelUnit(_refuelingType!);
+
+      _automatic = eventToEdit['automatic'] as bool;
+      _bkAutomatic = _automatic;
     }
   }
 
@@ -130,6 +137,7 @@ class _AddRefuelingState extends State<AddRefueling> {
       'price': totalPriceDoubleValue.toStringAsFixed(2),
       'pricePerUnit': priceFerUnitDoubleValue.toStringAsFixed(2),
       'fuelAmount': totalAmountDoubleValue.toStringAsFixed(2),
+      'automatic': _automatic,
       'vehicleKey': vehicleKey,
     };
 
@@ -319,12 +327,10 @@ class _AddRefuelingState extends State<AddRefueling> {
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.max,
             children: [
-              Expanded(child: SizedBox()),
-              const SizedBox(width: 8),
-              // TODO: Add auto-calculation
               Expanded(
                 child: TextField(
                   controller: _fuelAmountCtrl,
+                  enabled: !_automatic,
                   keyboardType: TextInputType.number,
                   textInputAction: TextInputAction.done,
                   decoration: InputDecoration(
@@ -333,7 +339,57 @@ class _AddRefuelingState extends State<AddRefueling> {
                   ),
                 ),
               ),
+              const SizedBox(width: 8),
+              Expanded(
+                child: CustomSwitch(
+                  text: localizations.automatic,
+                  isSelected: _automatic,
+                  onChanged: (value) {
+                    _showAutoErrorMessage = false;
+
+                    if (value) {
+                      if (_totalPriceCtrl!.doubleValue != 0.00 &&
+                          _pricePerUnitCtrl!.doubleValue != 0.00) {
+                        setState(() {
+                          _automatic = value;
+                        });
+                        double fuelAmount = calculateTotalFuel(
+                          _totalPriceCtrl!.doubleValue,
+                          _pricePerUnitCtrl!.doubleValue,
+                        );
+                        if (fuelAmount != 0.00) {
+                          setState(() {
+                            _fuelAmountCtrl!.text = fuelAmount.toStringAsFixed(
+                              2,
+                            );
+                          });
+                        }
+                      } else {
+                        setState(() {
+                          _showAutoErrorMessage = true;
+                        });
+                      }
+                    } else {
+                      setState(() {
+                        _automatic = value;
+                      });
+                    }
+                  },
+                ),
+              ),
             ],
+          ),
+        ),
+
+        Visibility(
+          visible: _showAutoErrorMessage,
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+            child: Text(
+              overflow: TextOverflow.clip,
+              textAlign: TextAlign.center,
+              localizations.autoFuelCalculationMessage,
+            ),
           ),
         ),
 
@@ -430,6 +486,14 @@ class _AddRefuelingState extends State<AddRefueling> {
         _pricePerUnitCtrl!.text != _bkPricePerUnit ||
         _fuelAmountCtrl!.text != _bkFuelAmount ||
         _date != _bkDate ||
-        _refuelingType != _bkType;
+        _refuelingType != _bkType ||
+        _automatic != _bkAutomatic;
   }
+}
+
+double calculateTotalFuel(double price, double pricePerUnit) {
+  if (price != 0.00 && pricePerUnit != 0.00) {
+    return price / pricePerUnit;
+  }
+  return 0.00;
 }

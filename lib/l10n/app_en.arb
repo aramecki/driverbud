@@ -549,9 +549,14 @@
     "description": "with standard  text"
   },
 
-  "onDate": "On ",
-  "@onDate": {
+  "onDateUpper": "On ",
+  "@onDateUpper": {
     "description": "On  text"
+  },
+
+  "onDateArticleLower": "on ",
+  "@onDateArticleLower": {
+    "description": "on  text"
   },
 
   "iPerformed": "I performed ",
@@ -559,9 +564,19 @@
     "description": "I performed  text"
   },
 
+  "iRefueled": "I refueled ",
+  "@iRefueled": {
+    "description": "I refueled  text"
+  },
+
   "onMy": "on my ",
   "@onMy": {
     "description": "on my  text"
+  },
+
+  "forMy": "for my ",
+  "@forMy": {
+    "description": "for my  text"
   },
 
   "withKm": "with ",
@@ -574,11 +589,21 @@
     "description": "at  text"
   },
 
+  "atPlace": "at ",
+  "@atPlace": {
+    "description": "at  text"
+  },
+
   "paying": "paying ",
   "@paying": {
     "description": "paying  text"
   },
 
+  "forATotalOf": "for a total of ",
+  "@forATotalOf": {
+    "description": "for a total of  text"
+  },
+  
   "language": "Language",
   "@language": {
     "description": "Language text"
@@ -892,6 +917,16 @@
   "pricePerUnit": "Price per unit",
   "@pricePerUnit": {
     "description": "Price per unit text"
+  },
+
+  "automatic": "Automatic",
+  "@automatic": {
+    "description": "Automatic text"
+  },
+
+  "autoFuelCalculationMessage": "Enter the total and unit price values for automatic calculation.",
+  "@autoFuelCalculationMessage": {
+    "description": "Enter the total and unit price values for automatic calculation. text"
   }
 
 }

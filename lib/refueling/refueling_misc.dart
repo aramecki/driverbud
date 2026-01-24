@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:mycargenie_2/refueling/add_refueling.dart';
 import 'package:mycargenie_2/refueling/show_refueling.dart';
@@ -86,8 +84,7 @@ Future<Object?> openRefuelingEditScreen(
 String getFuelUnit(int? fuelType) {
   switch (fuelType) {
     case null || 6:
-      log('type is $fuelType so returning null');
-      return '';
+      return 'u';
     case 4:
       return fuelUnitsList[2]!;
     case 5:

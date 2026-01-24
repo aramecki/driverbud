@@ -213,7 +213,7 @@ void _shareMaintenance(
   final vehicleModel = vehicle['model'];
 
   String text =
-      '${localizations.onDate}${maintenanceInfo['date']} ${localizations.iPerformed}"${maintenanceInfo['title']}" ${localizations.onMy}$vehicleBrand $vehicleModel ';
+      '${localizations.onDateUpper}${maintenanceInfo['date']} ${localizations.iPerformed}"${maintenanceInfo['title']}" ${localizations.onMy}$vehicleBrand $vehicleModel ';
 
   if (maintenanceInfo['kilometers'] != null) {
     text += '${localizations.withKm}${maintenanceInfo['kilometers']} ';
@@ -228,7 +228,7 @@ void _shareMaintenance(
   }
 
   if (maintenanceInfo['description'] != '') {
-    text += '"${maintenanceInfo['description']}"';
+    text += '"${maintenanceInfo['description']}".';
   }
 
   await SharePlus.instance.share(ShareParams(text: text));

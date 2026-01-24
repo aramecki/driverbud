@@ -340,22 +340,37 @@ class AppLocalizationsIt extends AppLocalizations {
   }
 
   @override
-  String get onDate => 'In data ';
+  String get onDateUpper => 'In data ';
+
+  @override
+  String get onDateArticleLower => 'il ';
 
   @override
   String get iPerformed => 'ho effettuato ';
 
   @override
+  String get iRefueled => 'Ho Rifornito ';
+
+  @override
   String get onMy => 'sulla mia ';
+
+  @override
+  String get forMy => 'alla mia ';
 
   @override
   String get withKm => 'con ';
 
   @override
-  String get at => 'presso ';
+  String get at => 'a ';
+
+  @override
+  String get atPlace => 'presso ';
 
   @override
   String get paying => 'pagando ';
+
+  @override
+  String get forATotalOf => 'per un totale di ';
 
   @override
   String get language => 'Lingua';
@@ -541,4 +556,11 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get pricePerUnit => 'Prezzo per unità';
+
+  @override
+  String get automatic => 'Automatico';
+
+  @override
+  String get autoFuelCalculationMessage =>
+      'Inserisci i valori di prezzo totale ed unitario per il calcolo automatico.';
 }

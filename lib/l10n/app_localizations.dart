@@ -690,7 +690,13 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'On '**
-  String get onDate;
+  String get onDateUpper;
+
+  /// on  text
+  ///
+  /// In en, this message translates to:
+  /// **'on '**
+  String get onDateArticleLower;
 
   /// I performed  text
   ///
@@ -698,11 +704,23 @@ abstract class AppLocalizations {
   /// **'I performed '**
   String get iPerformed;
 
+  /// I refueled  text
+  ///
+  /// In en, this message translates to:
+  /// **'I refueled '**
+  String get iRefueled;
+
   /// on my  text
   ///
   /// In en, this message translates to:
   /// **'on my '**
   String get onMy;
+
+  /// for my  text
+  ///
+  /// In en, this message translates to:
+  /// **'for my '**
+  String get forMy;
 
   /// with  text
   ///
@@ -716,11 +734,23 @@ abstract class AppLocalizations {
   /// **'at '**
   String get at;
 
+  /// at  text
+  ///
+  /// In en, this message translates to:
+  /// **'at '**
+  String get atPlace;
+
   /// paying  text
   ///
   /// In en, this message translates to:
   /// **'paying '**
   String get paying;
+
+  /// for a total of  text
+  ///
+  /// In en, this message translates to:
+  /// **'for a total of '**
+  String get forATotalOf;
 
   /// Language text
   ///
@@ -1039,6 +1069,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Price per unit'**
   String get pricePerUnit;
+
+  /// Automatic text
+  ///
+  /// In en, this message translates to:
+  /// **'Automatic'**
+  String get automatic;
+
+  /// Enter the total and unit price values for automatic calculation. text
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the total and unit price values for automatic calculation.'**
+  String get autoFuelCalculationMessage;
 }
 
 class _AppLocalizationsDelegate

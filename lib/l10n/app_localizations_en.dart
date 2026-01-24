@@ -338,13 +338,22 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get onDate => 'On ';
+  String get onDateUpper => 'On ';
+
+  @override
+  String get onDateArticleLower => 'on ';
 
   @override
   String get iPerformed => 'I performed ';
 
   @override
+  String get iRefueled => 'I refueled ';
+
+  @override
   String get onMy => 'on my ';
+
+  @override
+  String get forMy => 'for my ';
 
   @override
   String get withKm => 'with ';
@@ -353,7 +362,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get at => 'at ';
 
   @override
+  String get atPlace => 'at ';
+
+  @override
   String get paying => 'paying ';
+
+  @override
+  String get forATotalOf => 'for a total of ';
 
   @override
   String get language => 'Language';
@@ -538,4 +553,11 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get pricePerUnit => 'Price per unit';
+
+  @override
+  String get automatic => 'Automatic';
+
+  @override
+  String get autoFuelCalculationMessage =>
+      'Enter the total and unit price values for automatic calculation.';
 }

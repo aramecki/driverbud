@@ -14,12 +14,12 @@ import '../utils/puzzle.dart';
 // Used for sharing
 //TODO: Edit for refueling
 Map<String, dynamic> refuelingInfo = {
+  'price': null,
+  'pricePerUnit': null,
+  'fuelAmount': null,
+  'place': null,
   'vehicleKey': null,
   'date': null,
-  'place': null,
-  'price': null,
-  'kilometers': null,
-  'notes': null,
 };
 
 class ShowRefueling extends StatefulWidget {
@@ -84,12 +84,12 @@ class _ShowRefuelingState extends State<ShowRefueling> {
               )
             : null;
 
+        refuelingInfo['price'] = totalPrice;
+        refuelingInfo['pricePerUnit'] = pricePerUnit;
+        refuelingInfo['fuelAmount'] = fuelAmount;
+        refuelingInfo['place'] = place;
         refuelingInfo['vehicleKey'] = e['vehicleKey'];
         refuelingInfo['date'] = date;
-        refuelingInfo['place'] = place;
-        refuelingInfo['price'] = totalPrice;
-        refuelingInfo['kilometers'] = kilometers;
-        refuelingInfo['notes'] = notes;
 
         return Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -227,24 +227,25 @@ void _shareRefueling(
   final vehicleBrand = vehicle['brand'];
   final vehicleModel = vehicle['model'];
 
-  String text =
-      '${localizations.onDate}${refuelingInfo['date']} ${localizations.iPerformed}"${refuelingInfo['title']}" ${localizations.onMy}$vehicleBrand $vehicleModel ';
+  String text = '${localizations.iRefueled}${refuelingInfo['price']} ';
 
-  if (refuelingInfo['kilometers'] != null) {
-    text += '${localizations.withKm}${refuelingInfo['kilometers']} ';
+  if (refuelingInfo['pricePerUnit'] != null) {
+    text += '${localizations.at}${refuelingInfo['pricePerUnit']} ';
+  }
+
+  if (refuelingInfo['fuelAmount'] != null) {
+    text += '${localizations.forATotalOf}${refuelingInfo['fuelAmount']} ';
   }
 
   if (refuelingInfo['place'] != null && refuelingInfo['place'] != '') {
-    text += '${localizations.at}${refuelingInfo['place']} ';
+    text += '${localizations.atPlace}${refuelingInfo['place']} ';
   }
 
-  if (refuelingInfo['price'] != null) {
-    text += '${localizations.paying}${refuelingInfo['price']} ';
+  if (refuelingInfo['date'] != null) {
+    text += '${localizations.onDateArticleLower}${refuelingInfo['date']} ';
   }
 
-  if (refuelingInfo['description'] != '') {
-    text += '"${refuelingInfo['description']}"';
-  }
+  text += '${localizations.forMy}$vehicleBrand $vehicleModel.';
 
   await SharePlus.instance.share(ShareParams(text: text));
 }
