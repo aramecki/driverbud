@@ -7,7 +7,7 @@ import 'package:url_launcher/url_launcher.dart';
 class About extends StatelessWidget {
   const About({super.key});
 
-  static const String appVersion = 'v0.3.0-alpha';
+  static const String appVersion = 'v0.4.0-alpha';
   static const String gitHub = 'GitHub';
 
   @override

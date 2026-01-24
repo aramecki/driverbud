@@ -141,7 +141,7 @@ class _ShowVehicleState extends State<ShowVehicle> {
               ...tileRow(localizations.ecologyUpper, ecology),
 
             Padding(
-              padding: EdgeInsets.only(left: 16, right: 16, top: 8),
+              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.max,
