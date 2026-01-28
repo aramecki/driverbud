@@ -2,7 +2,7 @@ import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:mycargenie_2/get_latest_events.dart';
+import 'package:mycargenie_2/get_next_events.dart';
 import 'package:mycargenie_2/l10n/app_localizations.dart';
 import 'package:mycargenie_2/settings/settings.dart';
 import 'package:mycargenie_2/theme/icons.dart';
@@ -73,17 +73,31 @@ class _HomePageState extends State<Home> {
 
     log('Starting loading: ${vehicleBox.get(vehicleProvider.vehicleToLoad)} ');
 
-    Map<dynamic, dynamic>? latestMaintenance = getLatestEvent(
+    Map<dynamic, dynamic>? nextMaintenance = getNextOrLatestEvent(
+      true,
+      false,
+      vehicleProvider.vehicleToLoad,
+    );
+
+    Map<dynamic, dynamic>? latestMaintenance = getNextOrLatestEvent(
+      true,
       true,
       vehicleProvider.vehicleToLoad,
     );
 
-    // Map<dynamic, dynamic>? latestRefueling = getLatestEvent(
-    //   false,
-    //   vehicleProvider.vehicleToLoad,
-    // );
+    Map<dynamic, dynamic>? nextRefueling = getNextOrLatestEvent(
+      false,
+      false,
+      vehicleProvider.vehicleToLoad,
+    );
 
-    log('Latest maintenance is $latestMaintenance');
+    Map<dynamic, dynamic>? latestRefueling = getNextOrLatestEvent(
+      false,
+      true,
+      vehicleProvider.vehicleToLoad,
+    );
+
+    log('Latest maintenance is $nextMaintenance');
 
     return ValueListenableBuilder(
       valueListenable: vehicleBox.listenable(),
@@ -149,12 +163,10 @@ class _HomePageState extends State<Home> {
                     ],
                   ),
 
-                  if (latestMaintenance == null
-                  // && latestRefueling == null
-                  )
-                    // Row(
-                    //   mainAxisAlignment: MainAxisAlignment.center,
-                    //   children: [
+                  SizedBox(height: 4),
+
+                  // latest events title
+                  if (latestMaintenance == null && latestRefueling == null)
                     Padding(
                       padding: EdgeInsetsGeometry.symmetric(
                         vertical: 32,
@@ -166,11 +178,9 @@ class _HomePageState extends State<Home> {
                       ),
                     ),
 
-                  //   ],
-                  // ),
-                  if (latestMaintenance != null
-                  // || latestRefueling != null
-                  )
+                  // Message for no latest events
+                  // TODO: Stylize and valuate
+                  if (latestMaintenance != null || latestRefueling != null)
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
@@ -181,33 +191,65 @@ class _HomePageState extends State<Home> {
                       ],
                     ),
 
+                  // latest maintenance event
                   if (latestMaintenance != null)
                     homeRowBox(
                       context,
-                      eventKey: latestMaintenance['key'],
+                      event: latestMaintenance,
                       isRefueling: false,
-                      title: latestMaintenance['value']['title'],
-                      date: latestMaintenance['value']['date'],
-                      place: latestMaintenance['value']['place'],
                     ),
-                  // if (latestRefueling != null)
-                  //   homeRowBox(
-                  //     context,
-                  //     eventKey: latestRefueling['key'],
-                  //     isRefueling: false,
-                  //     date: latestRefueling['value']['date'],
-                  //     place: latestRefueling['value']['place'],
-                  //     price: latestRefueling['value']['price'],
-                  //     priceForUnit: latestRefueling['value']['priceForUnit'],
-                  //   ),
-                  // homeRowBox(
-                  //   context,
-                  //   isRefueling: true,
-                  //   date: '11/22/1963',
-                  //   place: 'Eni Giugliano',
-                  //   price: '20€',
-                  //   priceForUnit: '1,78€/l',
-                  // ),
+
+                  // latest refueling event
+                  if (latestRefueling != null)
+                    homeRowBox(
+                      context,
+                      event: latestRefueling,
+                      isRefueling: true,
+                    ),
+
+                  SizedBox(height: 22),
+
+                  // Next events title
+                  if (nextMaintenance == null && nextRefueling == null)
+                    Padding(
+                      padding: EdgeInsetsGeometry.symmetric(
+                        vertical: 32,
+                        horizontal: 16,
+                      ),
+                      child: Text(
+                        localizations.homeNoEventsMessage,
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+
+                  // Message for no next events
+                  // TODO: Stylize and valuate
+                  if (nextMaintenance != null || nextRefueling != null)
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: EdgeInsetsGeometry.only(left: 16),
+                          child: Text(localizations.nextEvents),
+                        ),
+                      ],
+                    ),
+
+                  // Next maintenance event
+                  if (nextMaintenance != null)
+                    homeRowBox(
+                      context,
+                      event: nextMaintenance,
+                      isRefueling: false,
+                    ),
+
+                  // Next refueling event
+                  if (nextRefueling != null)
+                    homeRowBox(
+                      context,
+                      event: nextRefueling,
+                      isRefueling: true,
+                    ),
                 ],
               )
             : Row(

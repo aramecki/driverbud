@@ -4,6 +4,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:mycargenie_2/maintenance/maintenance_misc.dart';
+import 'package:mycargenie_2/refueling/refueling_misc.dart';
 import 'package:mycargenie_2/settings/settings_logics.dart';
 import 'package:mycargenie_2/utils/boxes.dart';
 import 'package:mycargenie_2/l10n/app_localizations.dart';
@@ -112,27 +113,133 @@ Widget slideableIcon(
 }
 
 // Box containing latest events for selected vehicle in home screen
+
+// Widget homeRowBox(
+//   BuildContext context, {
+//   //   required VoidCallback onPressed,
+//   required int eventKey,
+//   required bool isRefueling,
+//   required DateTime date,
+//   String? title,
+//   String? place,
+//   String? price,
+//   String? pricePerUnit,
+//   int? refuelingType,
+// }) {
+//   final settingsProvider = context.read<SettingsProvider>();
+
+//   final localizations = AppLocalizations.of(context)!;
+//   TextStyle textStyle = TextStyle(fontSize: 18, fontWeight: FontWeight.w500);
+
+//   String? fuelUnit = isRefueling ? getFuelUnit(refuelingType) : null;
+
+//   return Padding(
+//     padding: EdgeInsetsGeometry.symmetric(vertical: 8, horizontal: 8),
+//     child: GestureDetector(
+//       onTap: () {
+//         isRefueling
+//             ? openRefuelingShowScreen(context, eventKey)
+//             : openMaintenanceShowScreen(context, eventKey);
+//       },
+//       child: Container(
+//         decoration: BoxDecoration(
+//           border: Border.all(color: Colors.deepOrange, width: 2),
+//           borderRadius: BorderRadius.circular(50),
+//         ),
+//         padding: EdgeInsets.symmetric(vertical: 8, horizontal: 30),
+//         child: Column(
+//           mainAxisAlignment: MainAxisAlignment.spaceAround,
+//           children: [
+//             Row(
+//               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//               mainAxisSize: MainAxisSize.max,
+//               children: isRefueling
+//                   ? [
+//                       Text(
+//                         localizations.ggMmAaaa(date.day, date.month, date.year),
+//                         style: textStyle,
+//                       ),
+//                       if (price != null)
+//                         Text(
+//                           localizations.numCurrency(
+//                             price,
+//                             settingsProvider.currency!,
+//                           ),
+//                           style: textStyle,
+//                         ),
+//                     ]
+//                   : [Text(title!, style: textStyle)],
+//             ),
+
+//             Row(
+//               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//               mainAxisSize: MainAxisSize.max,
+//               children: isRefueling
+//                   ? [
+//                       if (place != null) Text(place, style: textStyle),
+//                       if (pricePerUnit != null && fuelUnit != null)
+//                         Text(
+//                           localizations.numCurrencyOnUnits(
+//                             pricePerUnit,
+//                             settingsProvider.currency!,
+//                             fuelUnit,
+//                           ),
+//                           style: textStyle,
+//                         ),
+//                     ]
+//                   : [
+//                       if (place != null) Text(place, style: textStyle),
+//                       Text(
+//                         localizations.ggMmAaaa(date.day, date.month, date.year),
+//                         style: textStyle,
+//                       ),
+//                     ],
+//             ),
+//           ],
+//         ),
+//       ),
+//     ),
+//   );
+// }
+
 Widget homeRowBox(
   BuildContext context, {
-  //   required VoidCallback onPressed,
-  required int eventKey,
+  required Map<dynamic, dynamic> event,
+  // required int eventKey,
   required bool isRefueling,
-  required DateTime date,
-  String? title,
-  String? place,
-  String? price,
-  String? priceForUnit,
+  // required DateTime date,
+  // String? title,
+  // String? place,
+  // String? price,
+  // String? pricePerUnit,
+  // int? refuelingType,
 }) {
   final settingsProvider = context.read<SettingsProvider>();
 
   final localizations = AppLocalizations.of(context)!;
   TextStyle textStyle = TextStyle(fontSize: 18, fontWeight: FontWeight.w500);
 
+  // Shared
+  int eventKey = event['key'];
+  DateTime date = event['value']['date'];
+  String? place = event['value']['place'];
+  String price = event['value']['price'];
+
+  // Maintenance events proper
+  String? title = isRefueling ? null : event['value']['title'];
+
+  // Refueling events proper
+  int? refuelingType = isRefueling ? event['value']['refuelingType'] : null;
+  String? fuelUnit = isRefueling ? getFuelUnit(refuelingType) : null;
+  String? pricePerUnit = isRefueling ? event['value']['pricePerUnit'] : null;
+
   return Padding(
     padding: EdgeInsetsGeometry.symmetric(vertical: 8, horizontal: 8),
     child: GestureDetector(
       onTap: () {
-        openEventShowScreen(context, eventKey);
+        isRefueling
+            ? openRefuelingShowScreen(context, eventKey)
+            : openMaintenanceShowScreen(context, eventKey);
       },
       child: Container(
         decoration: BoxDecoration(
@@ -152,7 +259,7 @@ Widget homeRowBox(
                         localizations.ggMmAaaa(date.day, date.month, date.year),
                         style: textStyle,
                       ),
-                      if (price != null)
+                      if (price != '0.00')
                         Text(
                           localizations.numCurrency(
                             price,
@@ -170,12 +277,12 @@ Widget homeRowBox(
               children: isRefueling
                   ? [
                       if (place != null) Text(place, style: textStyle),
-                      if (priceForUnit != null)
+                      if (pricePerUnit != null && fuelUnit != null)
                         Text(
                           localizations.numCurrencyOnUnits(
-                            priceForUnit,
+                            pricePerUnit,
                             settingsProvider.currency!,
-                            'l',
+                            fuelUnit,
                           ),
                           style: textStyle,
                         ),

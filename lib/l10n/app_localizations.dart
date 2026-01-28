@@ -470,7 +470,13 @@ abstract class AppLocalizations {
   /// **'{num}{currency}/{unit}'**
   String numCurrencyOnUnits(String num, String currency, String unit);
 
-  /// Latest Events: text shown in home screen
+  /// Next Events: text shown in home screen
+  ///
+  /// In en, this message translates to:
+  /// **'Next events:'**
+  String get nextEvents;
+
+  /// Latest events: text shown in home screen
   ///
   /// In en, this message translates to:
   /// **'Latest events:'**

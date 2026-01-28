@@ -356,7 +356,12 @@
 
   "latestEvents": "Ultimi eventi:",
   "@latestEvents": {
-    "description": "Latest Events: text shown in home screen"
+    "description": "Ultimi eventi: text shown in home screen"
+  },
+
+  "nextEvents": "Prossimi eventi:",
+  "@nextEvents": {
+    "description": "Prossimi eventi: text shown in home screen"
   },
 
   "noVehicles": "Nessun veicolo",

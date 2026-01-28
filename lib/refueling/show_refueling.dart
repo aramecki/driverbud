@@ -12,7 +12,6 @@ import 'package:share_plus/share_plus.dart';
 import '../utils/puzzle.dart';
 
 // Used for sharing
-//TODO: Edit for refueling
 Map<String, dynamic> refuelingInfo = {
   'price': null,
   'pricePerUnit': null,

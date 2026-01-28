@@ -354,9 +354,14 @@
   "description": "num currency/unit Ex. 5€/l"
   },
 
+  "nextEvents": "Next events:",
+  "@nextEvents": {
+    "description": "Next Events: text shown in home screen"
+  },
+
   "latestEvents": "Latest events:",
   "@latestEvents": {
-    "description": "Latest Events: text shown in home screen"
+    "description": "Latest events: text shown in home screen"
   },
 
   "noVehicles": "No vehicles",

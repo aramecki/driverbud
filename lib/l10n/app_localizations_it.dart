@@ -225,6 +225,9 @@ class AppLocalizationsIt extends AppLocalizations {
   }
 
   @override
+  String get nextEvents => 'Prossimi eventi:';
+
+  @override
   String get latestEvents => 'Ultimi eventi:';
 
   @override
