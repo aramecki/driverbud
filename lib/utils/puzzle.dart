@@ -114,105 +114,10 @@ Widget slideableIcon(
 
 // Box containing latest events for selected vehicle in home screen
 
-// Widget homeRowBox(
-//   BuildContext context, {
-//   //   required VoidCallback onPressed,
-//   required int eventKey,
-//   required bool isRefueling,
-//   required DateTime date,
-//   String? title,
-//   String? place,
-//   String? price,
-//   String? pricePerUnit,
-//   int? refuelingType,
-// }) {
-//   final settingsProvider = context.read<SettingsProvider>();
-
-//   final localizations = AppLocalizations.of(context)!;
-//   TextStyle textStyle = TextStyle(fontSize: 18, fontWeight: FontWeight.w500);
-
-//   String? fuelUnit = isRefueling ? getFuelUnit(refuelingType) : null;
-
-//   return Padding(
-//     padding: EdgeInsetsGeometry.symmetric(vertical: 8, horizontal: 8),
-//     child: GestureDetector(
-//       onTap: () {
-//         isRefueling
-//             ? openRefuelingShowScreen(context, eventKey)
-//             : openMaintenanceShowScreen(context, eventKey);
-//       },
-//       child: Container(
-//         decoration: BoxDecoration(
-//           border: Border.all(color: Colors.deepOrange, width: 2),
-//           borderRadius: BorderRadius.circular(50),
-//         ),
-//         padding: EdgeInsets.symmetric(vertical: 8, horizontal: 30),
-//         child: Column(
-//           mainAxisAlignment: MainAxisAlignment.spaceAround,
-//           children: [
-//             Row(
-//               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//               mainAxisSize: MainAxisSize.max,
-//               children: isRefueling
-//                   ? [
-//                       Text(
-//                         localizations.ggMmAaaa(date.day, date.month, date.year),
-//                         style: textStyle,
-//                       ),
-//                       if (price != null)
-//                         Text(
-//                           localizations.numCurrency(
-//                             price,
-//                             settingsProvider.currency!,
-//                           ),
-//                           style: textStyle,
-//                         ),
-//                     ]
-//                   : [Text(title!, style: textStyle)],
-//             ),
-
-//             Row(
-//               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//               mainAxisSize: MainAxisSize.max,
-//               children: isRefueling
-//                   ? [
-//                       if (place != null) Text(place, style: textStyle),
-//                       if (pricePerUnit != null && fuelUnit != null)
-//                         Text(
-//                           localizations.numCurrencyOnUnits(
-//                             pricePerUnit,
-//                             settingsProvider.currency!,
-//                             fuelUnit,
-//                           ),
-//                           style: textStyle,
-//                         ),
-//                     ]
-//                   : [
-//                       if (place != null) Text(place, style: textStyle),
-//                       Text(
-//                         localizations.ggMmAaaa(date.day, date.month, date.year),
-//                         style: textStyle,
-//                       ),
-//                     ],
-//             ),
-//           ],
-//         ),
-//       ),
-//     ),
-//   );
-// }
-
 Widget homeRowBox(
   BuildContext context, {
   required Map<dynamic, dynamic> event,
-  // required int eventKey,
   required bool isRefueling,
-  // required DateTime date,
-  // String? title,
-  // String? place,
-  // String? price,
-  // String? pricePerUnit,
-  // int? refuelingType,
 }) {
   final settingsProvider = context.read<SettingsProvider>();
 
