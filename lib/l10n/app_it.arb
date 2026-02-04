@@ -664,9 +664,9 @@
     "description": "Modalità scura text"
   },
 
-  "homeNoEventsMessage": "Gli ultimi eventi del veicolo selezionato saranno mostrati in questa pagina.",
+  "homeNoEventsMessage": "Gli eventi più vicini del veicolo selezionato saranno mostrati in questa pagina.",
   "@homeNoEventsMessage": {
-    "description": "Gli ultimi eventi del veicolo selezionato saranno mostrati in questa pagina. text"
+    "description": "Gli eventi più vicini del veicolo selezionato saranno mostrati in questa pagina. text"
   },
 
   "thirdPartyInsurance": "Assicurazione RCA",

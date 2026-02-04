@@ -5,6 +5,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:mycargenie_2/maintenance/maintenance_misc.dart';
 import 'package:mycargenie_2/refueling/refueling_misc.dart';
+import 'package:mycargenie_2/settings/currency_settings.dart';
 import 'package:mycargenie_2/settings/settings_logics.dart';
 import 'package:mycargenie_2/utils/boxes.dart';
 import 'package:mycargenie_2/l10n/app_localizations.dart';
@@ -129,6 +130,7 @@ Widget homeRowBox(
   DateTime date = event['value']['date'];
   String? place = event['value']['place'];
   String price = event['value']['price'];
+  String parsedPrice = parseShowedPrice(price);
 
   // Maintenance events proper
   String? title = isRefueling ? null : event['value']['title'];
@@ -136,7 +138,9 @@ Widget homeRowBox(
   // Refueling events proper
   int? refuelingType = isRefueling ? event['value']['refuelingType'] : null;
   String? fuelUnit = isRefueling ? getFuelUnit(refuelingType) : null;
-  String? pricePerUnit = isRefueling ? event['value']['pricePerUnit'] : null;
+  String? parsedPricePerUnit = isRefueling
+      ? parseShowedPrice(event['value']['pricePerUnit'])
+      : null;
 
   return Padding(
     padding: EdgeInsetsGeometry.symmetric(vertical: 8, horizontal: 8),
@@ -167,7 +171,7 @@ Widget homeRowBox(
                       if (price != '0.00')
                         Text(
                           localizations.numCurrency(
-                            price,
+                            parsedPrice,
                             settingsProvider.currency!,
                           ),
                           style: textStyle,
@@ -182,10 +186,10 @@ Widget homeRowBox(
               children: isRefueling
                   ? [
                       if (place != null) Text(place, style: textStyle),
-                      if (pricePerUnit != null && fuelUnit != null)
+                      if (parsedPricePerUnit != null && fuelUnit != null)
                         Text(
                           localizations.numCurrencyOnUnits(
-                            pricePerUnit,
+                            parsedPricePerUnit,
                             settingsProvider.currency!,
                             fuelUnit,
                           ),

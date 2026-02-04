@@ -410,7 +410,7 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get homeNoEventsMessage =>
-      'Gli ultimi eventi del veicolo selezionato saranno mostrati in questa pagina.';
+      'Gli eventi più vicini del veicolo selezionato saranno mostrati in questa pagina.';
 
   @override
   String get thirdPartyInsurance => 'Assicurazione RCA';

@@ -408,7 +408,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get homeNoEventsMessage =>
-      'The latest events of the selected vehicle will be shown on this page.';
+      'The nearest events of the selected vehicle will be shown on this page.';
 
   @override
   String get thirdPartyInsurance => 'Third party insurance';

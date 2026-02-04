@@ -664,9 +664,9 @@
     "description": "Dark mode text"
   },
 
-  "homeNoEventsMessage": "The latest events of the selected vehicle will be shown on this page.",
+  "homeNoEventsMessage": "The nearest events of the selected vehicle will be shown on this page.",
   "@homeNoEventsMessage": {
-    "description": "The latest events of the selected vehicle will be shown on this page. text"
+    "description": "The nearest events of the selected vehicle will be shown on this page. text"
   },
 
   "thirdPartyInsurance": "Third party insurance",

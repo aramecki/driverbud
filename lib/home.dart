@@ -1,10 +1,12 @@
 import 'dart:developer';
 import 'dart:io';
+import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:mycargenie_2/get_next_events.dart';
 import 'package:mycargenie_2/l10n/app_localizations.dart';
 import 'package:mycargenie_2/settings/settings.dart';
+import 'package:mycargenie_2/theme/colors.dart';
 import 'package:mycargenie_2/theme/icons.dart';
 import 'package:mycargenie_2/utils/puzzle.dart';
 import 'package:mycargenie_2/utils/support_fun.dart';
@@ -46,6 +48,7 @@ class VehicleProvider with ChangeNotifier {
   }
 }
 
+// TODO: Add the possibility to slide in the page
 class Home extends StatefulWidget {
   const Home({super.key});
 
@@ -73,212 +76,279 @@ class _HomePageState extends State<Home> {
 
     log('Starting loading: ${vehicleBox.get(vehicleProvider.vehicleToLoad)} ');
 
-    Map<dynamic, dynamic>? nextMaintenance = getNextOrLatestEvent(
-      true,
-      false,
-      vehicleProvider.vehicleToLoad,
-    );
-
-    Map<dynamic, dynamic>? latestMaintenance = getNextOrLatestEvent(
-      true,
-      true,
-      vehicleProvider.vehicleToLoad,
-    );
-
-    Map<dynamic, dynamic>? nextRefueling = getNextOrLatestEvent(
-      false,
-      false,
-      vehicleProvider.vehicleToLoad,
-    );
-
-    Map<dynamic, dynamic>? latestRefueling = getNextOrLatestEvent(
-      false,
-      true,
-      vehicleProvider.vehicleToLoad,
-    );
-
-    log('Latest maintenance is $nextMaintenance');
-
     return ValueListenableBuilder(
       valueListenable: vehicleBox.listenable(),
       builder: (context, Box box, _) {
-        final content = vehicleBox.isNotEmpty
-            ? Column(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Row(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        return ValueListenableBuilder(
+          valueListenable: maintenanceBox.listenable(),
+          builder: (context, _, _) {
+            return ValueListenableBuilder(
+              valueListenable: refuelingBox.listenable(),
+              builder: (context, _, _) {
+                // Latest and next events logics
+                final List<Widget> latestAndNextEventsList = [];
+
+                Map<dynamic, dynamic>? nextMaintenance = getNextOrLatestEvent(
+                  true,
+                  false,
+                  vehicleProvider.vehicleToLoad,
+                );
+
+                Map<dynamic, dynamic>? latestMaintenance = getNextOrLatestEvent(
+                  true,
+                  true,
+                  vehicleProvider.vehicleToLoad,
+                );
+
+                Map<dynamic, dynamic>? nextRefueling = getNextOrLatestEvent(
+                  false,
+                  false,
+                  vehicleProvider.vehicleToLoad,
+                );
+
+                Map<dynamic, dynamic>? latestRefueling = getNextOrLatestEvent(
+                  false,
+                  true,
+                  vehicleProvider.vehicleToLoad,
+                );
+
+                if (nextRefueling != null || nextMaintenance != null) {
+                  Widget nextRefuelingAndLatestMaintenanceBox = Column(
                     children: [
-                      // Vehicle image container
-                      FutureBuilder<ImageProvider<Object>?>(
-                        future: getVehicleImageAsync(
-                          vehicleProvider.vehicleToLoad,
-                        ),
-                        builder: (context, snapshot) {
-                          ImageProvider<Object>? imageProvider;
-
-                          if (snapshot.connectionState ==
-                                  ConnectionState.done &&
-                              snapshot.hasData) {
-                            imageProvider = snapshot.data;
-                          }
-
-                          return Padding(
-                            padding: const EdgeInsets.only(
-                              top: 20,
-                              bottom: 16,
-                              right: 8,
-                              left: 8,
-                            ),
-                            child: CircleAvatar(
-                              radius: 60,
-                              foregroundImage: imageProvider,
-                              child: (imageProvider == null) ? carIcon : null,
-                            ),
-                          );
-                        },
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: EdgeInsetsGeometry.only(left: 16),
+                            child: Text(localizations.nextEvents),
+                          ),
+                        ],
                       ),
 
-                      // Car selection dropdown container
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                            top: 20,
-                            bottom: 20,
-                            left: 8,
-                            right: 8,
+                      nextMaintenance != null
+                          ? homeRowBox(
+                              context,
+                              event: nextMaintenance,
+                              isRefueling: false,
+                            )
+                          : SizedBox(),
+
+                      nextRefueling != null
+                          ? homeRowBox(
+                              context,
+                              event: nextRefueling,
+                              isRefueling: true,
+                            )
+                          : SizedBox(),
+                    ],
+                  );
+
+                  latestAndNextEventsList.add(
+                    nextRefuelingAndLatestMaintenanceBox,
+                  );
+                }
+
+                if (latestRefueling != null || latestMaintenance != null) {
+                  Widget latestRefuelingAndLatestMaintenanceBox = Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: EdgeInsetsGeometry.only(left: 16),
+                            child: Text(localizations.latestEvents),
                           ),
-                          child: VehiclesDropdown(
-                            defaultId: vehicleProvider.vehicleToLoad,
-                            onChanged: (value) {
-                              setState(() {
-                                vehicleProvider.updateVehicle(value);
-                              });
-                            },
-                          ),
-                        ),
+                        ],
                       ),
+
+                      latestMaintenance != null
+                          ? homeRowBox(
+                              context,
+                              event: latestMaintenance,
+                              isRefueling: false,
+                            )
+                          : SizedBox(),
+
+                      latestRefueling != null
+                          ? homeRowBox(
+                              context,
+                              event: latestRefueling,
+                              isRefueling: true,
+                            )
+                          : SizedBox(),
+                    ],
+                  );
+
+                  latestAndNextEventsList.add(
+                    latestRefuelingAndLatestMaintenanceBox,
+                  );
+                }
+
+                final content = vehicleBox.isNotEmpty
+                    ? Column(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Row(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              // Vehicle image container
+                              FutureBuilder<ImageProvider<Object>?>(
+                                future: getVehicleImageAsync(
+                                  vehicleProvider.vehicleToLoad,
+                                ),
+                                builder: (context, snapshot) {
+                                  ImageProvider<Object>? imageProvider;
+
+                                  if (snapshot.connectionState ==
+                                          ConnectionState.done &&
+                                      snapshot.hasData) {
+                                    imageProvider = snapshot.data;
+                                  }
+
+                                  return Padding(
+                                    padding: const EdgeInsets.only(
+                                      top: 20,
+                                      bottom: 16,
+                                      right: 8,
+                                      left: 8,
+                                    ),
+                                    child: CircleAvatar(
+                                      radius: 60,
+                                      foregroundImage: imageProvider,
+                                      child: (imageProvider == null)
+                                          ? carIcon
+                                          : null,
+                                    ),
+                                  );
+                                },
+                              ),
+
+                              // Car selection dropdown container
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.only(
+                                    top: 20,
+                                    bottom: 20,
+                                    left: 8,
+                                    right: 8,
+                                  ),
+                                  child: VehiclesDropdown(
+                                    defaultId: vehicleProvider.vehicleToLoad,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        vehicleProvider.updateVehicle(value);
+                                      });
+                                    },
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+
+                          if (latestAndNextEventsList.isEmpty)
+                            Container(
+                              height: 100,
+                              alignment: Alignment.center,
+                              child: Text(localizations.homeNoEventsMessage),
+                            ),
+
+                          if (latestAndNextEventsList.isNotEmpty)
+                            Flexible(
+                              child: FractionallySizedBox(
+                                heightFactor: 0.4,
+                                child: Swiper(
+                                  key: ValueKey(
+                                    '${vehicleProvider.vehicleToLoad}_${latestAndNextEventsList.length}',
+                                  ),
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                        if (latestMaintenance == null &&
+                                            latestRefueling == null &&
+                                            nextMaintenance == null &&
+                                            nextRefueling == null) {
+                                          return Padding(
+                                            padding:
+                                                EdgeInsetsGeometry.symmetric(
+                                                  vertical: 32,
+                                                  horizontal: 16,
+                                                ),
+                                            child: Text(
+                                              localizations.homeNoEventsMessage,
+                                              textAlign: TextAlign.center,
+                                            ),
+                                          );
+                                        } else {
+                                          return latestAndNextEventsList[index];
+                                        }
+                                      },
+                                  loop: latestAndNextEventsList.length > 1
+                                      ? true
+                                      : false,
+                                  autoplayDelay: 5000,
+                                  itemCount: latestAndNextEventsList.isNotEmpty
+                                      ? latestAndNextEventsList.length
+                                      : 1,
+                                  viewportFraction: 1,
+                                  scale: 1,
+                                  autoplay: latestAndNextEventsList.length > 1
+                                      ? true
+                                      : false,
+                                  pagination: SwiperPagination(
+                                    alignment: Alignment.bottomCenter,
+                                    builder: DotSwiperPaginationBuilder(
+                                      activeColor:
+                                          latestAndNextEventsList.length > 1
+                                          ? Theme.of(
+                                              context,
+                                            ).colorScheme.onSurface
+                                          : Colors.transparent,
+                                      activeSize: 12,
+                                      color: darkGrey,
+                                      size: 8,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+
+                          SizedBox(height: 4),
+
+                          // TODO: Add invoices expiration notifications
+                        ],
+                      )
+                    : Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [Text(localizations.noVehicles)],
+                      );
+
+                return Scaffold(
+                  appBar: AppBar(
+                    title: Text(localizations.home),
+                    leading: IconButton(
+                      onPressed: () => Navigator.of(context).push(
+                        MaterialPageRoute(builder: (_) => const Settings()),
+                      ),
+                      icon: settingsIcon,
+                    ),
+                    actions: <Widget>[
+                      IconButton(
+                        onPressed: () => Navigator.of(context).push(
+                          MaterialPageRoute(builder: (_) => const Garage()),
+                        ),
+                        icon: garageIcon,
+                      ),
+                      // ),
                     ],
                   ),
-
-                  SizedBox(height: 4),
-
-                  // latest events title
-                  if (latestMaintenance == null && latestRefueling == null)
-                    Padding(
-                      padding: EdgeInsetsGeometry.symmetric(
-                        vertical: 32,
-                        horizontal: 16,
-                      ),
-                      child: Text(
-                        localizations.homeNoEventsMessage,
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-
-                  // Message for no latest events
-                  // TODO: Stylize and valuate
-                  if (latestMaintenance != null || latestRefueling != null)
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: EdgeInsetsGeometry.only(left: 16),
-                          child: Text(localizations.latestEvents),
-                        ),
-                      ],
-                    ),
-
-                  // latest maintenance event
-                  if (latestMaintenance != null)
-                    homeRowBox(
-                      context,
-                      event: latestMaintenance,
-                      isRefueling: false,
-                    ),
-
-                  // latest refueling event
-                  if (latestRefueling != null)
-                    homeRowBox(
-                      context,
-                      event: latestRefueling,
-                      isRefueling: true,
-                    ),
-
-                  SizedBox(height: 22),
-
-                  // Next events title
-                  if (nextMaintenance == null && nextRefueling == null)
-                    Padding(
-                      padding: EdgeInsetsGeometry.symmetric(
-                        vertical: 32,
-                        horizontal: 16,
-                      ),
-                      child: Text(
-                        localizations.homeNoEventsMessage,
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-
-                  // Message for no next events
-                  // TODO: Stylize and valuate
-                  if (nextMaintenance != null || nextRefueling != null)
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: EdgeInsetsGeometry.only(left: 16),
-                          child: Text(localizations.nextEvents),
-                        ),
-                      ],
-                    ),
-
-                  // Next maintenance event
-                  if (nextMaintenance != null)
-                    homeRowBox(
-                      context,
-                      event: nextMaintenance,
-                      isRefueling: false,
-                    ),
-
-                  // Next refueling event
-                  if (nextRefueling != null)
-                    homeRowBox(
-                      context,
-                      event: nextRefueling,
-                      isRefueling: true,
-                    ),
-                ],
-              )
-            : Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [Text(localizations.noVehicles)],
-              );
-
-        return Scaffold(
-          appBar: AppBar(
-            title: Text(localizations.home),
-            leading: IconButton(
-              onPressed: () => Navigator.of(
-                context,
-              ).push(MaterialPageRoute(builder: (_) => const Settings())),
-              icon: settingsIcon,
-            ),
-            actions: <Widget>[
-              IconButton(
-                onPressed: () => Navigator.of(
-                  context,
-                ).push(MaterialPageRoute(builder: (_) => const Garage())),
-                icon: garageIcon,
-              ),
-              // ),
-            ],
-          ),
-          body: vehicleProvider._isLoading
-              ? const Center(child: CircularProgressIndicator())
-              : content,
+                  body: vehicleProvider._isLoading
+                      ? const Center(child: CircularProgressIndicator())
+                      : content,
+                );
+              },
+            );
+          },
         );
       },
     );

@@ -824,10 +824,10 @@ abstract class AppLocalizations {
   /// **'Dark mode'**
   String get darkMode;
 
-  /// The latest events of the selected vehicle will be shown on this page. text
+  /// The nearest events of the selected vehicle will be shown on this page. text
   ///
   /// In en, this message translates to:
-  /// **'The latest events of the selected vehicle will be shown on this page.'**
+  /// **'The nearest events of the selected vehicle will be shown on this page.'**
   String get homeNoEventsMessage;
 
   /// Third party insurance text
