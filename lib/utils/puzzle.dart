@@ -361,6 +361,7 @@ Widget addEventButton(BuildContext context, bool isMaintenance) {
   );
 }
 
+// TODO: Don't show when creating a new entry and going back with empty fields
 Future<bool?> discardConfirmOnBack(
   BuildContext context, {
   bool popScope = false,

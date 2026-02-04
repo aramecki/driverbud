@@ -248,48 +248,32 @@ class _HomePageState extends State<Home> {
                           ),
 
                           if (latestAndNextEventsList.isEmpty)
-                            Container(
-                              height: 100,
-                              alignment: Alignment.center,
-                              child: Text(localizations.homeNoEventsMessage),
+                            Padding(
+                              padding: EdgeInsetsGeometry.symmetric(
+                                vertical: 32,
+                                horizontal: 16,
+                              ),
+                              child: Text(
+                                localizations.homeNoEventsMessage,
+                                textAlign: TextAlign.center,
+                              ),
                             ),
 
                           if (latestAndNextEventsList.isNotEmpty)
                             Flexible(
                               child: FractionallySizedBox(
-                                heightFactor: 0.4,
+                                heightFactor:
+                                    0.4, // TODO: Make the height dynamic
                                 child: Swiper(
-                                  key: ValueKey(
-                                    '${vehicleProvider.vehicleToLoad}_${latestAndNextEventsList.length}',
-                                  ),
                                   itemBuilder:
                                       (BuildContext context, int index) {
-                                        if (latestMaintenance == null &&
-                                            latestRefueling == null &&
-                                            nextMaintenance == null &&
-                                            nextRefueling == null) {
-                                          return Padding(
-                                            padding:
-                                                EdgeInsetsGeometry.symmetric(
-                                                  vertical: 32,
-                                                  horizontal: 16,
-                                                ),
-                                            child: Text(
-                                              localizations.homeNoEventsMessage,
-                                              textAlign: TextAlign.center,
-                                            ),
-                                          );
-                                        } else {
-                                          return latestAndNextEventsList[index];
-                                        }
+                                        return latestAndNextEventsList[index];
                                       },
                                   loop: latestAndNextEventsList.length > 1
                                       ? true
                                       : false,
                                   autoplayDelay: 5000,
-                                  itemCount: latestAndNextEventsList.isNotEmpty
-                                      ? latestAndNextEventsList.length
-                                      : 1,
+                                  itemCount: latestAndNextEventsList.length,
                                   viewportFraction: 1,
                                   scale: 1,
                                   autoplay: latestAndNextEventsList.length > 1

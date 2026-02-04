@@ -872,12 +872,6 @@ abstract class AppLocalizations {
   /// **'Performed at:'**
   String get performedAt;
 
-  /// Expiring: text
-  ///
-  /// In en, this message translates to:
-  /// **'Expiring:'**
-  String get expiring;
-
   /// Edit {invoice} details text
   ///
   /// In en, this message translates to:

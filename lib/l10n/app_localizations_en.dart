@@ -432,9 +432,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get performedAt => 'Performed at:';
 
   @override
-  String get expiring => 'Expiring:';
-
-  @override
   String editInvoiceDetails(String invoice) {
     return 'Edit $invoice details';
   }

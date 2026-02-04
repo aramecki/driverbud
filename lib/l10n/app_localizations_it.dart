@@ -434,9 +434,6 @@ class AppLocalizationsIt extends AppLocalizations {
   String get performedAt => 'Effettuata presso:';
 
   @override
-  String get expiring => 'In scadenza:';
-
-  @override
   String editInvoiceDetails(String invoice) {
     return 'Modifica dettagli $invoice';
   }

@@ -704,11 +704,6 @@
     "description": "Effettuata presso: text"
   },
 
-  "expiring": "In scadenza:",
-  "@expiring": {
-    "description": "In scadenza: text"
-  },
-
   "editInvoiceDetails": "Modifica dettagli {invoice}",
   "@editInvoiceDetails": {
       "placeholders": {
