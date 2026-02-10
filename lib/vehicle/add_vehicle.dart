@@ -53,19 +53,19 @@ class _AddVehicleState extends State<AddVehicle> {
   String? _assetImage;
 
   int? _bkCategory;
-  String? _bkModel;
-  String? _bkConfig;
-  String? _bkCapacity;
-  String? _bkPower;
-  String? _bkHorse;
-  String? _bkPlate;
+  String? _bkModel = '';
+  String? _bkConfig = '';
+  String? _bkCapacity = '';
+  String? _bkPower = '';
+  String? _bkHorse = '';
+  String? _bkPlate = '';
   String? _bkImage;
   String? _bkBrand;
   int? _bkYear;
   int? _bkType;
   int? _bkEnergy;
   int? _bkEcology;
-  bool? _bkFavorite;
+  bool? _bkFavorite = false;
 
   @override
   void initState() {

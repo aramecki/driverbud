@@ -4,11 +4,8 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:mycargenie_2/invoices/edit_inspection.dart';
 import 'package:mycargenie_2/l10n/app_localizations.dart';
 import 'package:mycargenie_2/settings/settings.dart';
-import 'package:mycargenie_2/theme/icons.dart';
 import '../utils/puzzle.dart';
 import '../utils/boxes.dart';
-
-// TODO: Add kilometers field
 
 class Inspection extends StatefulWidget {
   final int vehicleKey;
@@ -24,6 +21,7 @@ class _InspectionState extends State<Inspection> {
 
   String _inspector = '';
   String _note = '';
+  String _kilometers = '';
   DateTime? _startDate;
   DateTime? _endDate;
 
@@ -78,95 +76,92 @@ class _InspectionState extends State<Inspection> {
 
               _inspector = e['inspector'] ?? '';
               _note = e['note'] ?? '';
-              _startDate = e['startDate'] as DateTime;
-              _endDate = e['endDate'] as DateTime;
+              _kilometers = e['kilometers'] != null
+                  ? localizations.numKm(e['kilometers'])
+                  : '';
+              _startDate = e['startDate'] != null
+                  ? e['startDate'] as DateTime
+                  : null;
+              _endDate = e['endDate'] != null ? e['endDate'] as DateTime : null;
 
-              startDateString = localizations.ggMmAaaa(
-                _startDate!.day,
-                _startDate!.month,
-                _startDate!.year,
-              );
+              startDateString = _startDate != null
+                  ? localizations.ggMmAaaa(
+                      _startDate!.day,
+                      _startDate!.month,
+                      _startDate!.year,
+                    )
+                  : '';
 
-              endDateString = localizations.ggMmAaaa(
-                _endDate!.day,
-                _endDate!.month,
-                _endDate!.year,
-              );
+              endDateString = _endDate != null
+                  ? localizations.ggMmAaaa(
+                      _endDate!.day,
+                      _endDate!.month,
+                      _endDate!.year,
+                    )
+                  : '';
 
               return Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 mainAxisSize: MainAxisSize.max,
                 children: [
-                  if (_inspector.isNotEmpty)
-                    Padding(
-                      padding: EdgeInsets.only(top: 12),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          Text(
-                            localizations.performedAt,
-                            style: TextStyle(fontSize: 14),
-                          ),
-                        ],
-                      ),
-                    ),
-
-                  if (_inspector.isNotEmpty)
-                    Padding(
-                      padding: EdgeInsets.only(bottom: 12),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          Text(
-                            _inspector,
-                            style: TextStyle(
-                              fontSize: 22,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Expanded(
-                          child: containerWithTextAndIcon(
-                            startDateString!,
-                            startCalendarIcon,
-                          ),
-                        ),
-
-                        SizedBox(width: 8),
-
-                        Expanded(
-                          child: containerWithTextAndIcon(
-                            endDateString!,
-                            stopCalendarIcon,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-
+                  // Notes row
                   if (_note.isNotEmpty)
                     Padding(
                       padding: EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 12,
+                        horizontal: 18,
+                        vertical: 4,
                       ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.max,
-                        children: [Expanded(child: Text(_note))],
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                localizations.notes,
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 10),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  _note,
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                  textAlign: TextAlign.start,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
                     ),
+
+                  const Divider(height: 22),
+
+                  // Place row
+                  if (_inspector.isNotEmpty)
+                    ...tileRow(localizations.placeUpper, _inspector),
+
+                  // Start date row
+                  if (startDateString != null && startDateString != '')
+                    ...tileRow(localizations.startDateUpper, startDateString!),
+
+                  // End date row
+                  if (endDateString != null && endDateString != '')
+                    ...tileRow(localizations.endDateUpper, endDateString!),
+
+                  // Kilometers row
+                  if (_kilometers.isNotEmpty)
+                    ...tileRow(localizations.kilometersUpper, _kilometers),
 
                   // Save or update button section
                   Padding(

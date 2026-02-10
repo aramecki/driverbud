@@ -48,7 +48,6 @@ class VehicleProvider with ChangeNotifier {
   }
 }
 
-// TODO: Add the possibility to slide in the page
 class Home extends StatefulWidget {
   const Home({super.key});
 
@@ -261,43 +260,15 @@ class _HomePageState extends State<Home> {
 
                           if (latestAndNextEventsList.isNotEmpty)
                             Flexible(
-                              child: FractionallySizedBox(
-                                heightFactor:
-                                    0.4, // TODO: Make the height dynamic
-                                child: Swiper(
-                                  itemBuilder:
-                                      (BuildContext context, int index) {
-                                        return latestAndNextEventsList[index];
-                                      },
-                                  loop: latestAndNextEventsList.length > 1
-                                      ? true
-                                      : false,
-                                  autoplayDelay: 5000,
-                                  itemCount: latestAndNextEventsList.length,
-                                  viewportFraction: 1,
-                                  scale: 1,
-                                  autoplay: latestAndNextEventsList.length > 1
-                                      ? true
-                                      : false,
-                                  pagination: SwiperPagination(
-                                    alignment: Alignment.bottomCenter,
-                                    builder: DotSwiperPaginationBuilder(
-                                      activeColor:
-                                          latestAndNextEventsList.length > 1
-                                          ? Theme.of(
-                                              context,
-                                            ).colorScheme.onSurface
-                                          : Colors.transparent,
-                                      activeSize: 12,
-                                      color: darkGrey,
-                                      size: 8,
-                                    ),
-                                  ),
+                              child: SizedBox(
+                                height:
+                                    230, // TODO: Check after home completition - Fixed height seems the best option for every screen dimension for now
+                                child: latestAndNextEventsSwiper(
+                                  latestAndNextEventsList,
+                                  context,
                                 ),
                               ),
                             ),
-
-                          SizedBox(height: 4),
 
                           // TODO: Add invoices expiration notifications
                         ],
@@ -328,7 +299,7 @@ class _HomePageState extends State<Home> {
                   ),
                   body: vehicleProvider._isLoading
                       ? const Center(child: CircularProgressIndicator())
-                      : content,
+                      : SingleChildScrollView(child: content),
                 );
               },
             );
@@ -367,4 +338,32 @@ Future<ImageProvider?> getVehicleImageAsync(int? vehicleKey) async {
   }
 
   return null;
+}
+
+Widget latestAndNextEventsSwiper(
+  List<Widget> eventsWidgetList,
+  BuildContext context,
+) {
+  return Swiper(
+    itemBuilder: (BuildContext context, int index) {
+      return eventsWidgetList[index];
+    },
+    loop: eventsWidgetList.length > 1 ? true : false,
+    autoplayDelay: 5000,
+    itemCount: eventsWidgetList.length,
+    //viewportFraction: 1,
+    scale: 1,
+    autoplay: eventsWidgetList.length > 1 ? true : false,
+    pagination: SwiperPagination(
+      alignment: Alignment.bottomCenter,
+      builder: DotSwiperPaginationBuilder(
+        activeColor: eventsWidgetList.length > 1
+            ? Theme.of(context).colorScheme.onSurface
+            : Colors.transparent,
+        activeSize: 12,
+        color: darkGrey,
+        size: 8,
+      ),
+    ),
+  );
 }

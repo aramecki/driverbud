@@ -31,10 +31,10 @@ class _EditTaxState extends State<EditTax> {
   DateTime? _endDate;
   bool _notifications = false;
 
-  String? _bkNote;
+  String? _bkNote = '';
   DateTime? _bkEndDate;
-  String? _bkTotalPrice;
-  bool? _bkNotifications;
+  String? _bkTotalPrice = '';
+  bool? _bkNotifications = false;
 
   final now = DateTime.now();
   DateTime get today => DateTime(now.year, now.month, now.day);
@@ -66,8 +66,6 @@ class _EditTaxState extends State<EditTax> {
 
       _notifications = details['notifications'] ?? false;
       _bkNotifications = _notifications;
-    } else {
-      _endDate = today.add(const Duration(days: 365));
     }
   }
 
@@ -93,7 +91,7 @@ class _EditTaxState extends State<EditTax> {
         : 0.00;
 
     final taxMap = <String, dynamic>{
-      'endDate': _endDate,
+      'endDate': _endDate ?? today.add(const Duration(days: 365)),
       'note': _noteCtrl.text.trim(),
       'totalPrice': totalPriceDoubleValue.toStringAsFixed(2),
       'notifications': _endDate != null && _endDate!.isAfter(today)

@@ -183,6 +183,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get date => 'Date';
 
   @override
+  String get startDateUpper => 'Start date';
+
+  @override
+  String get endDateUpper => 'End date';
+
+  @override
   String ggMmAaaa(int day, int month, int year) {
     return '$day/$month/$year';
   }
@@ -427,9 +433,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get inspector => 'Inspector';
-
-  @override
-  String get performedAt => 'Performed at:';
 
   @override
   String editInvoiceDetails(String invoice) {

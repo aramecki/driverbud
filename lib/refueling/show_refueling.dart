@@ -112,7 +112,7 @@ class _ShowRefuelingState extends State<ShowRefueling> {
                         ),
                       ],
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
@@ -131,13 +131,14 @@ class _ShowRefuelingState extends State<ShowRefueling> {
                   ],
                 ),
               ),
-            Divider(height: 22),
+
+            const Divider(height: 22),
 
             // Type row
             if (refuelingType != null && refuelingType != '')
               ...tileRow(localizations.typeUpper, refuelingType),
 
-            // Plate row
+            // Place row
             if (place != null && place != '')
               ...tileRow(localizations.placeUpper, place),
 

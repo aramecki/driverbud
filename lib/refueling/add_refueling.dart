@@ -41,15 +41,15 @@ class _AddRefuelingState extends State<AddRefueling> {
   String? _fuelUnit;
   bool _automatic = false;
 
-  String? _bkPlace;
-  String? _bkKilometers;
-  String? _bkNotes;
-  String? _bkTotalPrice;
-  String? _bkPricePerUnit;
-  String? _bkFuelAmount;
+  String _bkPlace = '';
+  String? _bkKilometers = '';
+  String? _bkNotes = '';
+  String? _bkTotalPrice = '';
+  String? _bkPricePerUnit = '';
+  String? _bkFuelAmount = '';
   DateTime? _bkDate;
   int? _bkType;
-  bool? _bkAutomatic;
+  bool? _bkAutomatic = false;
 
   bool _showAutoErrorMessage = false;
 
@@ -162,14 +162,6 @@ class _AddRefuelingState extends State<AddRefueling> {
     }
   }
 
-  // void _openMenu() {
-  //   if (menuController.isOpen) {
-  //     menuController.close();
-  //   } else {
-  //     menuController.open();
-  //   }
-  // }
-
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
@@ -248,7 +240,6 @@ class _AddRefuelingState extends State<AddRefueling> {
                 editDate: isEdit ? _date : null,
                 onSelected: (value) {
                   setState(() => _date = value);
-                  // FocusScope.of(context).nextFocus();
                 },
               ),
 

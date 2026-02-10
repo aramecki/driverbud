@@ -279,9 +279,19 @@
   "description": "Search maintenance/refueling by title/place text"
   },
 
-   "date": "Date",
+  "date": "Date",
   "@date": {
     "description": "Date text"
+  }, 
+
+  "startDateUpper": "Start date",
+  "@startDateUpper": {
+    "description": "Start date  text"
+  },
+
+  "endDateUpper": "End date",
+  "@endDateUpper": {
+    "description": "End date text"
   }, 
 
   "ggMmAaaa": "{day}/{month}/{year}",
@@ -699,11 +709,6 @@
     "description": "Inspector text"
   },
   
-  "performedAt": "Performed at:",
-  "@performedAt": {
-    "description": "Performed at: text"
-  },
-
   "editInvoiceDetails": "Edit {invoice} details",
   "@editInvoiceDetails": {
       "placeholders": {

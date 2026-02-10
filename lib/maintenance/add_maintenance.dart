@@ -43,14 +43,14 @@ class _AddMaintenanceState extends State<AddMaintenance> {
   int? _maintenanceType;
   bool _notifications = false;
 
-  String? _bkTitle;
-  String? _bkPlace;
-  String? _bkKilometers;
-  String? _bkDescription;
-  String? _bkPrice;
+  String? _bkTitle = '';
+  String? _bkPlace = '';
+  String? _bkKilometers = '';
+  String? _bkDescription = '';
+  String? _bkPrice = '';
   DateTime? _bkDate;
   int? _bkType;
-  bool? _bkNotifications;
+  bool? _bkNotifications = false;
 
   final now = DateTime.now();
   DateTime get today => DateTime(now.year, now.month, now.day);

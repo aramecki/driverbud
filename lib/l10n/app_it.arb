@@ -282,6 +282,16 @@
   "date": "Data",
   "@date": {
     "description": "Date text"
+  },
+
+  "startDateUpper": "Data inizio",
+  "@startDateUpper": {
+    "description": "Data inizio  text"
+  },
+
+  "endDateUpper": "Data fine",
+  "@endDateUpper": {
+    "description": "Data fine text"
   }, 
 
   "ggMmAaaa": "{day}/{month}/{year}",
@@ -697,11 +707,6 @@
   "inspector": "Revisore",
   "@inspector": {
     "description": "Revisore text"
-  },
-
-  "performedAt": "Effettuata presso:",
-  "@performedAt": {
-    "description": "Effettuata presso: text"
   },
 
   "editInvoiceDetails": "Modifica dettagli {invoice}",

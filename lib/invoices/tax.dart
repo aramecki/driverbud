@@ -12,6 +12,7 @@ import 'package:provider/provider.dart';
 import '../utils/puzzle.dart';
 import '../utils/boxes.dart';
 
+//TODO: Stylize as other pages
 class Tax extends StatefulWidget {
   final int vehicleKey;
 

@@ -422,6 +422,18 @@ abstract class AppLocalizations {
   /// **'Date'**
   String get date;
 
+  /// Start date  text
+  ///
+  /// In en, this message translates to:
+  /// **'Start date'**
+  String get startDateUpper;
+
+  /// End date text
+  ///
+  /// In en, this message translates to:
+  /// **'End date'**
+  String get endDateUpper;
+
   /// dd/mm/aaaa date form DateTime
   ///
   /// In en, this message translates to:
@@ -865,12 +877,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Inspector'**
   String get inspector;
-
-  /// Performed at: text
-  ///
-  /// In en, this message translates to:
-  /// **'Performed at:'**
-  String get performedAt;
 
   /// Edit {invoice} details text
   ///
