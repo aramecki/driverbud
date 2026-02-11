@@ -4,11 +4,8 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:mycargenie_2/invoices/edit_inspection.dart';
 import 'package:mycargenie_2/l10n/app_localizations.dart';
 import 'package:mycargenie_2/settings/settings.dart';
-import 'package:mycargenie_2/theme/icons.dart';
 import '../utils/puzzle.dart';
 import '../utils/boxes.dart';
-
-// TODO: Add kilometers field
 
 class Inspection extends StatefulWidget {
   final int vehicleKey;
@@ -24,6 +21,7 @@ class _InspectionState extends State<Inspection> {
 
   String _inspector = '';
   String _note = '';
+  String _kilometers = '';
   DateTime? _startDate;
   DateTime? _endDate;
 
@@ -78,95 +76,52 @@ class _InspectionState extends State<Inspection> {
 
               _inspector = e['inspector'] ?? '';
               _note = e['note'] ?? '';
-              _startDate = e['startDate'] as DateTime;
-              _endDate = e['endDate'] as DateTime;
+              _kilometers = e['kilometers'] != null
+                  ? localizations.numKm(e['kilometers'])
+                  : '';
+              _startDate = e['startDate'] != null
+                  ? e['startDate'] as DateTime
+                  : null;
+              _endDate = e['endDate'] != null ? e['endDate'] as DateTime : null;
 
-              startDateString = localizations.ggMmAaaa(
-                _startDate!.day,
-                _startDate!.month,
-                _startDate!.year,
-              );
+              startDateString = _startDate != null
+                  ? localizations.ggMmAaaa(
+                      _startDate!.day,
+                      _startDate!.month,
+                      _startDate!.year,
+                    )
+                  : '';
 
-              endDateString = localizations.ggMmAaaa(
-                _endDate!.day,
-                _endDate!.month,
-                _endDate!.year,
-              );
+              endDateString = _endDate != null
+                  ? localizations.ggMmAaaa(
+                      _endDate!.day,
+                      _endDate!.month,
+                      _endDate!.year,
+                    )
+                  : '';
 
               return Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 mainAxisSize: MainAxisSize.max,
                 children: [
+                  // Place row
                   if (_inspector.isNotEmpty)
-                    Padding(
-                      padding: EdgeInsets.only(top: 12),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          Text(
-                            localizations.performedAt,
-                            style: TextStyle(fontSize: 14),
-                          ),
-                        ],
-                      ),
-                    ),
+                    ...tileRow(localizations.placeUpper, _inspector),
 
-                  if (_inspector.isNotEmpty)
-                    Padding(
-                      padding: EdgeInsets.only(bottom: 12),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          Text(
-                            _inspector,
-                            style: TextStyle(
-                              fontSize: 22,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                  // Start date row
+                  if (startDateString != null && startDateString != '')
+                    ...tileRow(localizations.startDateUpper, startDateString!),
 
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Expanded(
-                          child: containerWithTextAndIcon(
-                            startDateString!,
-                            startCalendarIcon,
-                          ),
-                        ),
+                  // End date row
+                  if (endDateString != null && endDateString != '')
+                    ...tileRow(localizations.endDateUpper, endDateString!),
 
-                        SizedBox(width: 8),
+                  // Kilometers row
+                  if (_kilometers.isNotEmpty)
+                    ...tileRow(localizations.kilometersUpper, _kilometers),
 
-                        Expanded(
-                          child: containerWithTextAndIcon(
-                            endDateString!,
-                            stopCalendarIcon,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-
-                  if (_note.isNotEmpty)
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 12,
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.max,
-                        children: [Expanded(child: Text(_note))],
-                      ),
-                    ),
+                  // Notes row
+                  ...notesTileRow(context, _note),
 
                   // Save or update button section
                   Padding(

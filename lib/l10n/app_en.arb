@@ -121,6 +121,11 @@
     "description": "Total price is a required field. text shown when saving an event without the total price required field"
   },
 
+  "fieldsMarkedAreRequired": "Fields marked with * are required.",
+  "@fieldsMarkedAreRequired": {
+    "description": "Fields marked with * are required. text shown when saving an event without the total price required field"
+  },
+
   "brandModelRequiredField": "Category, brand and model are required fields.",
   "@brandModelRequiredField": {
     "description": "Category, brand and model are required fields. text shown when saving a vehicle without the brand or model required fields"
@@ -189,11 +194,6 @@
     "description": "Kilometers text shown in kilometers field"
   },
 
-  "descriptionUpper": "Description",
-  "@descriptionUpper": {
-    "description": "Description text shown in description field"
-  },
-
   "priceUpper": "Price",
   "@priceUpper": {
     "description": "Price text shown in price field"
@@ -249,11 +249,6 @@
     "description": "Can't find your vehicle brand? text"
   },
 
-  "asteriskRequiredFields": "Fields marked with * are required.",
-  "@asteriskRequiredFields": {
-    "description": "Fields marked with * are required. text shown under event creation or editing screen"
-  },
-
   "addValue": "Add {value}",
   "@addValue": {
     "placeholders": {
@@ -279,9 +274,19 @@
   "description": "Search maintenance/refueling by title/place text"
   },
 
-   "date": "Date",
+  "date": "Date",
   "@date": {
     "description": "Date text"
+  }, 
+
+  "startDateUpper": "Start date",
+  "@startDateUpper": {
+    "description": "Start date  text"
+  },
+
+  "endDateUpper": "End date",
+  "@endDateUpper": {
+    "description": "End date text"
   }, 
 
   "ggMmAaaa": "{day}/{month}/{year}",
@@ -354,9 +359,14 @@
   "description": "num currency/unit Ex. 5€/l"
   },
 
+  "nextEvents": "Next events:",
+  "@nextEvents": {
+    "description": "Next Events: text shown in home screen"
+  },
+
   "latestEvents": "Latest events:",
   "@latestEvents": {
-    "description": "Latest Events: text shown in home screen"
+    "description": "Latest events: text shown in home screen"
   },
 
   "noVehicles": "No vehicles",
@@ -659,9 +669,9 @@
     "description": "Dark mode text"
   },
 
-  "homeNoEventsMessage": "The latest events of the selected vehicle will be shown on this page.",
+  "homeNoEventsMessage": "The nearest events of the selected vehicle will be shown on this page.",
   "@homeNoEventsMessage": {
-    "description": "The latest events of the selected vehicle will be shown on this page. text"
+    "description": "The nearest events of the selected vehicle will be shown on this page. text"
   },
 
   "thirdPartyInsurance": "Third party insurance",
@@ -694,16 +704,6 @@
     "description": "Inspector text"
   },
   
-  "performedAt": "Performed at:",
-  "@performedAt": {
-    "description": "Performed at: text"
-  },
-
-  "expiring": "Expiring:",
-  "@expiring": {
-    "description": "Expiring: text"
-  },
-
   "editInvoiceDetails": "Edit {invoice} details",
   "@editInvoiceDetails": {
       "placeholders": {
@@ -744,18 +744,9 @@
     "description": "Due  text"
   },
 
-  "duesCount": "{duesNumber,plural, =1{1 due} other{{duesNumber} dues}}",
+  "duesCount": "Dues",
   "@duesCount": {
-    "placeholders": {
-      "duesNumber": {
-        "type": "int"
-      }
-    }
-  },
-
-  "spaceInSpace": " in ",
-  "@spaceInSpace": {
-    "description": " in  text"
+    "description": "Dues text"
   },
 
   "notifications": "Notifications",
@@ -927,6 +918,11 @@
   "autoFuelCalculationMessage": "Enter the total and unit price values for automatic calculation.",
   "@autoFuelCalculationMessage": {
     "description": "Enter the total and unit price values for automatic calculation. text"
+  },
+
+  "priceToPay": "Price to pay",
+  "@priceToPay": {
+    "description": "Price to pay text"
   }
 
 }

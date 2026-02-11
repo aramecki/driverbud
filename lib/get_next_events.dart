@@ -2,22 +2,30 @@ import 'dart:developer';
 import 'package:mycargenie_2/utils/boxes.dart';
 import 'package:mycargenie_2/utils/sorting_funs.dart';
 
-// TODO: Edit to only take vents from today or less
-Map<dynamic, dynamic>? getLatestEvent(bool isMaintenance, int? vehicleKey) {
+Map<dynamic, dynamic>? getNextOrLatestEvent(
+  bool isMaintenance,
+  bool getLatest,
+  int? vehicleKey,
+) {
   final box = isMaintenance ? maintenanceBox : refuelingBox;
   final today = DateTime.now();
+  final todayClean = DateTime(today.year, today.month, today.day);
 
   if (vehicleKey != null) {
     List<dynamic> eventsList = sortByDate(
-      maintenanceBox.keys
+      box.keys
           .map((key) {
             final value = box.get(key);
             return {'key': key, 'value': value};
           })
           .where((m) => m['value']['vehicleKey'] == vehicleKey)
-          .where((m) => m['value']['date'].compareTo(today) <= 0)
+          .where(
+            getLatest
+                ? (m) => m['value']['date'].compareTo(todayClean) < 0
+                : (m) => m['value']['date'].compareTo(todayClean) >= 0,
+          )
           .toList(),
-      true,
+      false,
     );
     if (eventsList.isNotEmpty) {
       log('returning latest event ${eventsList[0]}');

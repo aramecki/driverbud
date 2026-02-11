@@ -81,6 +81,10 @@ class AppLocalizationsIt extends AppLocalizations {
   String get priceRequiredField => 'Aggiungi l\'importo totale pagato.';
 
   @override
+  String get fieldsMarkedAreRequired =>
+      'I campi contrassegnati da * sono obbligatori.';
+
+  @override
   String get brandModelRequiredField =>
       'Categoria, marchio e modello sono campi obbligatori.';
 
@@ -127,9 +131,6 @@ class AppLocalizationsIt extends AppLocalizations {
   String get kilometersUpper => 'Kilometri';
 
   @override
-  String get descriptionUpper => 'Descrizione';
-
-  @override
   String get priceUpper => 'Importo';
 
   @override
@@ -163,10 +164,6 @@ class AppLocalizationsIt extends AppLocalizations {
   String get cantFindYourVehicleBrand => 'Marchio non presente?';
 
   @override
-  String get asteriskRequiredFields =>
-      'I campi contrassegnati da * sono obbligatori.';
-
-  @override
   String addValue(String value) {
     return 'Aggiungi $value';
   }
@@ -183,6 +180,12 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get date => 'Data';
+
+  @override
+  String get startDateUpper => 'Data inizio';
+
+  @override
+  String get endDateUpper => 'Data fine';
 
   @override
   String ggMmAaaa(int day, int month, int year) {
@@ -223,6 +226,9 @@ class AppLocalizationsIt extends AppLocalizations {
   String numCurrencyOnUnits(String num, String currency, String unit) {
     return '$num$currency/$unit';
   }
+
+  @override
+  String get nextEvents => 'Prossimi eventi:';
 
   @override
   String get latestEvents => 'Ultimi eventi:';
@@ -407,7 +413,7 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get homeNoEventsMessage =>
-      'Gli ultimi eventi del veicolo selezionato saranno mostrati in questa pagina.';
+      'Gli eventi più vicini del veicolo selezionato saranno mostrati in questa pagina.';
 
   @override
   String get thirdPartyInsurance => 'Assicurazione RCA';
@@ -426,12 +432,6 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get inspector => 'Revisore';
-
-  @override
-  String get performedAt => 'Effettuata presso:';
-
-  @override
-  String get expiring => 'In scadenza:';
 
   @override
   String editInvoiceDetails(String invoice) {
@@ -457,18 +457,7 @@ class AppLocalizationsIt extends AppLocalizations {
   String get dueSpace => 'Rata ';
 
   @override
-  String duesCount(int duesNumber) {
-    String _temp0 = intl.Intl.pluralLogic(
-      duesNumber,
-      locale: localeName,
-      other: '$duesNumber rate',
-      one: '1 rata',
-    );
-    return '$_temp0';
-  }
-
-  @override
-  String get spaceInSpace => ' in ';
+  String get duesCount => 'Rate';
 
   @override
   String get notifications => 'Notifiche';
@@ -563,4 +552,7 @@ class AppLocalizationsIt extends AppLocalizations {
   @override
   String get autoFuelCalculationMessage =>
       'Inserisci i valori di prezzo totale ed unitario per il calcolo automatico.';
+
+  @override
+  String get priceToPay => 'Importo da pagare';
 }

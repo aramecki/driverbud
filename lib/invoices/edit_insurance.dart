@@ -43,14 +43,14 @@ class _EditInsuranceState extends State<EditInsurance> {
   bool _personalizeDues = false;
   bool _notifications = false;
 
-  String? _bkInsurer;
-  String? _bkNote;
+  String? _bkInsurer = '';
+  String? _bkNote = '';
   DateTime? _bkStartDate;
   DateTime? _bkEndDate;
-  String? _bkDues;
-  String? _bkTotalPrice;
-  bool? _bkPersonalize;
-  bool? _bkNotifications;
+  String? _bkDues = '1';
+  String? _bkTotalPrice = '';
+  bool? _bkPersonalize = false;
+  bool? _bkNotifications = false;
   final List<double> _bkDuesPrices = [];
   final List<DateTime> _bkDuesDates = [];
 
@@ -126,8 +126,6 @@ class _EditInsuranceState extends State<EditInsurance> {
       }
       log('bkprices are: ${_bkDuesPrices.toString()}');
     } else {
-      _startDate = today;
-      _endDate = today.add(const Duration(days: 365));
       _duesCtrl.text = '1';
     }
   }
@@ -172,8 +170,8 @@ class _EditInsuranceState extends State<EditInsurance> {
 
     final insuranceMap = <String, dynamic>{
       'insurer': _insurerCtrl.text.trim(),
-      'startDate': _startDate,
-      'endDate': _endDate,
+      'startDate': _startDate ?? today,
+      'endDate': _endDate ?? today.add(const Duration(days: 365)),
       'note': _noteCtrl.text.trim(),
       'totalPrice': totalPriceDoubleValue.toStringAsFixed(2),
       'dues': _duesCtrl.text.trim() == '' ? '1' : _duesCtrl.text.trim(),
@@ -185,6 +183,11 @@ class _EditInsuranceState extends State<EditInsurance> {
       ...duesDatesMap,
       'vehicleKey': vehicleKey,
     };
+
+    if (insuranceMap['insurer'].isEmpty) {
+      showCustomToast(context, message: localizations.fieldsMarkedAreRequired);
+      return;
+    }
 
     if (_notifications == true) {
       log('Notifications is true, scheduling...');
@@ -271,7 +274,7 @@ class _EditInsuranceState extends State<EditInsurance> {
             children: [
               customTextField(
                 context,
-                hintText: localizations.insuranceAgency,
+                hintText: '${localizations.insuranceAgency}*',
                 maxLength: 35,
                 action: TextInputAction.next,
                 controller: _insurerCtrl,

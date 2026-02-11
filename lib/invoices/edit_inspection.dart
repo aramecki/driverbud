@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:mycargenie_2/home.dart';
 import 'package:mycargenie_2/invoices/inspection.dart';
 import 'package:mycargenie_2/l10n/app_localizations.dart';
@@ -23,20 +24,21 @@ class EditInspection extends StatefulWidget {
 }
 
 class _EditInspectionState extends State<EditInspection> {
-  bool isCalculating = false;
-
   final TextEditingController _inspectorCtrl = TextEditingController();
   final TextEditingController _noteCtrl = TextEditingController();
+  final TextEditingController _kilometersCtrl = TextEditingController();
 
   DateTime? _startDate;
   DateTime? _endDate;
   bool _notifications = false;
 
-  String? _bkInspector;
-  String? _bkNote;
+  String? _bkInspector = "";
+  String? _bkNote = "";
+  String? _bkKilometers = "";
+
   DateTime? _bkStartDate;
   DateTime? _bkEndDate;
-  bool? _bkNotifications;
+  bool? _bkNotifications = false;
 
   final now = DateTime.now();
   DateTime get today => DateTime(now.year, now.month, now.day);
@@ -69,11 +71,11 @@ class _EditInspectionState extends State<EditInspection> {
       _noteCtrl.text = details['note'] ?? '';
       _bkNote = _noteCtrl.text;
 
+      _kilometersCtrl.text = details['kilometers']?.toString() ?? '';
+      _bkKilometers = _kilometersCtrl.text;
+
       _notifications = details['notifications'] ?? false;
       _bkNotifications = _notifications;
-    } else {
-      _startDate = today;
-      _endDate = today.add(const Duration(days: 365));
     }
   }
 
@@ -81,6 +83,7 @@ class _EditInspectionState extends State<EditInspection> {
   void dispose() {
     _inspectorCtrl.dispose();
     _noteCtrl.dispose();
+    _kilometersCtrl.dispose();
     super.dispose();
   }
 
@@ -96,14 +99,20 @@ class _EditInspectionState extends State<EditInspection> {
 
     final inspectionMap = <String, dynamic>{
       'inspector': _inspectorCtrl.text.trim(),
-      'startDate': _startDate,
-      'endDate': _endDate,
+      'startDate': _startDate ?? today,
+      'endDate': _endDate ?? today.add(const Duration(days: 365)),
       'note': _noteCtrl.text.trim(),
+      'kilometers': int.tryParse(_kilometersCtrl.text),
       'notifications': _endDate != null && _endDate!.isAfter(today)
           ? _notifications
           : false,
       'vehicleKey': vehicleKey,
     };
+
+    if (inspectionMap['inspector'].isEmpty) {
+      showCustomToast(context, message: localizations.fieldsMarkedAreRequired);
+      return;
+    }
 
     if (_notifications == true) {
       log('Notifications is true, scheduling...');
@@ -172,7 +181,7 @@ class _EditInspectionState extends State<EditInspection> {
             children: [
               customTextField(
                 context,
-                hintText: localizations.inspector,
+                hintText: '${localizations.inspector}*',
                 maxLength: 25,
                 action: TextInputAction.next,
                 controller: _inspectorCtrl,
@@ -231,26 +240,41 @@ class _EditInspectionState extends State<EditInspection> {
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
               mainAxisSize: MainAxisSize.max,
               children: [
-                CustomSwitch(
-                  text: localizations.notifications,
-                  isSelected: _notifications,
-                  onChanged: (v) async {
-                    bool hasPermissions = await checkAndRequestPermissions(
-                      context,
-                    );
+                customTextField(
+                  context,
+                  hintText: localizations.kilometersUpper,
+                  maxLength: 7,
+                  type: TextInputType.number,
+                  formatter: [FilteringTextInputFormatter.digitsOnly],
+                  action: TextInputAction.next,
+                  controller: _kilometersCtrl,
+                  suffixText: 'km',
+                ),
 
-                    if (hasPermissions) {
-                      setState(() {
-                        log('changing notifications state to $v');
-                        _notifications = v;
-                      });
-                    } else {
-                      _notifications = false;
-                    }
-                  },
+                const SizedBox(width: 8),
+
+                Expanded(
+                  child: CustomSwitch(
+                    text: localizations.notifications,
+                    isSelected: _notifications,
+                    onChanged: (v) async {
+                      bool hasPermissions = await checkAndRequestPermissions(
+                        context,
+                      );
+
+                      if (hasPermissions) {
+                        setState(() {
+                          log('changing notifications state to $v');
+                          _notifications = v;
+                        });
+                      } else {
+                        _notifications = false;
+                      }
+                    },
+                  ),
                 ),
               ],
             ),
@@ -344,6 +368,7 @@ class _EditInspectionState extends State<EditInspection> {
         _startDate != _bkStartDate ||
         _endDate != _bkEndDate ||
         _noteCtrl.text != _bkNote ||
+        _kilometersCtrl.text != _bkKilometers ||
         _notifications != _bkNotifications;
   }
 }

@@ -33,7 +33,7 @@ Widget maintenanceEventListTile(
   return SizedBox(
     child: ListTile(
       onTap: () async {
-        await openEventShowScreen(context, editKey);
+        await openMaintenanceShowScreen(context, editKey);
         if (onEdit != null) onEdit();
       },
       contentPadding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -49,7 +49,7 @@ Future<void> deleteEvent(int vehicleKey, int key) {
   return maintenanceBox.delete(key);
 }
 
-Future<Object?> openEventShowScreen(
+Future<Object?> openMaintenanceShowScreen(
   BuildContext context,
   dynamic editKey,
 ) async {

@@ -7,7 +7,6 @@ import 'package:mycargenie_2/l10n/app_localizations.dart';
 import 'package:mycargenie_2/settings/currency_settings.dart';
 import 'package:mycargenie_2/settings/settings.dart';
 import 'package:mycargenie_2/settings/settings_logics.dart';
-import 'package:mycargenie_2/theme/icons.dart';
 import 'package:provider/provider.dart';
 import '../utils/puzzle.dart';
 import '../utils/boxes.dart';
@@ -96,50 +95,16 @@ class _TaxState extends State<Tax> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 mainAxisSize: MainAxisSize.max,
                 children: [
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 24),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        containerWithTextAndIcon(
-                          endDateString!,
-                          stopCalendarIcon,
-                        ),
-                      ],
-                    ),
-                  ),
+                  // End date row
+                  if (endDateString != null && endDateString != '')
+                    ...tileRow(localizations.endDateUpper, endDateString!),
 
-                  if (_totalPrice != '0.00')
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 12,
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          Text(
-                            totalPriceString,
-                            style: TextStyle(fontSize: 20),
-                          ),
-                        ],
-                      ),
-                    ),
+                  // Total price row
+                  if (_totalPrice != null && _totalPrice != '0.00')
+                    ...tileRow(localizations.priceToPay, totalPriceString),
 
-                  if (_note.isNotEmpty)
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 12,
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.max,
-                        children: [Expanded(child: Text(_note))],
-                      ),
-                    ),
+                  // Notes row
+                  if (_note.isNotEmpty) ...notesTileRow(context, _note),
 
                   // Save or update button section
                   Padding(

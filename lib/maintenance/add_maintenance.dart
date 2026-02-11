@@ -43,14 +43,14 @@ class _AddMaintenanceState extends State<AddMaintenance> {
   int? _maintenanceType;
   bool _notifications = false;
 
-  String? _bkTitle;
-  String? _bkPlace;
-  String? _bkKilometers;
-  String? _bkDescription;
-  String? _bkPrice;
+  String? _bkTitle = '';
+  String? _bkPlace = '';
+  String? _bkKilometers = '';
+  String? _bkDescription = '';
+  String? _bkPrice = '';
   DateTime? _bkDate;
   int? _bkType;
-  bool? _bkNotifications;
+  bool? _bkNotifications = false;
 
   final now = DateTime.now();
   DateTime get today => DateTime(now.year, now.month, now.day);
@@ -307,9 +307,7 @@ class _AddMaintenanceState extends State<AddMaintenance> {
                   minLines: 1,
                   maxLines: 12,
                   maxLength: 500,
-                  decoration: InputDecoration(
-                    hintText: localizations.descriptionUpper,
-                  ),
+                  decoration: InputDecoration(hintText: localizations.notes),
                 ),
               ),
             ],
@@ -397,7 +395,7 @@ class _AddMaintenanceState extends State<AddMaintenance> {
             children: [
               Expanded(
                 child: Text(
-                  localizations.asteriskRequiredFields,
+                  localizations.fieldsMarkedAreRequired,
                   textAlign: TextAlign.center,
                   style: bottomMessageStyle,
                 ),

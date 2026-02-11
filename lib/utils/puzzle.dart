@@ -4,6 +4,8 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:mycargenie_2/maintenance/maintenance_misc.dart';
+import 'package:mycargenie_2/refueling/refueling_misc.dart';
+import 'package:mycargenie_2/settings/currency_settings.dart';
 import 'package:mycargenie_2/settings/settings_logics.dart';
 import 'package:mycargenie_2/utils/boxes.dart';
 import 'package:mycargenie_2/l10n/app_localizations.dart';
@@ -112,27 +114,41 @@ Widget slideableIcon(
 }
 
 // Box containing latest events for selected vehicle in home screen
+
 Widget homeRowBox(
   BuildContext context, {
-  //   required VoidCallback onPressed,
-  required int eventKey,
+  required Map<dynamic, dynamic> event,
   required bool isRefueling,
-  required DateTime date,
-  String? title,
-  String? place,
-  String? price,
-  String? priceForUnit,
 }) {
   final settingsProvider = context.read<SettingsProvider>();
 
   final localizations = AppLocalizations.of(context)!;
   TextStyle textStyle = TextStyle(fontSize: 18, fontWeight: FontWeight.w500);
 
+  // Shared
+  int eventKey = event['key'];
+  DateTime date = event['value']['date'];
+  String? place = event['value']['place'];
+  String price = event['value']['price'];
+  String parsedPrice = parseShowedPrice(price);
+
+  // Maintenance events proper
+  String? title = isRefueling ? null : event['value']['title'];
+
+  // Refueling events proper
+  int? refuelingType = isRefueling ? event['value']['refuelingType'] : null;
+  String? fuelUnit = isRefueling ? getFuelUnit(refuelingType) : null;
+  String? parsedPricePerUnit = isRefueling
+      ? parseShowedPrice(event['value']['pricePerUnit'])
+      : null;
+
   return Padding(
     padding: EdgeInsetsGeometry.symmetric(vertical: 8, horizontal: 8),
     child: GestureDetector(
       onTap: () {
-        openEventShowScreen(context, eventKey);
+        isRefueling
+            ? openRefuelingShowScreen(context, eventKey)
+            : openMaintenanceShowScreen(context, eventKey);
       },
       child: Container(
         decoration: BoxDecoration(
@@ -152,10 +168,10 @@ Widget homeRowBox(
                         localizations.ggMmAaaa(date.day, date.month, date.year),
                         style: textStyle,
                       ),
-                      if (price != null)
+                      if (price != '0.00')
                         Text(
                           localizations.numCurrency(
-                            price,
+                            parsedPrice,
                             settingsProvider.currency!,
                           ),
                           style: textStyle,
@@ -170,12 +186,12 @@ Widget homeRowBox(
               children: isRefueling
                   ? [
                       if (place != null) Text(place, style: textStyle),
-                      if (priceForUnit != null)
+                      if (parsedPricePerUnit != null && fuelUnit != null)
                         Text(
                           localizations.numCurrencyOnUnits(
-                            priceForUnit,
+                            parsedPricePerUnit,
                             settingsProvider.currency!,
-                            'l',
+                            fuelUnit,
                           ),
                           style: textStyle,
                         ),
@@ -421,7 +437,12 @@ Widget containerWithTextAndIcon(String text, HugeIcon icon) {
 }
 
 // Row simulating a tile
-List<Widget> tileRow(String title, String content) {
+List<Widget> tileRow(
+  String title,
+  String content, {
+  bool centralColumn = false,
+  String? centerContent,
+}) {
   return [
     Padding(
       padding: EdgeInsets.symmetric(horizontal: 18, vertical: 4),
@@ -432,6 +453,11 @@ List<Widget> tileRow(String title, String content) {
             '$title:',
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
           ),
+          if (centralColumn && centerContent != null)
+            Text(
+              centerContent,
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
+            ),
           Text(
             content,
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
@@ -439,6 +465,44 @@ List<Widget> tileRow(String title, String content) {
         ],
       ),
     ),
-    Divider(height: 22),
+    const Divider(height: 22),
+  ];
+}
+
+// Widget tile style row for multiple lines data entry
+List<Widget> notesTileRow(BuildContext context, String content) {
+  final localizations = AppLocalizations.of(context)!;
+  return [
+    Padding(
+      padding: EdgeInsets.symmetric(horizontal: 18, vertical: 4),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                localizations.notes,
+                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Expanded(
+                child: Text(
+                  content,
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
+                  textAlign: TextAlign.start,
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    ),
+
+    const Divider(height: 22),
   ];
 }

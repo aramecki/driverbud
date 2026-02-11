@@ -52,6 +52,7 @@ dependencies:
   url_launcher: ^6.3.2
   flutter_native_splash: ^2.4.7
   double_back_to_close_app: ^2.1.0
+  card_swiper: ^3.0.1
   
   flutter_localizations:
     sdk: flutter

@@ -1,10 +1,12 @@
 import 'dart:developer';
 import 'dart:io';
+import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:mycargenie_2/get_latest_events.dart';
+import 'package:mycargenie_2/get_next_events.dart';
 import 'package:mycargenie_2/l10n/app_localizations.dart';
 import 'package:mycargenie_2/settings/settings.dart';
+import 'package:mycargenie_2/theme/colors.dart';
 import 'package:mycargenie_2/theme/icons.dart';
 import 'package:mycargenie_2/utils/puzzle.dart';
 import 'package:mycargenie_2/utils/support_fun.dart';
@@ -73,170 +75,235 @@ class _HomePageState extends State<Home> {
 
     log('Starting loading: ${vehicleBox.get(vehicleProvider.vehicleToLoad)} ');
 
-    Map<dynamic, dynamic>? latestMaintenance = getLatestEvent(
-      true,
-      vehicleProvider.vehicleToLoad,
-    );
-
-    // Map<dynamic, dynamic>? latestRefueling = getLatestEvent(
-    //   false,
-    //   vehicleProvider.vehicleToLoad,
-    // );
-
-    log('Latest maintenance is $latestMaintenance');
-
     return ValueListenableBuilder(
       valueListenable: vehicleBox.listenable(),
       builder: (context, Box box, _) {
-        final content = vehicleBox.isNotEmpty
-            ? Column(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Row(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        return ValueListenableBuilder(
+          valueListenable: maintenanceBox.listenable(),
+          builder: (context, _, _) {
+            return ValueListenableBuilder(
+              valueListenable: refuelingBox.listenable(),
+              builder: (context, _, _) {
+                // Latest and next events logics
+                final List<Widget> latestAndNextEventsList = [];
+
+                Map<dynamic, dynamic>? nextMaintenance = getNextOrLatestEvent(
+                  true,
+                  false,
+                  vehicleProvider.vehicleToLoad,
+                );
+
+                Map<dynamic, dynamic>? latestMaintenance = getNextOrLatestEvent(
+                  true,
+                  true,
+                  vehicleProvider.vehicleToLoad,
+                );
+
+                Map<dynamic, dynamic>? nextRefueling = getNextOrLatestEvent(
+                  false,
+                  false,
+                  vehicleProvider.vehicleToLoad,
+                );
+
+                Map<dynamic, dynamic>? latestRefueling = getNextOrLatestEvent(
+                  false,
+                  true,
+                  vehicleProvider.vehicleToLoad,
+                );
+
+                if (nextRefueling != null || nextMaintenance != null) {
+                  Widget nextRefuelingAndLatestMaintenanceBox = Column(
                     children: [
-                      // Vehicle image container
-                      FutureBuilder<ImageProvider<Object>?>(
-                        future: getVehicleImageAsync(
-                          vehicleProvider.vehicleToLoad,
-                        ),
-                        builder: (context, snapshot) {
-                          ImageProvider<Object>? imageProvider;
-
-                          if (snapshot.connectionState ==
-                                  ConnectionState.done &&
-                              snapshot.hasData) {
-                            imageProvider = snapshot.data;
-                          }
-
-                          return Padding(
-                            padding: const EdgeInsets.only(
-                              top: 20,
-                              bottom: 16,
-                              right: 8,
-                              left: 8,
-                            ),
-                            child: CircleAvatar(
-                              radius: 60,
-                              foregroundImage: imageProvider,
-                              child: (imageProvider == null) ? carIcon : null,
-                            ),
-                          );
-                        },
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: EdgeInsetsGeometry.only(left: 16),
+                            child: Text(localizations.nextEvents),
+                          ),
+                        ],
                       ),
 
-                      // Car selection dropdown container
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                            top: 20,
-                            bottom: 20,
-                            left: 8,
-                            right: 8,
+                      nextMaintenance != null
+                          ? homeRowBox(
+                              context,
+                              event: nextMaintenance,
+                              isRefueling: false,
+                            )
+                          : SizedBox(),
+
+                      nextRefueling != null
+                          ? homeRowBox(
+                              context,
+                              event: nextRefueling,
+                              isRefueling: true,
+                            )
+                          : SizedBox(),
+                    ],
+                  );
+
+                  latestAndNextEventsList.add(
+                    nextRefuelingAndLatestMaintenanceBox,
+                  );
+                }
+
+                if (latestRefueling != null || latestMaintenance != null) {
+                  Widget latestRefuelingAndLatestMaintenanceBox = Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: EdgeInsetsGeometry.only(left: 16),
+                            child: Text(localizations.latestEvents),
                           ),
-                          child: VehiclesDropdown(
-                            defaultId: vehicleProvider.vehicleToLoad,
-                            onChanged: (value) {
-                              setState(() {
-                                vehicleProvider.updateVehicle(value);
-                              });
-                            },
-                          ),
-                        ),
+                        ],
                       ),
+
+                      latestMaintenance != null
+                          ? homeRowBox(
+                              context,
+                              event: latestMaintenance,
+                              isRefueling: false,
+                            )
+                          : SizedBox(),
+
+                      latestRefueling != null
+                          ? homeRowBox(
+                              context,
+                              event: latestRefueling,
+                              isRefueling: true,
+                            )
+                          : SizedBox(),
+                    ],
+                  );
+
+                  latestAndNextEventsList.add(
+                    latestRefuelingAndLatestMaintenanceBox,
+                  );
+                }
+
+                final content = vehicleBox.isNotEmpty
+                    ? Column(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Row(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              // Vehicle image container
+                              FutureBuilder<ImageProvider<Object>?>(
+                                future: getVehicleImageAsync(
+                                  vehicleProvider.vehicleToLoad,
+                                ),
+                                builder: (context, snapshot) {
+                                  ImageProvider<Object>? imageProvider;
+
+                                  if (snapshot.connectionState ==
+                                          ConnectionState.done &&
+                                      snapshot.hasData) {
+                                    imageProvider = snapshot.data;
+                                  }
+
+                                  return Padding(
+                                    padding: const EdgeInsets.only(
+                                      top: 20,
+                                      bottom: 16,
+                                      right: 8,
+                                      left: 8,
+                                    ),
+                                    child: CircleAvatar(
+                                      radius: 60,
+                                      foregroundImage: imageProvider,
+                                      child: (imageProvider == null)
+                                          ? carIcon
+                                          : null,
+                                    ),
+                                  );
+                                },
+                              ),
+
+                              // Car selection dropdown container
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.only(
+                                    top: 20,
+                                    bottom: 20,
+                                    left: 8,
+                                    right: 8,
+                                  ),
+                                  child: VehiclesDropdown(
+                                    defaultId: vehicleProvider.vehicleToLoad,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        vehicleProvider.updateVehicle(value);
+                                      });
+                                    },
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+
+                          if (latestAndNextEventsList.isEmpty)
+                            Padding(
+                              padding: EdgeInsetsGeometry.symmetric(
+                                vertical: 32,
+                                horizontal: 16,
+                              ),
+                              child: Text(
+                                localizations.homeNoEventsMessage,
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+
+                          if (latestAndNextEventsList.isNotEmpty)
+                            Flexible(
+                              child: SizedBox(
+                                height:
+                                    230, // TODO: Check after home completition - Fixed height seems the best option for every screen dimension for now
+                                child: latestAndNextEventsSwiper(
+                                  latestAndNextEventsList,
+                                  context,
+                                ),
+                              ),
+                            ),
+
+                          // TODO: Add invoices expiration notifications
+                        ],
+                      )
+                    : Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [Text(localizations.noVehicles)],
+                      );
+
+                return Scaffold(
+                  appBar: AppBar(
+                    title: Text(localizations.home),
+                    leading: IconButton(
+                      onPressed: () => Navigator.of(context).push(
+                        MaterialPageRoute(builder: (_) => const Settings()),
+                      ),
+                      icon: settingsIcon,
+                    ),
+                    actions: <Widget>[
+                      IconButton(
+                        onPressed: () => Navigator.of(context).push(
+                          MaterialPageRoute(builder: (_) => const Garage()),
+                        ),
+                        icon: garageIcon,
+                      ),
+                      // ),
                     ],
                   ),
-
-                  if (latestMaintenance == null
-                  // && latestRefueling == null
-                  )
-                    // Row(
-                    //   mainAxisAlignment: MainAxisAlignment.center,
-                    //   children: [
-                    Padding(
-                      padding: EdgeInsetsGeometry.symmetric(
-                        vertical: 32,
-                        horizontal: 16,
-                      ),
-                      child: Text(
-                        localizations.homeNoEventsMessage,
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-
-                  //   ],
-                  // ),
-                  if (latestMaintenance != null
-                  // || latestRefueling != null
-                  )
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: EdgeInsetsGeometry.only(left: 16),
-                          child: Text(localizations.latestEvents),
-                        ),
-                      ],
-                    ),
-
-                  if (latestMaintenance != null)
-                    homeRowBox(
-                      context,
-                      eventKey: latestMaintenance['key'],
-                      isRefueling: false,
-                      title: latestMaintenance['value']['title'],
-                      date: latestMaintenance['value']['date'],
-                      place: latestMaintenance['value']['place'],
-                    ),
-                  // if (latestRefueling != null)
-                  //   homeRowBox(
-                  //     context,
-                  //     eventKey: latestRefueling['key'],
-                  //     isRefueling: false,
-                  //     date: latestRefueling['value']['date'],
-                  //     place: latestRefueling['value']['place'],
-                  //     price: latestRefueling['value']['price'],
-                  //     priceForUnit: latestRefueling['value']['priceForUnit'],
-                  //   ),
-                  // homeRowBox(
-                  //   context,
-                  //   isRefueling: true,
-                  //   date: '11/22/1963',
-                  //   place: 'Eni Giugliano',
-                  //   price: '20€',
-                  //   priceForUnit: '1,78€/l',
-                  // ),
-                ],
-              )
-            : Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [Text(localizations.noVehicles)],
-              );
-
-        return Scaffold(
-          appBar: AppBar(
-            title: Text(localizations.home),
-            leading: IconButton(
-              onPressed: () => Navigator.of(
-                context,
-              ).push(MaterialPageRoute(builder: (_) => const Settings())),
-              icon: settingsIcon,
-            ),
-            actions: <Widget>[
-              IconButton(
-                onPressed: () => Navigator.of(
-                  context,
-                ).push(MaterialPageRoute(builder: (_) => const Garage())),
-                icon: garageIcon,
-              ),
-              // ),
-            ],
-          ),
-          body: vehicleProvider._isLoading
-              ? const Center(child: CircularProgressIndicator())
-              : content,
+                  body: vehicleProvider._isLoading
+                      ? const Center(child: CircularProgressIndicator())
+                      : SingleChildScrollView(child: content),
+                );
+              },
+            );
+          },
         );
       },
     );
@@ -271,4 +338,32 @@ Future<ImageProvider?> getVehicleImageAsync(int? vehicleKey) async {
   }
 
   return null;
+}
+
+Widget latestAndNextEventsSwiper(
+  List<Widget> eventsWidgetList,
+  BuildContext context,
+) {
+  return Swiper(
+    itemBuilder: (BuildContext context, int index) {
+      return eventsWidgetList[index];
+    },
+    loop: eventsWidgetList.length > 1 ? true : false,
+    autoplayDelay: 5000,
+    itemCount: eventsWidgetList.length,
+    //viewportFraction: 1,
+    scale: 1,
+    autoplay: eventsWidgetList.length > 1 ? true : false,
+    pagination: SwiperPagination(
+      alignment: Alignment.bottomCenter,
+      builder: DotSwiperPaginationBuilder(
+        activeColor: eventsWidgetList.length > 1
+            ? Theme.of(context).colorScheme.onSurface
+            : Colors.transparent,
+        activeSize: 12,
+        color: darkGrey,
+        size: 8,
+      ),
+    ),
+  );
 }

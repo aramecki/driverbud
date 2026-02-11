@@ -61,8 +61,6 @@ class _InvoicesState extends State<Invoices> {
                 onTap: () =>
                     navigateToPage(context, Inspection(vehicleKey: vehicleKey)),
               ),
-              Divider(height: 22),
-              Row(children: [Text(localizations.expiring)]),
             ],
           )
         : Column(
