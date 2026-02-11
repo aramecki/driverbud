@@ -437,7 +437,12 @@ Widget containerWithTextAndIcon(String text, HugeIcon icon) {
 }
 
 // Row simulating a tile
-List<Widget> tileRow(String title, String content) {
+List<Widget> tileRow(
+  String title,
+  String content, {
+  bool centralColumn = false,
+  String? centerContent,
+}) {
   return [
     Padding(
       padding: EdgeInsets.symmetric(horizontal: 18, vertical: 4),
@@ -448,6 +453,11 @@ List<Widget> tileRow(String title, String content) {
             '$title:',
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
           ),
+          if (centralColumn && centerContent != null)
+            Text(
+              centerContent,
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
+            ),
           Text(
             content,
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
@@ -455,6 +465,44 @@ List<Widget> tileRow(String title, String content) {
         ],
       ),
     ),
-    Divider(height: 22),
+    const Divider(height: 22),
+  ];
+}
+
+// Widget tile style row for multiple lines data entry
+List<Widget> notesTileRow(BuildContext context, String content) {
+  final localizations = AppLocalizations.of(context)!;
+  return [
+    Padding(
+      padding: EdgeInsets.symmetric(horizontal: 18, vertical: 4),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                localizations.notes,
+                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Expanded(
+                child: Text(
+                  content,
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
+                  textAlign: TextAlign.start,
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    ),
+
+    const Divider(height: 22),
   ];
 }

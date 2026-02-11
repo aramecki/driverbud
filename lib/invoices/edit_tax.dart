@@ -100,6 +100,11 @@ class _EditTaxState extends State<EditTax> {
       'vehicleKey': vehicleKey,
     };
 
+    if (taxMap['totalPrice'] == '0.00') {
+      showCustomToast(context, message: localizations.fieldsMarkedAreRequired);
+      return;
+    }
+
     if (_notifications == true) {
       log('Notifications is true, scheduling...');
       if (_bkEndDate == null) {
@@ -179,7 +184,7 @@ class _EditTaxState extends State<EditTax> {
                   keyboardType: TextInputType.number,
                   textInputAction: TextInputAction.done,
                   decoration: InputDecoration(
-                    hintText: localizations.totalAmount,
+                    hintText: '${localizations.priceToPay}*',
                   ),
                 ),
               ),

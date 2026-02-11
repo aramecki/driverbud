@@ -81,6 +81,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get priceRequiredField => 'Total price is a required field.';
 
   @override
+  String get fieldsMarkedAreRequired => 'Fields marked with * are required.';
+
+  @override
   String get brandModelRequiredField =>
       'Category, brand and model are required fields.';
 
@@ -126,9 +129,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get kilometersUpper => 'Kilometers';
 
   @override
-  String get descriptionUpper => 'Description';
-
-  @override
   String get priceUpper => 'Price';
 
   @override
@@ -160,9 +160,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get cantFindYourVehicleBrand => 'Can\'t find your vehicle brand?';
-
-  @override
-  String get asteriskRequiredFields => 'Fields marked with * are required.';
 
   @override
   String addValue(String value) {
@@ -458,18 +455,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dueSpace => 'Due ';
 
   @override
-  String duesCount(int duesNumber) {
-    String _temp0 = intl.Intl.pluralLogic(
-      duesNumber,
-      locale: localeName,
-      other: '$duesNumber dues',
-      one: '1 due',
-    );
-    return '$_temp0';
-  }
-
-  @override
-  String get spaceInSpace => ' in ';
+  String get duesCount => 'Dues';
 
   @override
   String get notifications => 'Notifications';
@@ -563,4 +549,7 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get autoFuelCalculationMessage =>
       'Enter the total and unit price values for automatic calculation.';
+
+  @override
+  String get priceToPay => 'Price to pay';
 }

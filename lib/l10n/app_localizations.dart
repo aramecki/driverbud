@@ -242,6 +242,12 @@ abstract class AppLocalizations {
   /// **'Total price is a required field.'**
   String get priceRequiredField;
 
+  /// Fields marked with * are required. text shown when saving an event without the total price required field
+  ///
+  /// In en, this message translates to:
+  /// **'Fields marked with * are required.'**
+  String get fieldsMarkedAreRequired;
+
   /// Category, brand and model are required fields. text shown when saving a vehicle without the brand or model required fields
   ///
   /// In en, this message translates to:
@@ -320,12 +326,6 @@ abstract class AppLocalizations {
   /// **'Kilometers'**
   String get kilometersUpper;
 
-  /// Description text shown in description field
-  ///
-  /// In en, this message translates to:
-  /// **'Description'**
-  String get descriptionUpper;
-
   /// Price text shown in price field
   ///
   /// In en, this message translates to:
@@ -391,12 +391,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Can\'t find your vehicle brand?'**
   String get cantFindYourVehicleBrand;
-
-  /// Fields marked with * are required. text shown under event creation or editing screen
-  ///
-  /// In en, this message translates to:
-  /// **'Fields marked with * are required.'**
-  String get asteriskRequiredFields;
 
   /// Add Maintenance/Refueling/Vehicle text shown as title when creating
   ///
@@ -920,17 +914,11 @@ abstract class AppLocalizations {
   /// **'Due '**
   String get dueSpace;
 
-  /// No description provided for @duesCount.
+  /// Dues text
   ///
   /// In en, this message translates to:
-  /// **'{duesNumber,plural, =1{1 due} other{{duesNumber} dues}}'**
-  String duesCount(int duesNumber);
-
-  ///  in  text
-  ///
-  /// In en, this message translates to:
-  /// **' in '**
-  String get spaceInSpace;
+  /// **'Dues'**
+  String get duesCount;
 
   /// Notifications text
   ///
@@ -1087,6 +1075,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Enter the total and unit price values for automatic calculation.'**
   String get autoFuelCalculationMessage;
+
+  /// Price to pay text
+  ///
+  /// In en, this message translates to:
+  /// **'Price to pay'**
+  String get priceToPay;
 }
 
 class _AppLocalizationsDelegate

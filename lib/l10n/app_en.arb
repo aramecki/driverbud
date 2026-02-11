@@ -121,6 +121,11 @@
     "description": "Total price is a required field. text shown when saving an event without the total price required field"
   },
 
+  "fieldsMarkedAreRequired": "Fields marked with * are required.",
+  "@fieldsMarkedAreRequired": {
+    "description": "Fields marked with * are required. text shown when saving an event without the total price required field"
+  },
+
   "brandModelRequiredField": "Category, brand and model are required fields.",
   "@brandModelRequiredField": {
     "description": "Category, brand and model are required fields. text shown when saving a vehicle without the brand or model required fields"
@@ -189,11 +194,6 @@
     "description": "Kilometers text shown in kilometers field"
   },
 
-  "descriptionUpper": "Description",
-  "@descriptionUpper": {
-    "description": "Description text shown in description field"
-  },
-
   "priceUpper": "Price",
   "@priceUpper": {
     "description": "Price text shown in price field"
@@ -247,11 +247,6 @@
   "cantFindYourVehicleBrand": "Can't find your vehicle brand?",
   "@cantFindYourVehicleBrand": {
     "description": "Can't find your vehicle brand? text"
-  },
-
-  "asteriskRequiredFields": "Fields marked with * are required.",
-  "@asteriskRequiredFields": {
-    "description": "Fields marked with * are required. text shown under event creation or editing screen"
   },
 
   "addValue": "Add {value}",
@@ -749,18 +744,9 @@
     "description": "Due  text"
   },
 
-  "duesCount": "{duesNumber,plural, =1{1 due} other{{duesNumber} dues}}",
+  "duesCount": "Dues",
   "@duesCount": {
-    "placeholders": {
-      "duesNumber": {
-        "type": "int"
-      }
-    }
-  },
-
-  "spaceInSpace": " in ",
-  "@spaceInSpace": {
-    "description": " in  text"
+    "description": "Dues text"
   },
 
   "notifications": "Notifications",
@@ -932,6 +918,11 @@
   "autoFuelCalculationMessage": "Enter the total and unit price values for automatic calculation.",
   "@autoFuelCalculationMessage": {
     "description": "Enter the total and unit price values for automatic calculation. text"
+  },
+
+  "priceToPay": "Price to pay",
+  "@priceToPay": {
+    "description": "Price to pay text"
   }
 
 }

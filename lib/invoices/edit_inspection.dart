@@ -109,6 +109,11 @@ class _EditInspectionState extends State<EditInspection> {
       'vehicleKey': vehicleKey,
     };
 
+    if (inspectionMap['inspector'].isEmpty) {
+      showCustomToast(context, message: localizations.fieldsMarkedAreRequired);
+      return;
+    }
+
     if (_notifications == true) {
       log('Notifications is true, scheduling...');
       if (_bkEndDate == null) {
@@ -176,7 +181,7 @@ class _EditInspectionState extends State<EditInspection> {
             children: [
               customTextField(
                 context,
-                hintText: localizations.inspector,
+                hintText: '${localizations.inspector}*',
                 maxLength: 25,
                 action: TextInputAction.next,
                 controller: _inspectorCtrl,

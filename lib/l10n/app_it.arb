@@ -121,6 +121,11 @@
     "description": "Aggiungi l'importo totale pagato. text shown when saving an event without the total price required field"
   },
 
+  "fieldsMarkedAreRequired": "I campi contrassegnati da * sono obbligatori.",
+  "@fieldsMarkedAreRequired": {
+    "description": "I campi contrassegnati da * sono obbligatori. text shown when saving an event without the total price required field"
+  },
+
   "brandModelRequiredField": "Categoria, marchio e modello sono campi obbligatori.",
   "@brandModelRequiredField": {
     "description": "Categoria, marchio e modello sono campi obbligatori. text shown when saving a vehicle without the brand or model required fields"
@@ -189,11 +194,6 @@
     "description": "Kilometers text shown in kilometers field"
   },
 
-  "descriptionUpper": "Descrizione",
-  "@descriptionUpper": {
-    "description": "Description text shown in description field"
-  },
-
   "priceUpper": "Importo",
   "@priceUpper": {
     "description": "Price text shown in price field"
@@ -247,11 +247,6 @@
   "cantFindYourVehicleBrand": "Marchio non presente?",
   "@cantFindYourVehicleBrand": {
     "description": "Can't find your vehicle brand? text"
-  },
-
-  "asteriskRequiredFields": "I campi contrassegnati da * sono obbligatori.",
-  "@asteriskRequiredFields": {
-    "description": "Fields marked with * are required. text shown under event creation or editing screen"
   },
 
   "addValue": "Aggiungi {value}",
@@ -749,18 +744,9 @@
     "description": "Rata  text"
   },
 
-  "duesCount": "{duesNumber,plural, =1{1 rata} other{{duesNumber} rate}}",
+  "duesCount": "Rate",
   "@duesCount": {
-    "placeholders": {
-      "duesNumber": {
-        "type": "int"
-      }
-    }
-  },
-
-  "spaceInSpace": " in ",
-  "@spaceInSpace": {
-    "description": " in  text"
+    "description": "Rate text"
   },
 
   "notifications": "Notifiche",
@@ -931,6 +917,11 @@
   "autoFuelCalculationMessage": "Inserisci i valori di prezzo totale ed unitario per il calcolo automatico.",
   "@autoFuelCalculationMessage": {
     "description": "Inserisci i valori di prezzo totale ed unitario per il calcolo automatico. text"
+  },
+
+  "priceToPay": "Importo da pagare",
+  "@priceToPay": {
+    "description": "Importo da pagare text"
   }
 
 }

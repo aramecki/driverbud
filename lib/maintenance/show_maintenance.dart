@@ -49,7 +49,7 @@ class _ShowMaintenanceState extends State<ShowMaintenance> {
           context,
         )[e['maintenanceType']];
         String? place = e['place'];
-        String? description = e['description'];
+        String? notes = e['description'];
         String? date = localizations.ggMmAaaa(
           e['date'].day,
           e['date'].month,
@@ -68,7 +68,7 @@ class _ShowMaintenanceState extends State<ShowMaintenance> {
         maintenanceInfo['place'] = place;
         maintenanceInfo['price'] = amount;
         maintenanceInfo['kilometers'] = kilometers;
-        maintenanceInfo['description'] = description;
+        maintenanceInfo['description'] = notes;
 
         return Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -85,45 +85,6 @@ class _ShowMaintenanceState extends State<ShowMaintenance> {
                 ),
               ),
             ),
-
-            // Description row
-            if (description != null && description != '')
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 18, vertical: 4),
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          localizations.descriptionUpper,
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 10),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Expanded(
-                          child: Text(
-                            description,
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w400,
-                            ),
-                            textAlign: TextAlign.start,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            Divider(height: 22),
 
             // Type row
             if (maintenanceType != null && maintenanceType != '')
@@ -142,6 +103,9 @@ class _ShowMaintenanceState extends State<ShowMaintenance> {
 
             // Amount row
             if (amount != null) ...tileRow(localizations.totalAmount, amount),
+
+            // Notes row
+            if (notes != null && notes != '') ...notesTileRow(context, notes),
 
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),

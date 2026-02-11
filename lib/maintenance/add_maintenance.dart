@@ -307,9 +307,7 @@ class _AddMaintenanceState extends State<AddMaintenance> {
                   minLines: 1,
                   maxLines: 12,
                   maxLength: 500,
-                  decoration: InputDecoration(
-                    hintText: localizations.descriptionUpper,
-                  ),
+                  decoration: InputDecoration(hintText: localizations.notes),
                 ),
               ),
             ],
@@ -397,7 +395,7 @@ class _AddMaintenanceState extends State<AddMaintenance> {
             children: [
               Expanded(
                 child: Text(
-                  localizations.asteriskRequiredFields,
+                  localizations.fieldsMarkedAreRequired,
                   textAlign: TextAlign.center,
                   style: bottomMessageStyle,
                 ),

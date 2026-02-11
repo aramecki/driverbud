@@ -94,46 +94,6 @@ class _ShowRefuelingState extends State<ShowRefueling> {
           mainAxisAlignment: MainAxisAlignment.start,
           mainAxisSize: MainAxisSize.max,
           children: [
-            // Notes row
-            if (notes != null && notes != '')
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 18, vertical: 4),
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          localizations.notes,
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 10),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Expanded(
-                          child: Text(
-                            notes,
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w400,
-                            ),
-                            textAlign: TextAlign.start,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-
-            const Divider(height: 22),
-
             // Type row
             if (refuelingType != null && refuelingType != '')
               ...tileRow(localizations.typeUpper, refuelingType),
@@ -160,6 +120,9 @@ class _ShowRefuelingState extends State<ShowRefueling> {
             // Total price row
             if (totalPrice != null)
               ...tileRow(localizations.totalPrice, totalPrice),
+
+            // Notes row
+            if (notes != null && notes != '') ...notesTileRow(context, notes),
 
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),

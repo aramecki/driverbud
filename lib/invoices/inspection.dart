@@ -104,49 +104,6 @@ class _InspectionState extends State<Inspection> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 mainAxisSize: MainAxisSize.max,
                 children: [
-                  // Notes row
-                  if (_note.isNotEmpty)
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 18,
-                        vertical: 4,
-                      ),
-                      child: Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                localizations.notes,
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 10),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Expanded(
-                                child: Text(
-                                  _note,
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                  textAlign: TextAlign.start,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-
-                  const Divider(height: 22),
-
                   // Place row
                   if (_inspector.isNotEmpty)
                     ...tileRow(localizations.placeUpper, _inspector),
@@ -162,6 +119,9 @@ class _InspectionState extends State<Inspection> {
                   // Kilometers row
                   if (_kilometers.isNotEmpty)
                     ...tileRow(localizations.kilometersUpper, _kilometers),
+
+                  // Notes row
+                  ...notesTileRow(context, _note),
 
                   // Save or update button section
                   Padding(

@@ -81,6 +81,10 @@ class AppLocalizationsIt extends AppLocalizations {
   String get priceRequiredField => 'Aggiungi l\'importo totale pagato.';
 
   @override
+  String get fieldsMarkedAreRequired =>
+      'I campi contrassegnati da * sono obbligatori.';
+
+  @override
   String get brandModelRequiredField =>
       'Categoria, marchio e modello sono campi obbligatori.';
 
@@ -127,9 +131,6 @@ class AppLocalizationsIt extends AppLocalizations {
   String get kilometersUpper => 'Kilometri';
 
   @override
-  String get descriptionUpper => 'Descrizione';
-
-  @override
   String get priceUpper => 'Importo';
 
   @override
@@ -161,10 +162,6 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get cantFindYourVehicleBrand => 'Marchio non presente?';
-
-  @override
-  String get asteriskRequiredFields =>
-      'I campi contrassegnati da * sono obbligatori.';
 
   @override
   String addValue(String value) {
@@ -460,18 +457,7 @@ class AppLocalizationsIt extends AppLocalizations {
   String get dueSpace => 'Rata ';
 
   @override
-  String duesCount(int duesNumber) {
-    String _temp0 = intl.Intl.pluralLogic(
-      duesNumber,
-      locale: localeName,
-      other: '$duesNumber rate',
-      one: '1 rata',
-    );
-    return '$_temp0';
-  }
-
-  @override
-  String get spaceInSpace => ' in ';
+  String get duesCount => 'Rate';
 
   @override
   String get notifications => 'Notifiche';
@@ -566,4 +552,7 @@ class AppLocalizationsIt extends AppLocalizations {
   @override
   String get autoFuelCalculationMessage =>
       'Inserisci i valori di prezzo totale ed unitario per il calcolo automatico.';
+
+  @override
+  String get priceToPay => 'Importo da pagare';
 }

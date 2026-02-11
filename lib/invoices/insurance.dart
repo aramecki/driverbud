@@ -7,13 +7,10 @@ import 'package:mycargenie_2/l10n/app_localizations.dart';
 import 'package:mycargenie_2/settings/currency_settings.dart';
 import 'package:mycargenie_2/settings/settings.dart';
 import 'package:mycargenie_2/settings/settings_logics.dart';
-import 'package:mycargenie_2/theme/colors.dart';
-import 'package:mycargenie_2/theme/icons.dart';
 import 'package:provider/provider.dart';
 import '../utils/puzzle.dart';
 import '../utils/boxes.dart';
 
-//TODO: Stylize as other pages
 class Insurance extends StatefulWidget {
   final int vehicleKey;
 
@@ -138,138 +135,48 @@ class _InsuranceState extends State<Insurance> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 mainAxisSize: MainAxisSize.max,
                 children: [
+                  // TODO: Check ellipsis on small screens
+                  // Insurance Agency row
                   if (_insurer.isNotEmpty)
-                    Padding(
-                      padding: EdgeInsets.only(top: 12),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          Text(
-                            localizations.insuranceAgency,
-                            style: TextStyle(fontSize: 14),
-                          ),
-                        ],
-                      ),
-                    ),
+                    ...tileRow(localizations.insuranceAgency, _insurer),
 
-                  if (_insurer.isNotEmpty)
-                    Padding(
-                      padding: EdgeInsets.only(bottom: 12),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          Text(
-                            _insurer,
-                            style: TextStyle(
-                              fontSize: 22,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                  // Start date row
+                  if (startDateString != null && startDateString != '')
+                    ...tileRow(localizations.startDateUpper, startDateString!),
 
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Expanded(
-                          child: containerWithTextAndIcon(
-                            startDateString!,
-                            startCalendarIcon,
-                          ),
-                        ),
+                  // End date row
+                  if (endDateString != null && endDateString != '')
+                    ...tileRow(localizations.endDateUpper, endDateString!),
 
-                        SizedBox(width: 8),
+                  // Total price row
+                  if (_totalPrice != null && _totalPrice != '0.00')
+                    ...tileRow(localizations.totalPrice, totalPriceString),
 
-                        Expanded(
-                          child: containerWithTextAndIcon(
-                            endDateString!,
-                            stopCalendarIcon,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                  // Dues number row
+                  if (duesInt > 1)
+                    ...tileRow(localizations.duesCount, duesInt.toString()),
 
-                  if (_totalPrice != '0.00')
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 12,
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          Text(
-                            totalPriceString,
-                            style: TextStyle(fontSize: 20),
-                          ),
-
-                          if (duesInt > 1)
-                            Text(
-                              '${localizations.spaceInSpace}${localizations.duesCount(duesInt)}',
-                            ),
-                        ],
-                      ),
-                    ),
-
+                  // Singular due rows
                   if (duesInt > 1 && _personalizeDues)
                     for (var i = 0; i < duesInt; i++)
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 52,
-                          vertical: 0,
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            Text('${localizations.dueSpace}${i + 1} '),
-                            SizedBox(width: 16),
-                            Text(
-                              duesDateList[i].toString(),
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w400,
-                                color: lightGrey,
-                              ),
-                            ),
-
-                            SizedBox(width: 16),
-
-                            Text(
-                              duesPriceList[i],
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                          ],
-                        ),
+                      ...tileRow(
+                        '${localizations.dueSpace}${i + 1}',
+                        duesPriceList[i],
+                        centralColumn: true,
+                        centerContent: duesDateList[i].toString(),
                       ),
 
-                  if (_note.isNotEmpty)
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 12,
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.max,
-                        children: [Expanded(child: Text(_note))],
-                      ),
-                    ),
+                  // Notes row
+                  if (_note.isNotEmpty) ...notesTileRow(context, _note),
 
                   // Save or update button section
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                    padding: EdgeInsets.only(
+                      left: 16,
+                      right: 16,
+                      top: 12,
+                      bottom: 44,
+                    ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       mainAxisSize: MainAxisSize.max,

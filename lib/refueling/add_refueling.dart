@@ -413,7 +413,7 @@ class _AddRefuelingState extends State<AddRefueling> {
             children: [
               Expanded(
                 child: Text(
-                  localizations.asteriskRequiredFields,
+                  localizations.fieldsMarkedAreRequired,
                   textAlign: TextAlign.center,
                   style: bottomMessageStyle,
                 ),

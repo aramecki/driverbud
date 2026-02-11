@@ -184,6 +184,11 @@ class _EditInsuranceState extends State<EditInsurance> {
       'vehicleKey': vehicleKey,
     };
 
+    if (insuranceMap['insurer'].isEmpty) {
+      showCustomToast(context, message: localizations.fieldsMarkedAreRequired);
+      return;
+    }
+
     if (_notifications == true) {
       log('Notifications is true, scheduling...');
       if (_bkEndDate == null) {
@@ -269,7 +274,7 @@ class _EditInsuranceState extends State<EditInsurance> {
             children: [
               customTextField(
                 context,
-                hintText: localizations.insuranceAgency,
+                hintText: '${localizations.insuranceAgency}*',
                 maxLength: 35,
                 action: TextInputAction.next,
                 controller: _insurerCtrl,
